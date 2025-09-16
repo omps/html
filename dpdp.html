@@ -43,11 +43,11 @@
     // ultra-simple keyword heuristic
     const personal = /(@|aadhaar|pan|@|phone|mobile|ip\saddress|location|health|bank|credit|debit|upi|name|age|dob|vaccine|biometric)/;
     
-    if(personal.test(val)){
-      res.innerHTML = '<span class="unsafe">✘ Personal data – safety-belt required!</span>';
-    }else{
-      res.innerHTML = '<span class="safe">✔ Likely anonymous – no belt needed.</span>';
-    }
+if(personal.test(val)){
+  res.innerHTML = '<span class="unsafe">✘ Personal data – safety-belt required!</span>';
+}else{
+  res.innerHTML = '<span class="safe">✔ Likely anonymous – no belt needed.</span>';
+}
   }
   // allow Enter key
   document.getElementById('dataInput').addEventListener('keyup',function(e){if(e.key==='Enter')checkData();});

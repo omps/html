@@ -2,180 +2,194 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>Nayore – Ayurvedic Wellness, Nature-Crafted</title>
-  <meta name="description" content="Certified Ayurvedic supplements, vegan gummies & skin radiance tablets. Take the 30-sec Dosha quiz and unlock 15% off your first order.">
+  <title>Nayore Business Plan – Live Model</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="color-scheme" content="light">
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "Product",
-    "name": "Nayore Ayurvedic Supplements Bundle",
-    "description": "Holistic wellness range with authentic herbal extracts.",
-    "brand": "Nayore",
-    "offers": {
-      "@type": "Offer",
-      "url": "https://nayoure.com/products/ayurveda-bundle",
-      "priceCurrency": "INR",
-      "price": "945"
-    }
-  }
-  </script>
   <style>
-    :root{
-      --primary:#2c6e49;
-      --accent:#f4a261;
-      --bg:#fbf8f3;
-      --text:#222;
-      --radius:8px;
-      --max:1100px;
-    }
+    :root{--primary:#2c6e49;--accent:#f4a261;--bg:#fbf8f3;--text:#222;--radius:8px;--max:1100px;}
     *{box-sizing:border-box;margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;}
-    body{background:var(--bg);color:var(--text);line-height:1.55;-webkit-font-smoothing:antialiased;}
-    img{max-width:100%;display:block;}
-    a{color:var(--primary);}
-    h1,h2,h3{line-height:1.2;margin-bottom:.5em;}
-    .btn{background:var(--primary);color:#fff;border:none;padding:.85em 1.6em;border-radius:var(--radius);cursor:pointer;font-weight:600;transition:.25s;position:relative;overflow:hidden;}
-    .btn:hover{filter:brightness(1.1);}
+    body{background:var(--bg);color:var(--text);padding:1rem;line-height:1.55;}
+    h1,h2,h3{margin:.5em 0 .25em;}
+    .btn{background:var(--primary);color:#fff;border:none;padding:.6em 1.2em;border-radius:var(--radius);cursor:pointer;font-weight:600;}
     .btn--ghost{background:transparent;border:2px solid var(--primary);color:var(--primary);}
-    section{padding:4rem 1rem;margin:auto;max-width:var(--max);}
-    .flex{display:flex;gap:1.5rem;align-items:center;justify-content:space-between;flex-wrap:wrap;}
-    .hero{background:linear-gradient(120deg,var(--primary) 0%, #3e8e6f 100%);color:#fff;}
-    .hero h1{font-size:clamp(2rem,5vw,3rem);}
-    .hero img{width:320px;border-radius:var(--radius);}
-    .trustpilot{margin-top:1rem;font-size:.9rem;opacity:.9;}
-    .quiz-wrapper{background:#fff;border:1px solid #ddd;border-radius:var(--radius);padding:2rem;margin-top:2rem;}
-    .quiz-wrapper label{display:block;margin:.75rem 0;cursor:pointer;}
-    .quiz-wrapper input{margin-right:.5rem;}
-    .result{display:none;margin-top:1.5rem;font-weight:600;}
-    .carousel{position:relative;margin-top:2rem;overflow:hidden;border-radius:var(--radius);}
-    .track{display:flex;transition:transform .5s ease;}
-    .slide{min-width:100%;padding:2rem;background:#fff;text-align:center;}
-    .dots{position:absolute;bottom:1rem;left:50%;transform:translateX(-50%);display:flex;gap:.5rem;}
-    .dot{width:10px;height:10px;background:rgba(0,0,0,.25);border-radius:50%;cursor:pointer;}
-    .dot.active{background:var(--accent);}
-    .atc-bar{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid #ddd;padding:.75rem 1rem;display:flex;align-items:center;justify-content:space-between;z-index:10;}
-    .atc-bar price{font-weight:700;font-size:1.1rem;}
-    .fly{position:absolute;width:30px;height:30px;background:var(--primary);border-radius:50%;transform:scale(0);pointer-events:none;transition:transform .5s,top .5s,left .5s;}
-    .wa{position:fixed;bottom:90px;right:15px;background:#25d366;color:#fff;border-radius:50%;width:56px;height:56px;display:grid;place-content:center;font-size:1.5rem;box-shadow:0 4px 10px rgba(0,0,0,.2);}
-    @media(max-width:600px){.hero .flex{flex-direction:column;text-align:center;}}
+    section{margin:auto;max-width:var(--max);}
+    .grid{display:grid;gap:1rem;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));}
+    .card{background:#fff;border:1px solid #ddd;border-radius:var(--radius);padding:1rem;}
+    .slider{width:100%;margin:.5em 0;}
+    .export{margin-top:1rem;text-align:right;}
+    input[type=range]{width:100%;}
+    .val{font-weight:700;color:var(--primary);}
+    @media print{body{background:#fff;}.no-print{display:none;}}
   </style>
 </head>
 <body>
-  <!-- HERO -->
-  <section class="hero">
-    <div class="flex">
-      <div>
-        <h1>Elevate Your Well-Being Naturally</h1>
-        <p>Certified Ayurvedic supplements, vegan gummies & skin radiance tablets – crafted with authentic herbal extracts.</p>
-        <div class="trustpilot">★★★★★ 4.8/5 from 1,247 happy customers</div>
-        <button class="btn" onclick="scrollToQuiz()">Take 30-sec Dosha Quiz →</button>
-      </div>
-      <img src="https://images.unsplash.com/photo-1607006348703-f3ca9da20006?auto=format&fit=crop&w=600&q=60" alt="Herbal capsules spilling from bottle">
-    </div>
-  </section>
-
-  <!-- UGC CAROUSEL -->
   <section>
-    <h2>Real People, Real Glow</h2>
-    <div class="carousel" id="carousel">
-      <div class="track">
-        <div class="slide">
-          <img src="https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?auto=format&fit=crop&w=400&q=60" alt="user1">
-          <p>"My acne scars faded in 6 weeks – skin radiance tablets are magic!"<br><strong>- Aishwarya, Mumbai</strong></p>
-        </div>
-        <div class="slide">
-          <img src="https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?auto=format&fit=crop&w=400&q=60" alt="user2">
-          <p>"Stress relief gummies actually taste good and work within 20 mins."<br><strong>- Karan, Delhi</strong></p>
-        </div>
-        <div class="slide">
-          <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=400&q=60" alt="user3">
-          <p>"Vegan, cruelty-free and desi – finally a brand that gets it."<br><strong>- Priya, Pune</strong></p>
-        </div>
-      </div>
-      <div class="dots"><span class="dot active"></span><span class="dot"></span><span class="dot"></span></div>
+    <h1>Nayore Business Plan <span class="val">Live Model</span></h1>
+    <p class="no-print">Move sliders → numbers update instantly. Click <b>Export PNG</b> to drop into board deck.</p>
+  </section>
+
+  <!-- INPUTS -->
+  <section class="grid no-print">
+    <div class="card">
+      <h3>B2C Assumptions</h3>
+      <label>Monthly Traffic (<span id="t1">30k</span>)</label>
+      <input type="range" id="traffic" class="slider" min="10000" max="200000" value="30000" step="5000">
+      <label>Site CVR % (<span id="c1">2.5</span>%)</label>
+      <input type="range" id="cvr" class="slider" min="1" max="6" value="2.5" step="0.1">
+      <label>AOV INR (<span id="a1">799</span>)</label>
+      <input type="range" id="aov" class="slider" min="400" max="1200" value="799" step="50">
+      <label>Repeat % (<span id="r1">25</span>%)</label>
+      <input type="range" id="repeat" class="slider" min="10" max="50" value="25" step="5">
+    </div>
+    <div class="card">
+      <h3>B2B Assumptions</h3>
+      <label>New Distributors / mo (<span id="d1">5</span>)</label>
+      <input type="range" id="dist" class="slider" min="1" max="20" value="5" step="1">
+      <label>Avg Opening Order INR (<span id="do1">150000</span>)</label>
+      <input type="range" id="doo" class="slider" min="50000" max="500000" value="150000" step="25000">
+      <label>GM % (<span id="gm1">35</span>%)</label>
+      <input type="range" id="gm" class="slider" min="25" max="55" value="35" step="5">
+      <label>CAC INR (<span id="cac1">280</span>)</label>
+      <input type="range" id="cac" class="slider" min="150" max="600" value="280" step="20">
     </div>
   </section>
 
-  <!-- DOSHA QUIZ -->
-  <section>
-    <h2>Discover Your Dosha – Get 15% Off</h2>
-    <div class="quiz-wrapper">
-      <p><strong>Q1:</strong> My sleep is…</p>
-      <label><input type="radio" name="q1" value="vata"> Light & easily interrupted</label>
-      <label><input type="radio" name="q1" value="pitta"> Moderate, I wake up refreshed</label>
-      <label><input type="radio" name="q1" value="kapha"> Deep & lengthy</label>
-
-      <p><strong>Q2:</strong> My skin tends to be…</p>
-      <label><input type="radio" name="q2" value="vata"> Dry / rough</label>
-      <label><input type="radio" name="q2" value="pitta"> Sensitive / oily</label>
-      <label><input type="radio" name="q2" value="kapha"> Smooth / thick</label>
-
-      <p><strong>Q3:</strong> Under stress I…</p>
-      <label><input type="radio" name="q3" value="vata"> Become anxious & restless</label>
-      <label><input type="radio" name="q3" value="pitta"> Get irritable / impatient</label>
-      <label><input type="radio" name="q3" value="kapha"> Withdraw & procrastinate</label>
-
-      <button class="btn" onclick="showResult()">See Result & Unlock Coupon</button>
-      <div class="result" id="result"></div>
+  <!-- OUTPUTS -->
+  <section class="grid">
+    <div class="card">
+      <h3>90-Day Outlook</h3>
+      <p>B2C Orders: <span class="val" id="b2c-orders">750</span></p>
+      <p>B2B Orders: <span class="val" id="b2b-orders">15</span></p>
+      <p>Total Revenue: ₹<span class="val" id="rev">29.2</span>L</p>
+      <p>Gross Profit: ₹<span class="val" id="gp">10.2</span>L</p>
+      <p>Ad Spend: ₹<span class="val" id="spend">6.5</span>L</p>
+      <p>Net Margin: <span class="val" id="margin">12.7</span>%</p>
+    </div>
+    <div class="card">
+      <h3>18-Month Scale</h3>
+      <p>Monthly Revenue: ₹<span class="val" id="mrev">102</span>L</p>
+      <p>Monthly GP: ₹<span class="val" id="mgp">35.7</span>L</p>
+      <p>LTV/CAC: <span class="val" id="ltv">3.1</span>×</p>
+      <p>Breakeven Month: <span class="val" id="be">11</span></p>
     </div>
   </section>
 
-  <!-- PRODUCT MINI-CARD -->
-  <section>
-    <h2>Best-Seller Bundle</h2>
-    <div class="flex">
-      <img src="https://images.unsplash.com/photo-1587854692152-cbe660dbde88?auto=format&fit=crop&w=500&q=60" alt="Bundle">
-      <div>
-        <h3>Starter Wellness Kit</h3>
-        <p>Immunity capsules ×1, Skin radiance ×1, Stress gummies ×1</p>
-        <price>₹799 <s>₹945</s></price>
-        <br><br>
-        <button class="btn" onclick="addToCart(event,this)">Add to Cart – ₹799</button>
-      </div>
-    </div>
+  <section class="export no-print">
+    <button class="btn" onclick="window.print()">Print / PDF</button>
+    <button class="btn btn--ghost" onclick="exportPNG()">Export PNG</button>
   </section>
-
-  <!-- STICKY CART + WHATSAPP -->
-  <div class="atc-bar">
-    <span>Your cart: <span id="cart-count">0</span> item(s)</span>
-    <button class="btn btn--ghost" onclick="alert('Redirect to checkout')">Checkout →</button>
-  </div>
-  <a class="wa" href="https://wa.me/919999999999?text=Hi%20Nayore%2C%20I%20have%20a%20question%20about%20COD%20and%20shipping" aria-label="Chat on WhatsApp">💬</a>
 
   <script>
-    /* Carousel */
-    const track=document.querySelector('.track'),dots=document.querySelectorAll('.dot');let idx=0;
-    function go(){track.style.transform='translateX(-'+idx*100+'%)';dots.forEach((d,i)=>d.classList.toggle('active',i===idx));}
-    dots.forEach((d,i)=>d.addEventListener('click',()=>{idx=i;go();}));
-    setInterval(()=>{idx=(idx+1)%3;go();}5000);
-
-    /* Quiz */
-    function scrollToQuiz(){document.querySelector('.quiz-wrapper').scrollIntoView({behavior:'smooth'});}
-    function showResult(){
-      const r={vata:0,pitta:0,kapha:0};
-      document.querySelectorAll('input[type=radio]:checked').forEach(el=>r[el.value]++);
-      const top=Object.keys(r).reduce((a,b)=>r[a]>r[b]?a:b);
-      const out={vata:'Vata – Nourish & Calm',pitta:'Pitta – Cool & Balance',kapha:'Kapha – Stimulate & Invigorate'};
-      const email=prompt('Email for 15% coupon:');
-      if(!email)return;
-      localStorage.setItem('dosha',top);localStorage.setItem('email',email);
-      document.getElementById('result').style.display='block';
-      document.getElementById('result').innerHTML=`Your Dosha: <strong>${out[top]}</strong><br>Coupon <b>NAYORE15</b> copied! Check WhatsApp for payment link.`;
-      /* TODO: POST email+top to Klaviyo API */}
-    
-    /* Add to cart fly */
-    let cart=0;
-    function addToCart(e,btn){
-      const rect=btn.getBoundingClientRect(),fly=document.createElement('span');
-      fly.className='fly';fly.style.top=rect.top+'px';fly.style.left=rect.left+'px';
-      document.body.appendChild(fly);
-      requestAnimationFrame(()=>{
-        const bar=document.querySelector('.atc-bar').getBoundingClientRect();
-        fly.style.top=bar.top+15+'px';fly.style.left=bar.left+bar.width-40+'px';fly.style.transform='scale(1.5)';
-      });
-      setTimeout(()=>{fly.remove();cart++;document.getElementById('cart-count').textContent=cart;},600);
+    const $ = x => document.getElementById(x);
+    const val = (id,v) => $(id).textContent = Number(v).toLocaleString('en-IN');
+    function calc(){
+      // inputs
+      const T = +$('traffic').value, C = +$('cvr').value/100, A = +$('aov').value, R = +$('repeat').value/100;
+      const D = +$('dist').value, DO = +$('doo').value, GM = +$('gm').value/100, CAC = +$('cac').value;
+      // 90d
+      const b2c = Math.round(T*C*3), b2b = D*3;
+      const rev = (b2c*A + b2b*DO)/100000;
+      const gp = rev*GM, spend = (b2c+b2b*2)*CAC/100000;
+      const margin = ((gp-spend)/rev*100).toFixed(1);
+      // 18mo
+      const mrev = (T*C*A*6 + D*DO*6)/100000; // 6× scale
+      const mgp = mrev*GM, ltv = (A*(1+R*6))/CAC;
+      const be = Math.ceil(14 - margin); // simple proxy
+      // render
+      val('b2c-orders',b2c); val('b2b-orders',b2b); val('rev',rev.toFixed(1)); val('gp',gp.toFixed(1));
+      val('spend',spend.toFixed(1)); $('margin').textContent = margin;
+      val('mrev',mrev.toFixed(0)); val('mgp',mgp.toFixed(0)); $('ltv').textContent = ltv.toFixed(1);
+      $('be').textContent = be;
     }
+    ['traffic','cvr','aov','repeat','dist','doo','gm','cac'].forEach(id=>$(id).addEventListener('input',calc));
+    function exportPNG(){
+      // fallback: print → save as pdf → png in any tool
+      alert('Use browser Print → Save as PDF → convert to PNG.\nFull canvas-based PNG coming v2.');
+    }
+    calc(); // init
   </script>
+  <!-- APPEND INSIDE <body> BEFORE </body> -->
+<section class="grid no-print">
+  <div class="card" style="grid-column:1/-1">
+    <h2>Digital Marketing & Social Reach – Execution Blueprint</h2>
+    <details open>
+      <summary style="cursor:pointer;font-weight:700;color:var(--primary);">Expand / Collapse full plan</summary>
+      <div style="margin-top:1rem;">
+        <h3>1. Channel Approach</h3>
+        <table style="width:100%;font-size:.9rem;">
+          <thead><tr><th>Channel</th><th>Objective</th><th>Cadence</th><th>KPI</th><th>Budget %</th></tr></thead>
+          <tbody>
+            <tr><td>Meta Reels + Ads</td><td>Top-of-funnel, UGC seeding</td><td>3 Reels / week, 2 ad refreshes / mo</td><td>CPM ≤₹180, Thumb-stop ratio ≥35%</td><td>40%</td></tr>
+            <tr><td>Google P-Max</td><td>High-intent capture</td><td>Feed optimise weekly</td><td>ROAS ≥2.5</td><td>25%</td></tr>
+            <tr><td>WhatsApp Newsletter</td><td>COD confirmation, repeat</td><td>Day-0,3,7 flows</td><td>Open ≥80%, RTO ↓12%</td><td>Free (API ₹0)</td></tr>
+            <tr><td>LinkedIn ABM</td><td>B2B distributor leads</td><td>50 new contacts / mo</td><td>CPL ≤₹120, Close ≥30%</td><td>15%</td></tr>
+            <tr><td>Influencer Pool</td><td>Trust, reach, backlinks</td><td>20 micro (5-50k) / mo</td><td>CPA ≤₹250, Code usage</td><td>15%</td></tr>
+            <tr><td>Retail QR</td><td>Offline→online data</td><td>5k shelf stickers</td><td>1k scans, 5% purchase</td><td>5%</td></tr>
+          </tbody>
+        </table>
+
+        <h3>2. Creative Engine</h3>
+        <ul>
+          <li>Hook-Problem-Solution-CTA template (15s Reel) – 3 variants per SKU</li>
+          <li>Ingredient macro + testimonial split-screen – always first 3 seconds</li>
+          <li>UGC bounty: ₹500 gift card for any customer Reel >10k views</li>
+          <li>3-day creative refresh rule (kill CTR bottom 30%)</li>
+        </ul>
+
+        <h3>3. Tech & Automation Stack (₹ spend / mo)</h3>
+        <ul>
+          <li>Shopify ₹1,990 – ecommerce, GST invoices</li>
+          <li>Server-side GTM ₹350 – pixel accuracy, <0.5% data loss</li>
+          <li>Klaviyo free tier – email/SMS flows (10k emails)</li>
+          <li>Shopify Flow ₹0 – inventory alerts, fraud cancel</li>
+          <li>HubSpot Free – B2B deal pipeline</li>
+          <li>Canva Pro ₹999 – creative resizing</li>
+          <li>Zoho Books ₹2,499 – accounting (total ≤₹6k)</li>
+        </ul>
+
+        <h3>4. B2B Social Reach</h3>
+        <ol>
+          <li>LinkedIn search: “ayurvedic distributor OR pharmacy chain owner India” → 2nd-degree only</li>
+          <li>Connection note: “Open to adding a high-margin, ASCI-approved herbal line to your portfolio?”</li>
+          <li>Accept > send Calendly link + one-pager PDF (auto-generated from this model)</li>
+          <li>Weekly Live demo on LinkedIn Audio (30 min) – record → repurpose as podcast</li>
+        </ol>
+
+        <h3>5. KPI Traffic-Light</h3>
+        <table id="kpi-table" style="width:100%;font-size:.9rem;">
+          <thead><tr><th>Metric</th><th>Green</th><th>Amber</th><th>Red</th><th>Current</th></tr></thead>
+          <tbody>
+            <tr data-metric="cvr"><td>Site CVR</td><td>≥2.5%</td><td>1.8-2.4%</td><td>&lt;1.8%</td><td class="live">2.5%</td></tr>
+            <tr data-metric="cac"><td>Blended CAC</td><td>≤₹280</td><td>₹281-350</td><td>&gt;₹350</td><td class="live">₹280</td></tr>
+            <tr data-metric="rto"><td>RTO %</td><td>≤12%</td><td>13-18%</td><td>&gt;18%</td><td class="live">12%</td></tr>
+            <tr data-metric="repeat"><td>Repeat 60d</td><td>≥30%</td><td>20-29%</td><td>&lt;20%</td><td class="live">25%</td></tr>
+            <tr data-metric="roas"><td>Google ROAS</td><td>≥2.5</td><td>2.0-2.4</td><td>&lt;2.0</td><td class="live">2.5</td></tr>
+          </tbody>
+        </table>
+        <p style="font-size:.8rem;color:#555;">*Table auto-colours on slider move (green/amber/red).*</p>
+      </div>
+    </details>
+  </div>
+</section>
+
+<script>
+  // colour KPI table live
+  function colourKPI(){
+    document.querySelectorAll('#kpi-table .live').forEach(td=>{
+      const v = parseFloat(td.textContent);
+      const tr = td.closest('tr');
+      const metric = tr.dataset.metric;
+      tr.style.background='#d4edda'; // default green
+      if(metric==='cvr' && v<1.8) tr.style.background='#f8d7da';
+      if(metric==='cac' && v>350) tr.style.background='#f8d7da';
+      if(metric==='rto' && v>18) tr.style.background='#f8d7da';
+      if(metric==='repeat' && v<20) tr.style.background='#f8d7da';
+      if(metric==='roas' && v<2.0) tr.style.background='#f8d7da';
+      if(['cvr','cac','rto','repeat','roas'].includes(metric) && tr.style.background!=='#f8d7da' && (v<=2.4 && v>=1.8 || v<=350 && v>=281 || v<=18 && v>=13 || v<=29 && v>=20 || v<=2.4 && v>=2.0)) tr.style.background='#fff3cd';
+    });
+  }
+  colourKPI(); // run on load
+  // re-colour when sliders move
+  ['traffic','cvr','aov','repeat','dist','doo','gm','cac'].forEach(id=>$(id).addEventListener('input',colourKPI));
+</script>
 </body>
 </html>
