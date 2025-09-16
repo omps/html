@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <title>GroupGreeting Clone – Interactive One-Pager</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎉</text></svg>">
+  <style>
+    /* simple fade-in animation */
+    .fade-up { opacity: 0; transform: translateY(20px); transition: all .6s ease; }
+    .fade-up.show { opacity: 1; transform: translateY(0); }
+    /* animated counter */
+    .count-up { display: inline-block; }
+  </style>
+</head>
+<body class="bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-200">
+
+<!-- HEADER -->
+<header class="sticky top-0 z-40 bg-white/80 dark:bg-gray-900/80 backdrop-blur border-b border-gray-200 dark:border-gray-800">
+  <div class="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
+    <a href="#" class="flex items-center gap-2 text-xl font-bold">
+      <span class="text-2xl">🎉</span> GroupGreeting
+    </a>
+
+    <!-- desktop nav -->
+    <nav class="hidden md:flex gap-6 font-medium">
+      <a href="#features" class="hover:text-indigo-600">How it works</a>
+      <a href="#pricing" class="hover:text-indigo-600">Pricing</a>
+      <a href="#reviews" class="hover:text-indigo-600">Reviews</a>
+    </nav>
+
+    <div class="flex items-center gap-4">
+      <button id="theme-toggle" class="w-8 h-8 rounded-full bg-gray-200 dark:bg-gray-700 flex items-center justify-center">
+        <span id="theme-icon">🌙</span>
+      </button>
+      <button onclick="showModal()" class="hidden md:inline-block px-4 py-2 rounded-lg bg-indigo-600 text-white hover:bg-indigo-700">Try it free</button>
+      <!-- mobile hamburger -->
+      <button id="menu-toggle" class="md:hidden text-2xl">☰</button>
+    </div>
+  </div>
+
+  <!-- mobile menu -->
+  <div id="mobile-menu" class="hidden md:hidden px-6 pb-4 flex flex-col gap-3 font-medium">
+    <a href="#features" onclick="closeMenu()">How it works</a>
+    <a href="#pricing" onclick="closeMenu()">Pricing</a>
+    <a href="#reviews" onclick="closeMenu()">Reviews</a>
+    <button onclick="showModal()" class="mt-2 px-4 py-2 rounded-lg bg-indigo-600 text-white">Try it free</button>
+  </div>
+</header>
+
+<main>
+<!-- HERO -->
+<section class="px-6 py-20 max-w-6xl mx-auto grid md:grid-cols-2 gap-10 items-center">
+  <div class="fade-up">
+    <h1 class="text-4xl md:text-5xl font-extrabold leading-tight">
+      The easiest way to coordinate the group birthday card at the office.
+    </h1>
+    <p class="mt-4 text-lg text-gray-600 dark:text-gray-300">
+      Pick a design, share a link, everyone signs digitally, and we deliver it with confetti—wherever they are.
+    </p>
+    <div class="mt-6 flex flex-col sm:flex-row gap-3">
+      <button onclick="showModal()" class="px-6 py-3 rounded-lg bg-indigo-600 text-white hover:bg-indigo-700">Create a card</button>
+      <button onclick="scrollToSection('features')" class="px-6 py-3 rounded-lg border border-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800">See how it works</button>
+    </div>
+  </div>
+  <div class="fade-up">
+    <img src="https://source.unsplash.com/random/600×400?birthday,party" alt="Birthday party" class="rounded-2xl shadow-xl w-full" loading="lazy">
+  </div>
+</section>
+
+<!-- METRICS -->
+<section class="bg-gray-50 dark:bg-gray-800/50 py-12">
+  <div class="max-w-6xl mx-auto px-6 grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+    <div>
+      <div class="text-3xl font-bold text-indigo-600 count-up" data-target="25000">0</div>
+      <div class="text-sm text-gray-600 dark:text-gray-400">Workplaces</div>
+    </div>
+    <div>
+      <div class="text-3xl font-bold text-indigo-600 count-up" data-target="10000">0</div>
+      <div class="text-sm text-gray-600 dark:text-gray-400">Card designs</div>
+    </div>
+    <div>
+      <div class="text-3xl font-bold text-indigo-600 count-up" data-target="207968">0</div>
+      <div class="text-sm text-gray-600 dark:text-gray-400">Trees planted</div>
+    </div>
+    <div>
+      <div class="text-3xl font-bold text-indigo-600 count-up" data-target="1000000">0</div>
+      <div class="text-sm text-gray-600 dark:text-gray-400">Cards sent</div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section id="features" class="px-6 py-20 max-w-6xl mx-auto">
+  <h2 class="text-3xl font-bold text-center">How it works</h2>
+  <div class="mt-10 grid md:grid-cols-2 lg:grid-cols-4 gap-6 text-center">
+    <div class="fade-up">
+      <div class="w-16 h-16 mx-auto rounded-full bg-indigo-100 dark:bg-indigo-900/30 flex items-center justify-center text-2xl">1</div>
+      <h3 class="mt-4 font-semibold">Choose a card</h3>
+      <p class="text-sm text-gray-600 dark:text-gray-400">10k+ work-safe designs for every occasion.</p>
+    </div>
+    <div class="fade-up">
+      <div class="w-16 h-16 mx-auto rounded-full bg-indigo-100 dark:bg-indigo-900/30 flex items-center justify-center text-2xl">2</div>
+      <h3 class="mt-4 font-semibold">Share the link</h3>
+      <p class="text-sm text-gray-600 dark:text-gray-400">Teammates sign digitally—no logins needed.</p>
+    </div>
+    <div class="fade-up">
+      <div class="w-16 h-16 mx-auto rounded-full bg-indigo-100 dark:bg-indigo-900/30 flex items-center justify-center text-2xl">3</div>
+      <h3 class="mt-4 font-semibold">Add messages</h3>
+      <p class="text-sm text-gray-600 dark:text-gray-400">Unlimited space, GIFs, emojis & photos.</p>
+    </div>
+    <div class="fade-up">
+      <div class="w-16 h-16 mx-auto rounded-full bg-indigo-100 dark:bg-indigo-900/30 flex items-center justify-center text-2xl">4</div>
+      <h3 class="mt-4 font-semibold">Deliver & celebrate</h3>
+      <p class="text-sm text-gray-600 dark:text-gray-400">We e-mail the final card with confetti!</p>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section id="pricing" class="bg-gray-50 dark:bg-gray-800/50 px-6 py-20">
+  <div class="max-w-6xl mx-auto text-center">
+    <h2 class="text-3xl font-bold">Simple pricing</h2>
+    <p class="mt-2 text-gray-600 dark:text-gray-400">Pay once, send forever.</p>
+    <div class="mt-10 grid md:grid-cols-3 gap-6">
+      <!-- card 1 -->
+      <div class="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-lg">
+        <div class="text-4xl font-extrabold">$5</div>
+        <div class="text-sm text-gray-500">1 card</div>
+        <ul class="mt-4 space-y-2 text-left">
+          <li>✓ Unlimited pages</li>
+          <li>✓ Add photos & GIFs</li>
+          <li>✓ Optional gift card</li>
+        </ul>
+        <button onclick="showModal()" class="mt-6 w-full py-2 rounded-lg bg-indigo-600 text-white hover:bg-indigo-700">Get started</button>
+      </div>
+      <!-- card 2 POPULAR -->
+      <div class="relative bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-xl ring-2 ring-indigo-500">
+        <span class="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-1 bg-indigo-500 text-white text-xs rounded-full">MOST POPULAR</span>
+        <div class="text-4xl font-extrabold">$25</div>
+        <div class="text-sm text-gray-500">10 cards</div>
+        <ul class="mt-4 space-y-2 text-left">
+          <li>✓ Everything in $5</li>
+          <li>✓ Company logo</li>
+          <li>✓ Multiple recipients</li>
+        </ul>
+        <button onclick="showModal()" class="mt-6 w-full py-2 rounded-lg bg-indigo-600 text-white hover:bg-indigo-700">Get started</button>
+      </div>
+      <!-- card 3 -->
+      <div class="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-lg">
+        <div class="text-4xl font-extrabold">$49</div>
+        <div class="text-sm text-gray-500">25 cards</div>
+        <ul class="mt-4 space-y-2 text-left">
+          <li>✓ Everything in $25</li>
+          <li>✓ Bulk card creation</li>
+          <li>✓ Priority support</li>
+        </ul>
+        <button onclick="showModal()" class="mt-6 w-full py-2 rounded-lg bg-indigo-600 text-white hover:bg-indigo-700">Get started</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- REVIEWS -->
+<section id="reviews" class="px-6 py-20 max-w-6xl mx-auto">
+  <h2 class="text-3xl font-bold text-center">Loved by thousands</h2>
+  <div class="mt-10 grid md:grid-cols-3 gap-6">
+    <blockquote class="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow">
+      <div class="text-yellow-400">★★★★★</div>
+      <p class="mt-2 italic">“FASTEST support response ever. Five stars!!”</p>
+      <footer class="mt-4 text-sm text-gray-500">— Kelly T.</footer>
+    </blockquote>
+    <blockquote class="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow">
+      <div class="text-yellow-400">★★★★★</div>
+      <p class="mt-2 italic">“Customer service like I’ve never seen in 42 years.”</p>
+      <footer class="mt-4 text-sm text-gray-500">— Kristen C.</footer>
+    </blockquote>
+    <blockquote class="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow">
+      <div class="text-yellow-400">★★★★★</div>
+      <p class="mt-2 italic">“Always happy—already recommended to friends.”</p>
+      <footer class="mt-4 text-sm text-gray-500">— Kathy B.</footer>
+    </blockquote>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="bg-indigo-600 text-white px-6 py-16 text-center rounded-2xl mx-6 mb-20">
+  <h2 class="text-3xl font-bold">Ready to be the office hero?</h2>
+  <p class="mt-2 opacity-90">Create your first card in seconds. No signup required.</p>
+  <button onclick="showModal()" class="mt-6 px-6 py-3 rounded-lg bg-white text-indigo-600 font-semibold hover:bg-gray-100">Create a card now</button>
+</section>
+</main>
+
+<!-- FOOTER -->
+<footer class="bg-gray-900 text-gray-200 px-6 py-10">
+  <div class="max-w-6xl mx-auto grid md:grid-cols-4 gap-6 text-sm">
+    <div>
+      <div class="flex items-center gap-2 text-xl font-bold mb-2">
+        <span>🎉</span> GroupGreeting
+      </div>
+      <p class="text-gray-400">Coordinating group cards worldwide.</p>
+    </div>
+    <div>
+      <div class="font-semibold mb-2">Product</div>
+      <a href="#" class="block hover:text-white">Templates</a>
+      <a href="#" class="block hover:text-white">Pricing</a>
+      <a href="#" class="block hover:text-white">Enterprise</a>
+    </div>
+    <div>
+      <div class="font-semibold mb-2">Company</div>
+      <a href="#" class="block hover:text-white">About</a>
+      <a href="#" class="block hover:text-white">Blog</a>
+      <a href="#" class="block hover:text-white">Careers</a>
+    </div>
+    <div>
+      <div class="font-semibold mb-2">Support</div>
+      <a href="#" class="block hover:text-white">Help center</a>
+      <a href="#" class="block hover:text-white">Contact us</a>
+      <a href="#" class="block hover:text-white">Privacy</a>
+    </div>
+  </div>
+  <div class="mt-8 border-t border-gray-800 pt-6 text-center text-xs text-gray-500">
+    © <span id="year"></span> GroupGreeting Clone. Built for fun.
+  </div>
+</footer>
+
+<!-- MODAL -->
+<div id="modal" class="fixed inset-0 bg-black/60 hidden items-center justify-center z-50">
+  <div class="bg-white dark:bg-gray-800 rounded-2xl p-8 max-w-sm w-full mx-6 relative">
+    <button onclick="hideModal()" class="absolute top-4 right-4 text-2xl text-gray-400 hover:text-gray-600">×</button>
+    <h3 class="text-2xl font-bold">Create your first card</h3>
+    <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">Enter your e-mail and we’ll send you a magic link.</p>
+    <form onsubmit="handleMagicLink(event)" class="mt-4 space-y-3">
+      <input id="email" type="email" required placeholder="you@company.com" class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-700 bg-gray-50 dark:bg-gray-900">
+      <button type="submit" class="w-full py-2 rounded-lg bg-indigo-600 text-white hover:bg-indigo-700">Send magic link</button>
+    </form>
+    <p id="modal-msg" class="mt-3 text-sm text-green-600 hidden">Check your inbox 🎉</p>
+  </div>
+</div>
+
+<script>
+/* ------ theme ------ */
+const toggle = document.getElementById('theme-toggle');
+const icon = document.getElementById('theme-icon');
+const html = document.documentElement;
+
+function loadTheme() {
+  const saved = localStorage.getItem('theme');
+  const prefers = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+  const theme = saved || prefers;
+  html.classList.toggle('dark', theme === 'dark');
+  icon.textContent = theme === 'dark' ? '☀️' : '🌙';
+}
+loadTheme();
+toggle.addEventListener('click', () => {
+  const isDark = html.classList.toggle('dark');
+  localStorage.setItem('theme', isDark ? 'dark' : 'light');
+  icon.textContent = isDark ? '☀️' : '🌙';
+});
+
+/* ------ mobile menu ------ */
+const menu = document.getElementById('mobile-menu');
+document.getElementById('menu-toggle').addEventListener('click', () => menu.classList.toggle('hidden'));
+function closeMenu() { menu.classList.add('hidden'); }
+
+/* ------ smooth scroll ------ */
+function scrollToSection(id) { document.getElementById(id).scrollIntoView({ behavior: 'smooth' }); }
+
+/* ------ modal ------ */
+const modal = document.getElementById('modal');
+function showModal() { modal.classList.remove('hidden'); modal.classList.add('flex'); }
+function hideModal() { modal.classList.add('hidden'); modal.classList.remove('flex'); }
+function handleMagicLink(e) {
+  e.preventDefault();
+  document.getElementById('modal-msg').classList.remove('hidden');
+  setTimeout(hideModal, 1500);
+}
+
+/* ------ animated counters ------ */
+const counters = document.querySelectorAll('.count-up');
+const speed = 200;
+const animate = () => {
+  counters.forEach(el => {
+    const target = +el.dataset.target;
+    const count = +el.innerText.replace(/,/g, '');
+    const inc = target / speed;
+    if (count < target) {
+      el.innerText = Math.ceil(count + inc).toLocaleString();
+      setTimeout(animate, 20);
+    } else {
+      el.innerText = target.toLocaleString();
+    }
+  });
+};
+const observer = new IntersectionObserver((entries) => {
+  if (entries[0].isIntersecting) animate();
+}, { threshold: .5 });
+observer.observe(document.querySelector('.count-up'));
+
+/* ------ fade-up on scroll ------ */
+const faders = document.querySelectorAll('.fade-up');
+const fadeObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => entry.target.classList.toggle('show', entry.isIntersecting));
+}, { threshold: .2 });
+faders.forEach(el => fadeObserver.observe(el));
+
+/* ------ year ------ */
+document.getElementById('year').textContent = new Date().getFullYear();
+</script>
+</body>
+</html>

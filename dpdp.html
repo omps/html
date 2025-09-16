@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Personal Data – Safety-Belt Checker</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  :root{--bg:#f5f7fa;--card:#ffffff;--accent:#0066cc;--danger:#e60000;--radius:12px;--font:"Segoe UI",Roboto,Helvetica,Arial,sans-serif;}
+  body{margin:0;font-family:var(--font);background:var(--bg);display:flex;align-items:center;justify-content:center;min-height:100vh;padding:20px;}
+  .card{background:var(--card);border-radius:var(--radius);box-shadow:0 8px 30px rgba(0,0,0,.08);max-width:420px;width:100%;padding:35px 30px;text-align:center;}
+  h1{font-size:1.5rem;margin-bottom:.5em;color:#111;}
+  p{color:#555;line-height:1.4;margin-bottom:1.8em;}
+  input[type=text]{width:100%;padding:12px 15px;border:2px solid #ddd;border-radius:var(--radius);font-size:1rem;transition:border .25s;}
+  input[type=text]:focus{outline:none;border-color:var(--accent);}
+  button{width:100%;padding:12px;font-size:1rem;border:none;border-radius:var(--radius));background:var(--accent);color:#fff;cursor:pointer;transition:background .25s;margin-top:10px;}
+  button:hover{background:#0050a3;}
+  #result{margin-top:20px;font-weight:600;min-height:24px;}
+  .safe{color:green;}
+  .unsafe{color:var(--danger);}
+  footer{margin-top:25px;font-size:.75rem;color:#888;}
+</style>
+</head>
+<body>
+
+<div class="card">
+  <h1>Is it Personal Data?</h1>
+  <p>Type anything you share online—email, PAN, shopping history, gaming score—and get an instant safety-belt verdict under India’s 2025 Rules.</p>
+  
+  <input id="dataInput" type="text" placeholder="e.g. rahul@email.com, Aadhaar, IP address" autocomplete="off">
+  <button onclick="checkData()">Check</button>
+  
+  <div id="result"></div>
+  
+  <footer>Hint: if it can point back to <strong>you</strong>, it’s protected.</footer>
+</div>
+
+<script>
+  function checkData(){
+    const val = document.getElementById('dataInput').value.trim().toLowerCase();
+    const res = document.getElementById('result');
+    if(!val){ res.textContent=''; return; }
+    
+    // ultra-simple keyword heuristic
+    const personal = /(@|aadhaar|pan|@|phone|mobile|ip\saddress|location|health|bank|credit|debit|upi|name|age|dob|vaccine|biometric)/;
+    
+    if(personal.test(val)){
+      res.innerHTML = '<span class="unsafe">✘ Personal data – safety-belt required!</span>';
+    }else{
+      res.innerHTML = '<span class="safe">✔ Likely anonymous – no belt needed.</span>';
+    }
+  }
+  // allow Enter key
+  document.getElementById('dataInput').addEventListener('keyup',function(e){if(e.key==='Enter')checkData();});
+</script>
+
+</body>
+</html>

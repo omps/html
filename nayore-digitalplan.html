@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Nayore – Ayurvedic Wellness, Nature-Crafted</title>
+  <meta name="description" content="Certified Ayurvedic supplements, vegan gummies & skin radiance tablets. Take the 30-sec Dosha quiz and unlock 15% off your first order.">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    "name": "Nayore Ayurvedic Supplements Bundle",
+    "description": "Holistic wellness range with authentic herbal extracts.",
+    "brand": "Nayore",
+    "offers": {
+      "@type": "Offer",
+      "url": "https://nayoure.com/products/ayurveda-bundle",
+      "priceCurrency": "INR",
+      "price": "945"
+    }
+  }
+  </script>
+  <style>
+    :root{
+      --primary:#2c6e49;
+      --accent:#f4a261;
+      --bg:#fbf8f3;
+      --text:#222;
+      --radius:8px;
+      --max:1100px;
+    }
+    *{box-sizing:border-box;margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;}
+    body{background:var(--bg);color:var(--text);line-height:1.55;-webkit-font-smoothing:antialiased;}
+    img{max-width:100%;display:block;}
+    a{color:var(--primary);}
+    h1,h2,h3{line-height:1.2;margin-bottom:.5em;}
+    .btn{background:var(--primary);color:#fff;border:none;padding:.85em 1.6em;border-radius:var(--radius);cursor:pointer;font-weight:600;transition:.25s;position:relative;overflow:hidden;}
+    .btn:hover{filter:brightness(1.1);}
+    .btn--ghost{background:transparent;border:2px solid var(--primary);color:var(--primary);}
+    section{padding:4rem 1rem;margin:auto;max-width:var(--max);}
+    .flex{display:flex;gap:1.5rem;align-items:center;justify-content:space-between;flex-wrap:wrap;}
+    .hero{background:linear-gradient(120deg,var(--primary) 0%, #3e8e6f 100%);color:#fff;}
+    .hero h1{font-size:clamp(2rem,5vw,3rem);}
+    .hero img{width:320px;border-radius:var(--radius);}
+    .trustpilot{margin-top:1rem;font-size:.9rem;opacity:.9;}
+    .quiz-wrapper{background:#fff;border:1px solid #ddd;border-radius:var(--radius);padding:2rem;margin-top:2rem;}
+    .quiz-wrapper label{display:block;margin:.75rem 0;cursor:pointer;}
+    .quiz-wrapper input{margin-right:.5rem;}
+    .result{display:none;margin-top:1.5rem;font-weight:600;}
+    .carousel{position:relative;margin-top:2rem;overflow:hidden;border-radius:var(--radius);}
+    .track{display:flex;transition:transform .5s ease;}
+    .slide{min-width:100%;padding:2rem;background:#fff;text-align:center;}
+    .dots{position:absolute;bottom:1rem;left:50%;transform:translateX(-50%);display:flex;gap:.5rem;}
+    .dot{width:10px;height:10px;background:rgba(0,0,0,.25);border-radius:50%;cursor:pointer;}
+    .dot.active{background:var(--accent);}
+    .atc-bar{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid #ddd;padding:.75rem 1rem;display:flex;align-items:center;justify-content:space-between;z-index:10;}
+    .atc-bar price{font-weight:700;font-size:1.1rem;}
+    .fly{position:absolute;width:30px;height:30px;background:var(--primary);border-radius:50%;transform:scale(0);pointer-events:none;transition:transform .5s,top .5s,left .5s;}
+    .wa{position:fixed;bottom:90px;right:15px;background:#25d366;color:#fff;border-radius:50%;width:56px;height:56px;display:grid;place-content:center;font-size:1.5rem;box-shadow:0 4px 10px rgba(0,0,0,.2);}
+    @media(max-width:600px){.hero .flex{flex-direction:column;text-align:center;}}
+  </style>
+</head>
+<body>
+  <!-- HERO -->
+  <section class="hero">
+    <div class="flex">
+      <div>
+        <h1>Elevate Your Well-Being Naturally</h1>
+        <p>Certified Ayurvedic supplements, vegan gummies & skin radiance tablets – crafted with authentic herbal extracts.</p>
+        <div class="trustpilot">★★★★★ 4.8/5 from 1,247 happy customers</div>
+        <button class="btn" onclick="scrollToQuiz()">Take 30-sec Dosha Quiz →</button>
+      </div>
+      <img src="https://images.unsplash.com/photo-1607006348703-f3ca9da20006?auto=format&fit=crop&w=600&q=60" alt="Herbal capsules spilling from bottle">
+    </div>
+  </section>
+
+  <!-- UGC CAROUSEL -->
+  <section>
+    <h2>Real People, Real Glow</h2>
+    <div class="carousel" id="carousel">
+      <div class="track">
+        <div class="slide">
+          <img src="https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?auto=format&fit=crop&w=400&q=60" alt="user1">
+          <p>"My acne scars faded in 6 weeks – skin radiance tablets are magic!"<br><strong>- Aishwarya, Mumbai</strong></p>
+        </div>
+        <div class="slide">
+          <img src="https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?auto=format&fit=crop&w=400&q=60" alt="user2">
+          <p>"Stress relief gummies actually taste good and work within 20 mins."<br><strong>- Karan, Delhi</strong></p>
+        </div>
+        <div class="slide">
+          <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=400&q=60" alt="user3">
+          <p>"Vegan, cruelty-free and desi – finally a brand that gets it."<br><strong>- Priya, Pune</strong></p>
+        </div>
+      </div>
+      <div class="dots"><span class="dot active"></span><span class="dot"></span><span class="dot"></span></div>
+    </div>
+  </section>
+
+  <!-- DOSHA QUIZ -->
+  <section>
+    <h2>Discover Your Dosha – Get 15% Off</h2>
+    <div class="quiz-wrapper">
+      <p><strong>Q1:</strong> My sleep is…</p>
+      <label><input type="radio" name="q1" value="vata"> Light & easily interrupted</label>
+      <label><input type="radio" name="q1" value="pitta"> Moderate, I wake up refreshed</label>
+      <label><input type="radio" name="q1" value="kapha"> Deep & lengthy</label>
+
+      <p><strong>Q2:</strong> My skin tends to be…</p>
+      <label><input type="radio" name="q2" value="vata"> Dry / rough</label>
+      <label><input type="radio" name="q2" value="pitta"> Sensitive / oily</label>
+      <label><input type="radio" name="q2" value="kapha"> Smooth / thick</label>
+
+      <p><strong>Q3:</strong> Under stress I…</p>
+      <label><input type="radio" name="q3" value="vata"> Become anxious & restless</label>
+      <label><input type="radio" name="q3" value="pitta"> Get irritable / impatient</label>
+      <label><input type="radio" name="q3" value="kapha"> Withdraw & procrastinate</label>
+
+      <button class="btn" onclick="showResult()">See Result & Unlock Coupon</button>
+      <div class="result" id="result"></div>
+    </div>
+  </section>
+
+  <!-- PRODUCT MINI-CARD -->
+  <section>
+    <h2>Best-Seller Bundle</h2>
+    <div class="flex">
+      <img src="https://images.unsplash.com/photo-1587854692152-cbe660dbde88?auto=format&fit=crop&w=500&q=60" alt="Bundle">
+      <div>
+        <h3>Starter Wellness Kit</h3>
+        <p>Immunity capsules ×1, Skin radiance ×1, Stress gummies ×1</p>
+        <price>₹799 <s>₹945</s></price>
+        <br><br>
+        <button class="btn" onclick="addToCart(event,this)">Add to Cart – ₹799</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- STICKY CART + WHATSAPP -->
+  <div class="atc-bar">
+    <span>Your cart: <span id="cart-count">0</span> item(s)</span>
+    <button class="btn btn--ghost" onclick="alert('Redirect to checkout')">Checkout →</button>
+  </div>
+  <a class="wa" href="https://wa.me/919999999999?text=Hi%20Nayore%2C%20I%20have%20a%20question%20about%20COD%20and%20shipping" aria-label="Chat on WhatsApp">💬</a>
+
+  <script>
+    /* Carousel */
+    const track=document.querySelector('.track'),dots=document.querySelectorAll('.dot');let idx=0;
+    function go(){track.style.transform='translateX(-'+idx*100+'%)';dots.forEach((d,i)=>d.classList.toggle('active',i===idx));}
+    dots.forEach((d,i)=>d.addEventListener('click',()=>{idx=i;go();}));
+    setInterval(()=>{idx=(idx+1)%3;go();}5000);
+
+    /* Quiz */
+    function scrollToQuiz(){document.querySelector('.quiz-wrapper').scrollIntoView({behavior:'smooth'});}
+    function showResult(){
+      const r={vata:0,pitta:0,kapha:0};
+      document.querySelectorAll('input[type=radio]:checked').forEach(el=>r[el.value]++);
+      const top=Object.keys(r).reduce((a,b)=>r[a]>r[b]?a:b);
+      const out={vata:'Vata – Nourish & Calm',pitta:'Pitta – Cool & Balance',kapha:'Kapha – Stimulate & Invigorate'};
+      const email=prompt('Email for 15% coupon:');
+      if(!email)return;
+      localStorage.setItem('dosha',top);localStorage.setItem('email',email);
+      document.getElementById('result').style.display='block';
+      document.getElementById('result').innerHTML=`Your Dosha: <strong>${out[top]}</strong><br>Coupon <b>NAYORE15</b> copied! Check WhatsApp for payment link.`;
+      /* TODO: POST email+top to Klaviyo API */}
+    
+    /* Add to cart fly */
+    let cart=0;
+    function addToCart(e,btn){
+      const rect=btn.getBoundingClientRect(),fly=document.createElement('span');
+      fly.className='fly';fly.style.top=rect.top+'px';fly.style.left=rect.left+'px';
+      document.body.appendChild(fly);
+      requestAnimationFrame(()=>{
+        const bar=document.querySelector('.atc-bar').getBoundingClientRect();
+        fly.style.top=bar.top+15+'px';fly.style.left=bar.left+bar.width-40+'px';fly.style.transform='scale(1.5)';
+      });
+      setTimeout(()=>{fly.remove();cart++;document.getElementById('cart-count').textContent=cart;},600);
+    }
+  </script>
+</body>
+</html>
