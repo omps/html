@@ -1,0 +1,1134 @@
+<!DOCTYPE html><html lang="en"><head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Real-Time Crowd Awareness &amp; Response System</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.net.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;1,400&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+    <style>
+        :root {
+            --primary: #1e40af;
+            --secondary: #059669;
+            --accent: #dc2626;
+            --neutral: #374151;
+            --base-100: #fafaf9;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--base-100);
+            overflow-x: hidden;
+        }
+        
+        .serif-heading {
+            font-family: 'Crimson Text', serif;
+            font-weight: 600;
+        }
+        
+        .italic-accent {
+            font-family: 'Crimson Text', serif;
+            font-style: italic;
+        }
+        
+        .toc-fixed {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 280px;
+            height: 100vh;
+            background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+            z-index: 1000;
+            overflow-y: auto;
+            padding: 2rem 1.5rem;
+            box-shadow: 4px 0 20px rgba(0,0,0,0.1);
+        }
+        
+        .main-content {
+            margin-left: 280px;
+            min-height: 100vh;
+        }
+        
+        .hero-section {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero-overlay {
+            background: rgba(15, 23, 42, 0.7);
+            backdrop-filter: blur(2px);
+        }
+        
+        .bento-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 2rem;
+            align-items: center;
+        }
+        
+        .citation-link {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+            border-bottom: 1px solid transparent;
+            transition: border-color 0.2s ease;
+        }
+        
+        .citation-link:hover {
+            border-bottom-color: var(--primary);
+        }
+        
+        .feature-card {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            border: 1px solid #e5e7eb;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+        }
+        
+        .tech-stack {
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+            border-radius: 12px;
+            padding: 1.5rem;
+            border: 1px solid #0ea5e9;
+        }
+        
+        .alert-box {
+            background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%);
+            border-left: 4px solid var(--accent);
+            padding: 1rem 1.5rem;
+            margin: 1rem 0;
+            border-radius: 0 8px 8px 0;
+        }
+        
+        .success-box {
+            background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+            border-left: 4px solid var(--secondary);
+            padding: 1rem 1.5rem;
+            margin: 1rem 0;
+            border-radius: 0 8px 8px 0;
+        }
+        
+        .vanta-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+        }
+        
+        @media (max-width: 1024px) {
+            .toc-fixed {
+                transform: translateX(-100%);
+                transition: transform 0.3s ease;
+            }
+            
+            .toc-fixed.open {
+                transform: translateX(0);
+            }
+            
+            .main-content {
+                margin-left: 0;
+            }
+            
+            .bento-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .hero-section {
+                padding: 2rem 1rem;
+            }
+            
+            .hero-section h1 {
+                font-size: 2.25rem;
+                line-height: 2.5rem;
+            }
+            
+            .hero-section p {
+                font-size: 1.125rem;
+            }
+            
+            .container {
+                padding-left: 1rem;
+                padding-right: 1rem;
+            }
+        }
+    </style>
+  </head>
+
+  <body class="bg-stone-50 text-gray-800">
+    <!-- Fixed Table of Contents -->
+    <nav class="toc-fixed" id="toc">
+      <div class="text-white">
+        <h3 class="serif-heading text-xl mb-6 text-blue-200">Contents</h3>
+        <ul class="space-y-3 text-sm">
+          <li>
+            <a href="#executive-summary" class="block py-2 px-3 rounded hover:bg-slate-700 transition-colors">Executive Summary</a>
+          </li>
+          <li>
+            <a href="#core-features" class="block py-2 px-3 rounded hover:bg-slate-700 transition-colors">Core Features &amp; Tech Stack</a>
+          </li>
+          <li>
+            <a href="#colab-implementation" class="block py-2 px-3 rounded hover:bg-slate-700 transition-colors">Colab Implementation</a>
+          </li>
+          <li>
+            <a href="#firebase-interface" class="block py-2 px-3 rounded hover:bg-slate-700 transition-colors">Firebase Interface</a>
+          </li>
+          <li>
+            <a href="#deployment" class="block py-2 px-3 rounded hover:bg-slate-700 transition-colors">Deployment &amp; Execution</a>
+          </li>
+          <li>
+            <a href="#github-repository" class="block py-2 px-3 rounded hover:bg-slate-700 transition-colors">GitHub Repository</a>
+          </li>
+          <li>
+            <a href="#research-examples" class="block py-2 px-3 rounded hover:bg-slate-700 transition-colors">Research &amp; Examples</a>
+          </li>
+          <li>
+            <a href="#references" class="block py-2 px-3 rounded hover:bg-slate-700 transition-colors">References</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+
+    <!-- Mobile TOC Toggle -->
+    <button class="lg:hidden fixed top-4 left-4 z-50 bg-slate-800 text-white p-3 rounded-full shadow-lg" onclick="toggleTOC(event)">
+      <i class="fas fa-bars"></i>
+    </button>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <!-- Hero Section -->
+      <section class="hero-section relative py-20 px-8">
+        <div id="vanta-bg" class="vanta-bg"></div>
+        <div class="hero-overlay relative z-10">
+          <div class="container mx-auto">
+            <div class="bento-grid max-w-7xl mx-auto">
+              <div class="text-white">
+                <h1 class="serif-heading text-5xl lg:text-6xl font-bold mb-6 leading-tight">
+                  <span class="italic-accent text-blue-300">Real-Time</span>
+                  <br/>
+                  <span class="text-white">Crowd Awareness</span>
+                  <br/>
+                  <span class="text-green-300">&amp; Response System</span>
+                </h1>
+                <p class="text-xl text-gray-300 mb-8 leading-relaxed">
+                  A comprehensive AI-powered prototype for predictive crowd monitoring and persona detection,
+                  built exclusively on Google&#39;s ecosystem for seamless integration and real-time insights.
+                </p>
+                <div class="flex items-center space-x-6 text-sm text-gray-400">
+                  <span><i class="fas fa-brain mr-2"></i>AI-Powered Analytics</span>
+                  <span><i class="fas fa-clock mr-2"></i>Real-Time Processing</span>
+                  <span><i class="fas fa-shield-alt mr-2"></i>Safety-First Design</span>
+                </div>
+              </div>
+              <div class="bg-white/10 backdrop-blur-sm rounded-2xl p-8 border border-white/20">
+                <img src="https://kimi-web-img.moonshot.cn/img/img.freepik.com/83b2267a692899f05520b6f43bb1b7ceebae8c25.jpg" alt="AI-powered crowd monitoring system interface" class="w-full rounded-lg shadow-2xl" size="medium" aspect="wide" style="photo" query="AI crowd monitoring system interface" referrerpolicy="no-referrer" data-modified="1" data-score="11589.00"/>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Executive Summary -->
+      <section id="executive-summary" class="py-16 px-8">
+        <div class="container mx-auto max-w-6xl">
+          <div class="bg-white rounded-2xl shadow-xl p-12">
+            <h2 class="serif-heading text-4xl font-bold mb-8 text-slate-800">Executive Summary</h2>
+
+            <div class="prose prose-lg max-w-none">
+              <p class="text-xl text-gray-700 leading-relaxed mb-6">
+                This prototype develops a <strong>Real-Time Crowd Awareness &amp; Response System</strong> focusing on two critical capabilities:
+                <strong>Predictive Crowd Monitoring</strong> and <strong>Crowd Persona Detection</strong>. Built exclusively on Google&#39;s ecosystem,
+                the system leverages <a href="https://colab.research.google.com/" class="citation-link">Google Colab</a> for AI model development
+                and <a href="https://firebase.google.com/" class="citation-link">Firebase</a> for real-time application infrastructure.
+              </p>
+
+              <div class="grid md:grid-cols-2 gap-8 my-12">
+                <div class="feature-card">
+                  <div class="flex items-center mb-4">
+                    <i class="fas fa-chart-line text-2xl text-blue-600 mr-3"></i>
+                    <h3 class="serif-heading text-2xl font-semibold">Predictive Crowd Monitoring</h3>
+                  </div>
+                  <p class="text-gray-700">
+                    Analyzes crowd dynamics in real-time to forecast potential issues like overcrowding,
+                    stampedes, or anomalous behavior using the <a href="https://openaccess.thecvf.com/content_cvpr_2017_workshops/w37/papers/Dupont_Crowd-11_A_Dataset_CVPR_2017_paper.pdf" class="citation-link">Crowd-11 dataset</a>
+                    with 11 distinct crowd motion patterns.
+                  </p>
+                </div>
+
+                <div class="feature-card">
+                  <div class="flex items-center mb-4">
+                    <i class="fas fa-users text-2xl text-green-600 mr-3"></i>
+                    <h3 class="serif-heading text-2xl font-semibold">Crowd Persona Detection</h3>
+                  </div>
+                  <p class="text-gray-700">
+                    Identifies and categorizes individuals based on characteristics using face detection and
+                    gender classification with <a href="https://www.kaggle.com/datasets/yasserhessein/gender-dataset" class="citation-link">Kaggle&#39;s Gender Dataset</a>
+                    (23,000 training images per class).
+                  </p>
+                </div>
+              </div>
+
+              <div class="success-box">
+                <h4 class="font-semibold text-green-800 mb-2">
+                  <i class="fas fa-lightbulb mr-2"></i>Key Innovation
+                </h4>
+                <p class="text-green-700">
+                  The system integrates multiple AI modules into a cohesive workflow, providing comprehensive
+                  crowd intelligence that combines behavioral analysis with demographic insights for enhanced
+                  safety and operational efficiency.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Core Features and Technology Stack -->
+      <section id="core-features" class="py-16 px-8 bg-slate-50">
+        <div class="container mx-auto max-w-6xl">
+          <h2 class="serif-heading text-4xl font-bold mb-12 text-center text-slate-800">Core Features &amp; Technology Stack</h2>
+
+          <div class="grid lg:grid-cols-2 gap-12 mb-16">
+            <div class="feature-card">
+              <h3 class="serif-heading text-2xl font-semibold mb-6 text-blue-800">
+                <i class="fas fa-brain mr-3"></i>AI-Powered Features
+              </h3>
+
+              <div class="space-y-6">
+                <div class="border-l-4 border-blue-500 pl-4">
+                  <h4 class="font-semibold text-lg mb-2">Predictive Crowd Monitoring</h4>
+                  <p class="text-gray-700 mb-3">
+                    Real-time analysis of crowd dynamics using the
+                    <a href="https://openaccess.thecvf.com/content_cvpr_2017_workshops/w37/papers/Dupont_Crowd-11_A_Dataset_CVPR_2017_paper.pdf" class="citation-link">Crowd-11 dataset</a>
+                    with 6,000+ video clips across 11 behavior patterns.
+                  </p>
+                  <ul class="text-sm text-gray-600 space-y-1">
+                    <li>• Laminar vs. turbulent flow detection</li>
+                    <li>• Cross-flow and merging crowd analysis</li>
+                    <li>• Anomalous behavior identification</li>
+                    <li>• Density estimation and forecasting</li>
+                  </ul>
+                </div>
+
+                <div class="border-l-4 border-green-500 pl-4">
+                  <h4 class="font-semibold text-lg mb-2">Crowd Persona Detection</h4>
+                  <p class="text-gray-700 mb-3">
+                    Individual characterization using
+                    <a href="https://tfhub.dev/google/face_detection_v2/1" class="citation-link">TensorFlow Hub face detection</a>
+                    and gender classification.
+                  </p>
+                  <ul class="text-sm text-gray-600 space-y-1">
+                    <li>• Real-time face detection and tracking</li>
+                    <li>• Gender classification with 96% accuracy</li>
+                    <li>• Demographic distribution analysis</li>
+                    <li>• Suspicious behavior identification</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <div class="tech-stack">
+              <h3 class="serif-heading text-2xl font-semibold mb-6 text-blue-800">
+                <i class="fas fa-cogs mr-3"></i>Google Technology Stack
+              </h3>
+
+              <div class="space-y-6">
+                <div class="bg-white rounded-lg p-4 border border-blue-200">
+                  <h4 class="font-semibold text-blue-700 mb-2">
+                    <i class="fab fa-google mr-2"></i>Google Colab
+                  </h4>
+                  <p class="text-sm text-gray-700">
+                    Jupyter notebook environment with free GPU/TPU access for AI model development,
+                    training, and deployment. Enables collaborative development and seamless sharing.
+                  </p>
+                </div>
+
+                <div class="bg-white rounded-lg p-4 border border-blue-200">
+                  <h4 class="font-semibold text-blue-700 mb-2">
+                    <i class="fas fa-database mr-2"></i>Firebase Services
+                  </h4>
+                  <ul class="text-sm text-gray-700 space-y-1">
+                    <li>• Authentication for user management</li>
+                    <li>• Firestore for real-time data synchronization</li>
+                    <li>• Cloud Storage for media files</li>
+                    <li>• Hosting for web application deployment</li>
+                  </ul>
+                </div>
+
+                <div class="bg-white rounded-lg p-4 border border-blue-200">
+                  <h4 class="font-semibold text-blue-700 mb-2">
+                    <i class="fas fa-robot mr-2"></i>AI/ML Frameworks
+                  </h4>
+                  <ul class="text-sm text-gray-700 space-y-1">
+                    <li>• TensorFlow for deep learning models</li>
+                    <li>• TensorFlow Hub for pre-trained models</li>
+                    <li>• OpenCV for computer vision</li>
+                    <li>• Firebase ML Kit for edge inference</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="alert-box">
+            <h4 class="font-semibold text-red-800 mb-2">
+              <i class="fas fa-exclamation-triangle mr-2"></i>Real-World Validation
+            </h4>
+            <p class="text-red-700">
+              Similar systems have been successfully deployed at the
+              <a href="https://www.drishtiias.com/state-pcs-current-affairs/ai-in-maha-kumbh-2025" class="citation-link">Maha Kumbh Mela</a>
+              with 160 CCTV cameras, demonstrating practical effectiveness in large-scale crowd management scenarios.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Colab Implementation -->
+      <section id="colab-implementation" class="py-16 px-8">
+        <div class="container mx-auto max-w-6xl">
+          <h2 class="serif-heading text-4xl font-bold mb-12 text-center text-slate-800">Core Logic Implementation in Google Colab</h2>
+
+          <div class="grid lg:grid-cols-3 gap-8 mb-12">
+            <div class="feature-card">
+              <div class="text-center mb-6">
+                <i class="fas fa-play-circle text-4xl text-blue-600 mb-4"></i>
+                <h3 class="serif-heading text-xl font-semibold">Environment Setup</h3>
+              </div>
+              <ul class="text-sm text-gray-700 space-y-2">
+                <li>• Install TensorFlow, OpenCV, Firebase SDK</li>
+                <li>• Configure GPU runtime access</li>
+                <li>• Set up Kaggle API for dataset access</li>
+                <li>• Initialize Firebase service account</li>
+              </ul>
+            </div>
+
+            <div class="feature-card">
+              <div class="text-center mb-6">
+                <i class="fas fa-eye text-4xl text-green-600 mb-4"></i>
+                <h3 class="serif-heading text-xl font-semibold">Face Detection</h3>
+              </div>
+              <ul class="text-sm text-gray-700 space-y-2">
+                <li>• Load
+                  <a href="https://tfhub.dev/google/face_detection_v2/1" class="citation-link">TF Hub face_detection_v2</a> model
+                </li>
+                <li>• Process images with OpenCV</li>
+                <li>• Extract bounding box coordinates</li>
+                <li>• Draw detection overlays</li>
+              </ul>
+            </div>
+
+            <div class="feature-card">
+              <div class="text-center mb-6">
+                <i class="fas fa-venus-mars text-4xl text-purple-600 mb-4"></i>
+                <h3 class="serif-heading text-xl font-semibold">Gender Classification</h3>
+              </div>
+              <ul class="text-sm text-gray-700 space-y-2">
+                <li>• Download
+                  <a href="https://www.kaggle.com/datasets/yasserhessein/gender-dataset" class="citation-link">Kaggle Gender Dataset</a>
+                </li>
+                <li>• Fine-tune MobileNetV2 model</li>
+                <li>• Apply data augmentation techniques</li>
+                <li>• Achieve 96% classification accuracy</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="bg-slate-100 rounded-2xl p-8">
+            <h3 class="serif-heading text-2xl font-semibold mb-6 text-center">Crowd Behavior Analysis Pipeline</h3>
+
+            <div class="grid md:grid-cols-2 gap-8">
+              <div>
+                <h4 class="font-semibold text-lg mb-4 text-blue-800">Dataset &amp; Models</h4>
+                <div class="space-y-3">
+                  <div class="flex items-center justify-between bg-white p-3 rounded border">
+                    <span class="text-sm font-medium">Crowd-11 Dataset</span>
+                    <span class="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded">6,000+ videos</span>
+                  </div>
+                  <div class="flex items-center justify-between bg-white p-3 rounded border">
+                    <span class="text-sm font-medium">C3D Network</span>
+                    <span class="text-xs bg-green-100 text-green-800 px-2 py-1 rounded">63.7% accuracy</span>
+                  </div>
+                  <div class="flex items-center justify-between bg-white p-3 rounded border">
+                    <span class="text-sm font-medium">Two-Stream Network</span>
+                    <span class="text-xs bg-purple-100 text-purple-800 px-2 py-1 rounded">RGB + Optical Flow</span>
+                  </div>
+                </div>
+              </div>
+
+              <div>
+                <h4 class="font-semibold text-lg mb-4 text-green-800">Behavior Patterns</h4>
+                <div class="grid grid-cols-2 gap-3">
+                  <div class="bg-white p-3 rounded border text-center">
+                    <i class="fas fa-arrow-right text-blue-600 mb-2"></i>
+                    <div class="text-xs font-medium">Laminar Flow</div>
+                  </div>
+                  <div class="bg-white p-3 rounded border text-center">
+                    <i class="fas fa-sync-alt text-red-600 mb-2"></i>
+                    <div class="text-xs font-medium">Turbulent Flow</div>
+                  </div>
+                  <div class="bg-white p-3 rounded border text-center">
+                    <i class="fas fa-exchange-alt text-purple-600 mb-2"></i>
+                    <div class="text-xs font-medium">Crossing Flows</div>
+                  </div>
+                  <div class="bg-white p-3 rounded border text-center">
+                    <i class="fas fa-compress-arrows-alt text-orange-600 mb-2"></i>
+                    <div class="text-xs font-medium">Merging/Diverging</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Firebase Interface -->
+      <section id="firebase-interface" class="py-16 px-8 bg-slate-50">
+        <div class="container mx-auto max-w-6xl">
+          <h2 class="serif-heading text-4xl font-bold mb-12 text-center text-slate-800">Web/Mobile App Interface with Firebase</h2>
+
+          <div class="grid lg:grid-cols-2 gap-12 mb-12">
+            <div>
+              <h3 class="serif-heading text-2xl font-semibold mb-6 text-blue-800">Firebase Services Architecture</h3>
+
+              <div class="space-y-6">
+                <div class="feature-card">
+                  <h4 class="font-semibold text-lg mb-3 text-blue-700">
+                    <i class="fas fa-shield-alt mr-2"></i>Authentication
+                  </h4>
+                  <p class="text-gray-700 text-sm mb-3">
+                    Secure user management with email/password and Google Sign-In for administrators
+                    and security personnel.
+                  </p>
+                  <div class="flex space-x-2">
+                    <span class="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded">Admin Access</span>
+                    <span class="text-xs bg-green-100 text-green-800 px-2 py-1 rounded">Role-Based</span>
+                  </div>
+                </div>
+
+                <div class="feature-card">
+                  <h4 class="font-semibold text-lg mb-3 text-green-700">
+                    <i class="fas fa-database mr-2"></i>Cloud Firestore
+                  </h4>
+                  <p class="text-gray-700 text-sm mb-3">
+                    Real-time database for storing analytical results, alerts, and crowd insights
+                    with automatic synchronization across devices.
+                  </p>
+                  <div class="flex space-x-2">
+                    <span class="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded">Real-Time</span>
+                    <span class="text-xs bg-purple-100 text-purple-800 px-2 py-1 rounded">NoSQL</span>
+                  </div>
+                </div>
+
+                <div class="feature-card">
+                  <h4 class="font-semibold text-lg mb-3 text-orange-700">
+                    <i class="fas fa-cloud-upload-alt mr-2"></i>Cloud Storage
+                  </h4>
+                  <p class="text-gray-700 text-sm mb-3">
+                    Store processed images, video clips, and analytical visualizations
+                    with secure access control.
+                  </p>
+                  <div class="flex space-x-2">
+                    <span class="text-xs bg-orange-100 text-orange-800 px-2 py-1 rounded">Media Files</span>
+                    <span class="text-xs bg-red-100 text-red-800 px-2 py-1 rounded">Secure Access</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div>
+              <h3 class="serif-heading text-2xl font-semibold mb-6 text-green-800">Real-Time Interface Design</h3>
+
+              <div class="bg-white rounded-2xl p-6 shadow-lg">
+                <img src="https://kimi-web-img.moonshot.cn/img/ebsystems.co/b4275da82991859b0ddfb09cde8bfec31d69c7f0.jpg" alt="Crowd monitoring dashboard with heatmap visualization" class="w-full rounded-lg mb-6" size="medium" aspect="wide" style="photo" query="crowd monitoring dashboard interface" referrerpolicy="no-referrer" data-modified="1" data-score="11595.00"/>
+
+                <div class="space-y-4">
+                  <div class="flex items-center justify-between">
+                    <span class="font-medium">Crowd Density Heatmap</span>
+                    <span class="text-sm text-green-600">Live</span>
+                  </div>
+                  <div class="flex items-center justify-between">
+                    <span class="font-medium">Gender Distribution</span>
+                    <span class="text-sm text-blue-600">Updated</span>
+                  </div>
+                  <div class="flex items-center justify-between">
+                    <span class="font-medium">Behavior Alerts</span>
+                    <span class="text-sm text-red-600">Active</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="grid grid-cols-2 gap-4 mt-6">
+                <div class="bg-green-50 p-4 rounded-lg border border-green-200">
+                  <div class="text-center">
+                    <div class="text-2xl font-bold text-green-800">85%</div>
+                    <div class="text-xs text-green-600">Normal Flow</div>
+                  </div>
+                </div>
+                <div class="bg-red-50 p-4 rounded-lg border border-red-200">
+                  <div class="text-center">
+                    <div class="text-2xl font-bold text-red-800">3</div>
+                    <div class="text-xs text-red-600">Active Alerts</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="success-box">
+            <h4 class="font-semibold text-green-800 mb-2">
+              <i class="fas fa-check-circle mr-2"></i>Real-Time Performance
+            </h4>
+            <p class="text-green-700">
+              The Firebase integration ensures sub-second data synchronization between Colab processing and
+              application interfaces, enabling truly real-time crowd monitoring and response capabilities.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Deployment -->
+      <section id="deployment" class="py-16 px-8">
+        <div class="container mx-auto max-w-6xl">
+          <h2 class="serif-heading text-4xl font-bold mb-12 text-center text-slate-800">Deployment &amp; Execution</h2>
+
+          <div class="grid lg:grid-cols-2 gap-12">
+            <div class="feature-card">
+              <h3 class="serif-heading text-2xl font-semibold mb-6 text-blue-800">
+                <i class="fab fa-google mr-3"></i>Google Colab Setup
+              </h3>
+
+              <div class="space-y-4">
+                <div class="flex items-start space-x-3">
+                  <div class="bg-blue-100 text-blue-800 rounded-full w-8 h-8 flex items-center justify-center text-sm font-bold mt-1">1</div>
+                  <div>
+                    <h4 class="font-semibold mb-1">Access Notebook</h4>
+                    <p class="text-sm text-gray-700">Open provided Colab notebook from GitHub repository</p>
+                  </div>
+                </div>
+
+                <div class="flex items-start space-x-3">
+                  <div class="bg-blue-100 text-blue-800 rounded-full w-8 h-8 flex items-center justify-center text-sm font-bold mt-1">2</div>
+                  <div>
+                    <h4 class="font-semibold mb-1">Install Dependencies</h4>
+                    <p class="text-sm text-gray-700">Run initial cells to install TensorFlow, OpenCV, Firebase SDK</p>
+                  </div>
+                </div>
+
+                <div class="flex items-start space-x-3">
+                  <div class="bg-blue-100 text-blue-800 rounded-full w-8 h-8 flex items-center justify-center text-sm font-bold mt-1">3</div>
+                  <div>
+                    <h4 class="font-semibold mb-1">Configure Firebase</h4>
+                    <p class="text-sm text-gray-700">Upload service account key and initialize connection</p>
+                  </div>
+                </div>
+
+                <div class="flex items-start space-x-3">
+                  <div class="bg-blue-100 text-blue-800 rounded-full w-8 h-8 flex items-center justify-center text-sm font-bold mt-1">4</div>
+                  <div>
+                    <h4 class="font-semibold mb-1">Enable GPU</h4>
+                    <p class="text-sm text-gray-700">Select GPU runtime for optimal deep learning performance</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="feature-card">
+              <h3 class="serif-heading text-2xl font-semibold mb-6 text-green-800">
+                <i class="fas fa-mobile-alt mr-3"></i>Application Deployment
+              </h3>
+
+              <div class="space-y-4">
+                <div class="flex items-start space-x-3">
+                  <div class="bg-green-100 text-green-800 rounded-full w-8 h-8 flex items-center justify-center text-sm font-bold mt-1">1</div>
+                  <div>
+                    <h4 class="font-semibold mb-1">Create Firebase Project</h4>
+                    <p class="text-sm text-gray-700">Set up project in Firebase console and enable services</p>
+                  </div>
+                </div>
+
+                <div class="flex items-start space-x-3">
+                  <div class="bg-green-100 text-green-800 rounded-full w-8 h-8 flex items-center justify-center text-sm font-bold mt-1">2</div>
+                  <div>
+                    <h4 class="font-semibold mb-1">Configure Services</h4>
+                    <p class="text-sm text-gray-700">Enable Authentication, Firestore, Storage, and Hosting</p>
+                  </div>
+                </div>
+
+                <div class="flex items-start space-x-3">
+                  <div class="bg-green-100 text-green-800 rounded-full w-8 h-8 flex items-center justify-center text-sm font-bold mt-1">3</div>
+                  <div>
+                    <h4 class="font-semibold mb-1">Deploy Application</h4>
+                    <p class="text-sm text-gray-700">Clone repository and deploy using Firebase CLI</p>
+                  </div>
+                </div>
+
+                <div class="flex items-start space-x-3">
+                  <div class="bg-green-100 text-green-800 rounded-full w-8 h-8 flex items-center justify-center text-sm font-bold mt-1">4</div>
+                  <div>
+                    <h4 class="font-semibold mb-1">Monitor System</h4>
+                    <p class="text-sm text-gray-700">Launch application and monitor real-time analytics</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-12 bg-yellow-50 border border-yellow-200 rounded-2xl p-8">
+            <h3 class="serif-heading text-2xl font-semibold mb-6 text-yellow-800 text-center">
+              <i class="fas fa-rocket mr-3"></i>Execution Workflow
+            </h3>
+
+            <div class="grid md:grid-cols-3 gap-8">
+              <div class="text-center">
+                <div class="bg-blue-100 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
+                  <i class="fas fa-video text-2xl text-blue-800"></i>
+                </div>
+                <h4 class="font-semibold mb-2">Video Processing</h4>
+                <p class="text-sm text-gray-700">Colab processes video frames in real-time using AI models</p>
+              </div>
+
+              <div class="text-center">
+                <div class="bg-green-100 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
+                  <i class="fas fa-cloud-upload-alt text-2xl text-green-800"></i>
+                </div>
+                <h4 class="font-semibold mb-2">Data Sync</h4>
+                <p class="text-sm text-gray-700">Results uploaded to Firebase for real-time synchronization</p>
+              </div>
+
+              <div class="text-center">
+                <div class="bg-purple-100 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
+                  <i class="fas fa-desktop text-2xl text-purple-800"></i>
+                </div>
+                <h4 class="font-semibold mb-2">Interface Update</h4>
+                <p class="text-sm text-gray-700">Web/mobile app displays live insights and alerts</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- GitHub Repository -->
+      <section id="github-repository" class="py-16 px-8 bg-slate-50">
+        <div class="container mx-auto max-w-6xl">
+          <h2 class="serif-heading text-4xl font-bold mb-12 text-center text-slate-800">GitHub Repository</h2>
+
+          <div class="bg-white rounded-2xl shadow-xl p-8">
+            <div class="grid lg:grid-cols-2 gap-12">
+              <div>
+                <h3 class="serif-heading text-2xl font-semibold mb-6 text-blue-800">Repository Structure</h3>
+
+                <div class="space-y-4">
+                  <div class="flex items-center space-x-4 p-4 bg-slate-50 rounded-lg">
+                    <i class="fas fa-folder text-blue-600"></i>
+                    <div>
+                      <div class="font-semibold">/notebooks</div>
+                      <div class="text-sm text-gray-600">Main Colab Jupyter notebooks</div>
+                    </div>
+                  </div>
+
+                  <div class="flex items-center space-x-4 p-4 bg-slate-50 rounded-lg">
+                    <i class="fas fa-folder text-green-600"></i>
+                    <div>
+                      <div class="font-semibold">/app</div>
+                      <div class="text-sm text-gray-600">Web/mobile application source code</div>
+                    </div>
+                  </div>
+
+                  <div class="flex items-center space-x-4 p-4 bg-slate-50 rounded-lg">
+                    <i class="fas fa-folder text-orange-600"></i>
+                    <div>
+                      <div class="font-semibold">/docs</div>
+                      <div class="text-sm text-gray-600">Setup instructions and documentation</div>
+                    </div>
+                  </div>
+
+                  <div class="flex items-center space-x-4 p-4 bg-slate-50 rounded-lg">
+                    <i class="fas fa-folder text-purple-600"></i>
+                    <div>
+                      <div class="font-semibold">/references</div>
+                      <div class="text-sm text-gray-600">Dataset references and sample data</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div>
+                <h3 class="serif-heading text-2xl font-semibold mb-6 text-green-800">Key Components</h3>
+
+                <div class="space-y-6">
+                  <div class="feature-card">
+                    <h4 class="font-semibold text-lg mb-3">
+                      <i class="fas fa-code mr-2 text-blue-600"></i>Core Implementation
+                    </h4>
+                    <ul class="text-sm text-gray-700 space-y-1">
+                      <li>• Crowd_Awareness_Prototype.ipynb - Main Colab notebook</li>
+                      <li>• Face detection and gender classification modules</li>
+                      <li>• Behavior analysis and anomaly detection</li>
+                      <li>• Firebase integration and data transmission</li>
+                    </ul>
+                  </div>
+
+                  <div class="feature-card">
+                    <h4 class="font-semibold text-lg mb-3">
+                      <i class="fas fa-mobile-alt mr-2 text-green-600"></i>Application Interface
+                    </h4>
+                    <ul class="text-sm text-gray-700 space-y-1">
+                      <li>• React/Vue.js for web application</li>
+                      <li>• Flutter/React Native for mobile</li>
+                      <li>• Real-time dashboard components</li>
+                      <li>• Alert management and visualization</li>
+                    </ul>
+                  </div>
+
+                  <div class="feature-card">
+                    <h4 class="font-semibold text-lg mb-3">
+                      <i class="fas fa-book mr-2 text-orange-600"></i>Documentation
+                    </h4>
+                    <ul class="text-sm text-gray-700 space-y-1">
+                      <li>• SETUP.md - Environment configuration</li>
+                      <li>• DEPLOYMENT.md - Firebase setup</li>
+                      <li>• ARCHITECTURE.md - System design</li>
+                      <li>• LICENSE - Open source licensing</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="mt-8 p-6 bg-blue-50 rounded-lg border border-blue-200">
+              <h4 class="font-semibold text-blue-800 mb-3">
+                <i class="fas fa-shield-alt mr-2"></i>Security &amp; Privacy
+              </h4>
+              <p class="text-blue-700 text-sm">
+                Sensitive credentials like Firebase service account keys are <strong>not stored in the repository</strong>.
+                Template configuration files with placeholder values are provided, and users are instructed to
+                securely manage their own credentials following best practices.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Research Examples -->
+      <section id="research-examples" class="py-16 px-8">
+        <div class="container mx-auto max-w-6xl">
+          <h2 class="serif-heading text-4xl font-bold mb-12 text-center text-slate-800">Real-World Examples &amp; Research References</h2>
+
+          <div class="grid lg:grid-cols-2 gap-12 mb-12">
+            <div class="feature-card">
+              <h3 class="serif-heading text-2xl font-semibold mb-6 text-blue-800">
+                <i class="fas fa-globe mr-3"></i>Production Deployments
+              </h3>
+
+              <div class="space-y-6">
+                <div class="border-l-4 border-blue-500 pl-4">
+                  <h4 class="font-semibold text-lg mb-2">Maha Kumbh Mela 2025</h4>
+                  <p class="text-gray-700 mb-3">
+                    <a href="https://www.drishtiias.com/state-pcs-current-affairs/ai-in-maha-kumbh-2025" class="citation-link">AI system deployment</a>
+                    with 160 CCTV cameras for crowd density calculation and emergency management.
+                  </p>
+                  <div class="flex flex-wrap gap-2">
+                    <span class="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded">160 Cameras</span>
+                    <span class="text-xs bg-green-100 text-green-800 px-2 py-1 rounded">Real-Time</span>
+                    <span class="text-xs bg-purple-100 text-purple-800 px-2 py-1 rounded">Emergency Evacuation</span>
+                  </div>
+                </div>
+
+                <div class="border-l-4 border-green-500 pl-4">
+                  <h4 class="font-semibold text-lg mb-2">Ahmedabad Police System</h4>
+                  <p class="text-gray-700 mb-3">
+                    <a href="https://kgs.live/current-affairs/daily-current-affairs/2025-06-16/ai-based-crowd-monitoring-system" class="citation-link">AI-enabled crowd monitoring</a>
+                    for Jagannath Rath Yatra with predictive analytics and reinforcement learning.
+                  </p>
+                  <div class="flex flex-wrap gap-2">
+                    <span class="text-xs bg-orange-100 text-orange-800 px-2 py-1 rounded">Predictive</span>
+                    <span class="text-xs bg-red-100 text-red-800 px-2 py-1 rounded">Stampede Prevention</span>
+                    <span class="text-xs bg-indigo-100 text-indigo-800 px-2 py-1 rounded">Route Optimization</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="feature-card">
+              <h3 class="serif-heading text-2xl font-semibold mb-6 text-green-800">
+                <i class="fas fa-database mr-3"></i>Key Datasets &amp; Models
+              </h3>
+
+              <div class="space-y-6">
+                <div class="bg-slate-50 p-4 rounded-lg">
+                  <h4 class="font-semibold text-lg mb-3">Crowd-11 Dataset</h4>
+                  <div class="grid grid-cols-2 gap-4 mb-3">
+                    <div class="text-center">
+                      <div class="text-2xl font-bold text-blue-600">6,000+</div>
+                      <div class="text-xs text-gray-600">Video Clips</div>
+                    </div>
+                    <div class="text-center">
+                      <div class="text-2xl font-bold text-green-600">11</div>
+                      <div class="text-xs text-gray-600">Behavior Classes</div>
+                    </div>
+                  </div>
+                  <p class="text-sm text-gray-700">
+                    <a href="https://openaccess.thecvf.com/content_cvpr_2017_workshops/w37/papers/Dupont_Crowd-11_A_Dataset_CVPR_2017_paper.pdf" class="citation-link">Fine-grained crowd behavior analysis</a>
+                    with C3D model achieving 63.7% accuracy
+                  </p>
+                </div>
+
+                <div class="bg-slate-50 p-4 rounded-lg">
+                  <h4 class="font-semibold text-lg mb-3">Kaggle Gender Dataset</h4>
+                  <div class="grid grid-cols-2 gap-4 mb-3">
+                    <div class="text-center">
+                      <div class="text-2xl font-bold text-purple-600">23,000</div>
+                      <div class="text-xs text-gray-600">Training Images</div>
+                    </div>
+                    <div class="text-center">
+                      <div class="text-2xl font-bold text-orange-600">5,500</div>
+                      <div class="text-xs text-gray-600">Validation Images</div>
+                    </div>
+                  </div>
+                  <p class="text-sm text-gray-700">
+                    <a href="https://www.kaggle.com/datasets/yasserhessein/gender-dataset" class="citation-link">Gender classification dataset</a>
+                    supporting 96% accuracy in persona detection
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="bg-gradient-to-r from-blue-50 to-green-50 rounded-2xl p-8">
+            <h3 class="serif-heading text-2xl font-semibold mb-6 text-center text-slate-800">Research Foundation</h3>
+
+            <div class="grid md:grid-cols-3 gap-8">
+              <div class="text-center">
+                <div class="bg-white rounded-full w-20 h-20 flex items-center justify-center mx-auto mb-4 shadow-lg">
+                  <i class="fas fa-chart-line text-3xl text-blue-600"></i>
+                </div>
+                <h4 class="font-semibold mb-2">Pedestrian Trajectory Prediction</h4>
+                <p class="text-sm text-gray-700">
+                  <a href="https://openaccess.thecvf.com/content/WACV2025W/HAVI/papers/Uhlemann_Snapshot_Towards_Application-centered_Models_for_Pedestrian_Trajectory_Prediction_in_Urban_WACVW_2025_paper.pdf" class="citation-link">Snapshot model</a>
+                  achieves 0.05ms inference per agent
+                </p>
+              </div>
+
+              <div class="text-center">
+                <div class="bg-white rounded-full w-20 h-20 flex items-center justify-center mx-auto mb-4 shadow-lg">
+                  <i class="fas fa-network-wired text-3xl text-green-600"></i>
+                </div>
+                <h4 class="font-semibold mb-2">Graph Neural Networks</h4>
+                <p class="text-sm text-gray-700">
+                  <a href="https://arxiv.org/abs/2501.07711" class="citation-link">DTGAN architecture</a>
+                  uses GANs with graph sequence data for social interaction modeling
+                </p>
+              </div>
+
+              <div class="text-center">
+                <div class="bg-white rounded-full w-20 h-20 flex items-center justify-center mx-auto mb-4 shadow-lg">
+                  <i class="fas fa-eye text-3xl text-purple-600"></i>
+                </div>
+                <h4 class="font-semibold mb-2">Anomaly Detection</h4>
+                <p class="text-sm text-gray-700">
+                  <a href="https://github.com/priyanka011011/Crowd-Anomaly-Detection" class="citation-link">Mixture of Dynamic Textures</a>
+                  for modeling normal behaviors and detecting anomalies
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- References -->
+      <section id="references" class="py-16 px-8 bg-slate-50">
+        <div class="container mx-auto max-w-6xl">
+          <h2 class="serif-heading text-4xl font-bold mb-12 text-center text-slate-800">References</h2>
+
+          <div class="bg-white rounded-2xl shadow-xl p-8">
+            <div class="grid md:grid-cols-2 gap-8">
+              <div>
+                <h3 class="serif-heading text-xl font-semibold mb-4 text-blue-800">Primary Research &amp; Documentation</h3>
+                <div class="space-y-3 text-sm">
+                  <div>
+                    <strong>[2]</strong>
+                    <a href="https://link.springer.com/article/10.1007/s10462-025-11206-w" class="citation-link">AI-based crowd management systems review</a>
+                  </div>
+                  <div>
+                    <strong>[7]</strong>
+                    <a href="https://government.economictimes.indiatimes.com/blog/how-ai-is-being-used-for-crowd-density-analysis-real-time-alerts-and-predictive-policing-to-prevent-security-incidents/120388733" class="citation-link">AI for crowd density analysis and predictive policing</a>
+                  </div>
+                  <div>
+                    <strong>[9]</strong>
+                    <a href="https://www.drishtiias.com/state-pcs-current-affairs/ai-in-maha-kumbh-2025" class="citation-link">AI deployment at Maha Kumbh Mela 2025</a>
+                  </div>
+                  <div>
+                    <strong>[10]</strong>
+                    <a href="https://kgs.live/current-affairs/daily-current-affairs/2025-06-16/ai-based-crowd-monitoring-system" class="citation-link">Ahmedabad AI-based crowd monitoring system</a>
+                  </div>
+                  <div>
+                    <strong>[42]</strong>
+                    <a href="https://openaccess.thecvf.com/content_cvpr_2017_workshops/w37/papers/Dupont_Crowd-11_A_Dataset_CVPR_2017_paper.pdf" class="citation-link">Crowd-11: A Dataset for Fine Grained Crowd Behaviour Analysis</a>
+                  </div>
+                </div>
+              </div>
+
+              <div>
+                <h3 class="serif-heading text-xl font-semibold mb-4 text-green-800">Technical Resources &amp; Datasets</h3>
+                <div class="space-y-3 text-sm">
+                  <div>
+                    <strong>[53]</strong>
+                    <a href="https://www.kaggle.com/datasets/cashutosh/gender-classification-dataset" class="citation-link">Kaggle Gender Classification Dataset</a>
+                  </div>
+                  <div>
+                    <strong>[85]</strong>
+                    <a href="https://www.kaggle.com/datasets/yasserhessein/gender-dataset" class="citation-link">Yasser Hussein Gender Dataset</a>
+                  </div>
+                  <div>
+                    <strong>[126]</strong>
+                    <a href="https://openaccess.thecvf.com/content_cvpr_2017_workshops/w37/papers/Dupont_Crowd-11_A_Dataset_CVPR_2017_paper.pdf" class="citation-link">C3D model performance on Crowd-11</a>
+                  </div>
+                  <div>
+                    <strong>[157]</strong>
+                    <a href="https://github.com/MounirB/Crowded-scenes-Ensemble-classification" class="citation-link">Crowd scenes ensemble classification</a>
+                  </div>
+                  <div>
+                    <strong>[158]</strong>
+                    <a href="https://github.com/MounirB/Crowd-movements-classification" class="citation-link">Crowd movements classification</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="mt-8 pt-8 border-t border-gray-200">
+              <h3 class="serif-heading text-xl font-semibold mb-4 text-purple-800">Implementation Resources</h3>
+              <div class="grid md:grid-cols-3 gap-6 text-sm">
+                <div>
+                  <strong>Google Technologies:</strong>
+                  <ul class="mt-2 space-y-1">
+                    <li>• <a href="https://colab.research.google.com/" class="citation-link">Google Colab</a>
+                    </li>
+                    <li>• <a href="https://firebase.google.com/" class="citation-link">Firebase Platform</a>
+                    </li>
+                    <li>• <a href="https://tfhub.dev/google/face_detection_v2/1" class="citation-link">TensorFlow Hub</a>
+                    </li>
+                  </ul>
+                </div>
+                <div>
+                  <strong>Frameworks:</strong>
+                  <ul class="mt-2 space-y-1">
+                    <li>• <a href="https://www.tensorflow.org/" class="citation-link">TensorFlow</a>
+                    </li>
+                    <li>• <a href="https://opencv.org/" class="citation-link">OpenCV</a>
+                    </li>
+                    <li>• <a href="https://reactjs.org/" class="citation-link">React/Vue.js</a>
+                    </li>
+                  </ul>
+                </div>
+                <div>
+                  <strong>Community:</strong>
+                  <ul class="mt-2 space-y-1">
+                    <li>• <a href="https://www.kaggle.com/" class="citation-link">Kaggle</a>
+                    </li>
+                    <li>• <a href="https://github.com/" class="citation-link">GitHub</a>
+                    </li>
+                    <li>• <a href="https://huggingface.co/" class="citation-link">Hugging Face</a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <script>
+        // Initialize Vanta.js background
+        VANTA.NET({
+            el: "#vanta-bg",
+            mouseControls: true,
+            touchControls: true,
+            gyroControls: false,
+            minHeight: 200.00,
+            minWidth: 200.00,
+            scale: 1.00,
+            scaleMobile: 1.00,
+            color: 0x3b82f6,
+            backgroundColor: 0x0f172a,
+            points: 8.00,
+            maxDistance: 20.00,
+            spacing: 18.00
+        });
+
+        // Smooth scrolling for TOC links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                    
+                    // Close mobile TOC after clicking a link
+                    if (window.innerWidth <= 1024) {
+                        const toc = document.getElementById('toc');
+                        toc.classList.remove('open');
+                    }
+                }
+            });
+        });
+
+        // Mobile TOC toggle
+        function toggleTOC(event) {
+            event.stopPropagation(); // Prevent this click from triggering the document click handler
+            const toc = document.getElementById('toc');
+            toc.classList.toggle('open');
+        }
+
+        // Close mobile TOC when clicking outside
+        document.addEventListener('click', function(event) {
+            const toc = document.getElementById('toc');
+            const toggleButton = document.querySelector('button[onclick="toggleTOC(event)"]');
+            
+            // Only close if the TOC is open and the click is outside the TOC and not on the toggle button
+            if (toc.classList.contains('open') && 
+                !toc.contains(event.target) && 
+                event.target !== toggleButton) {
+                toc.classList.remove('open');
+            }
+        });
+
+        // Highlight current section in TOC
+        window.addEventListener('scroll', function() {
+            const sections = document.querySelectorAll('section[id]');
+            const tocLinks = document.querySelectorAll('.toc-fixed a[href^="#"]');
+            
+            let currentSection = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop - 100;
+                if (window.scrollY >= sectionTop) {
+                    currentSection = section.getAttribute('id');
+                }
+            });
+            
+            tocLinks.forEach(link => {
+                link.classList.remove('bg-slate-700', 'text-white');
+                if (link.getAttribute('href') === '#' + currentSection) {
+                    link.classList.add('bg-slate-700', 'text-white');
+                }
+            });
+        });
+    </script>
+  
+
+</body></html>

@@ -1,0 +1,820 @@
+<!DOCTYPE html><html lang="en"><head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>AI Agents Hackathon 2025: Complete Submission Guide</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;700&amp;family=Inter:wght@300;400;500;600&amp;display=swap" rel="stylesheet"/>
+    <style>
+        :root {
+            --primary: #1e293b;
+            --secondary: #475569;
+            --accent: #3b82f6;
+            --surface: #f8fafc;
+            --text: #0f172a;
+            --text-muted: #64748b;
+        }
+        
+        .font-serif { font-family: 'Playfair Display', serif; }
+        .font-sans { font-family: 'Inter', sans-serif; }
+        
+        .hero-gradient {
+            background: linear-gradient(135deg, 
+                rgba(30, 41, 59, 0.95) 0%, 
+                rgba(71, 85, 105, 0.85) 50%, 
+                rgba(59, 130, 246, 0.75) 100%);
+        }
+        
+        .bento-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            grid-template-rows: auto auto;
+            gap: 2rem;
+            height: 70vh;
+        }
+        
+        .bento-main {
+            grid-row: 1 / -1;
+            position: relative;
+            overflow: hidden;
+            border-radius: 1rem;
+        }
+        
+        .bento-side {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+        
+        .toc-fixed {
+            position: fixed;
+            top: 2rem;
+            left: 2rem;
+            width: 280px;
+            max-height: calc(100vh - 4rem);
+            overflow-y: auto;
+            z-index: 100;
+            background: rgba(248, 250, 252, 0.95);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(226, 232, 240, 0.8);
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+        }
+        
+        .content-main {
+            margin-left: 320px;
+            padding: 2rem;
+        }
+        
+        .section-divider {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, #e2e8f0, transparent);
+            margin: 4rem 0;
+        }
+        
+        .highlight-box {
+            background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
+            border-left: 4px solid var(--accent);
+            padding: 1.5rem;
+            border-radius: 0.5rem;
+            margin: 2rem 0;
+        }
+        
+        .citation {
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        
+        .citation:hover {
+            color: #1d4ed8;
+            text-decoration: underline;
+        }
+        
+        .step-number {
+            background: var(--accent);
+            color: white;
+            width: 2rem;
+            height: 2rem;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 0.875rem;
+        }
+        
+        @media (max-width: 1024px) {
+            .toc-fixed {
+                display: none;
+            }
+            .content-main {
+                margin-left: 0;
+            }
+            .bento-grid {
+                grid-template-columns: 1fr;
+                height: auto;
+            }
+            .bento-main {
+                grid-row: auto;
+                height: 50vh;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .bento-main .absolute {
+                padding: 1rem;
+            }
+            .bento-main h1 {
+                font-size: 2.5rem;
+                line-height: 1.2;
+            }
+            .bento-main p {
+                font-size: 1rem;
+            }
+        }
+        
+        @media (max-width: 640px) {
+            .bento-main h1 {
+                font-size: 2rem;
+            }
+        }
+        
+        @media (max-width: 390px) {
+            .bento-main h1 {
+                font-size: 1.75rem;
+            }
+        }
+    </style>
+  </head>
+
+  <body class="bg-white font-sans text-slate-900">
+    <!-- Fixed Table of Contents -->
+    <nav class="toc-fixed">
+      <h3 class="font-serif font-bold text-lg text-slate-800 mb-4">Contents</h3>
+      <ul class="space-y-2 text-sm">
+        <li>
+          <a href="#introduction" class="citation">Introduction</a>
+        </li>
+        <li>
+          <a href="#accessing-portal" class="citation">1. Accessing the Portal</a>
+        </li>
+        <li class="ml-4">
+          <a href="#locating-dashboard" class="text-slate-600 hover:text-slate-900">1.1 Locating the Dashboard</a>
+        </li>
+        <li class="ml-4">
+          <a href="#logging-in" class="text-slate-600 hover:text-slate-900">1.2 Logging In</a>
+        </li>
+        <li class="ml-4">
+          <a href="#navigating-submissions" class="text-slate-600 hover:text-slate-900">1.3 Navigating to Submissions</a>
+        </li>
+        <li>
+          <a href="#completing-form" class="citation">2. Completing the Form</a>
+        </li>
+        <li class="ml-4">
+          <a href="#selecting-theme" class="text-slate-600 hover:text-slate-900">2.1 Selecting a Theme</a>
+        </li>
+        <li class="ml-4">
+          <a href="#describing-idea" class="text-slate-600 hover:text-slate-900">2.2 Describing Your Idea</a>
+        </li>
+        <li class="ml-4">
+          <a href="#explaining-problem" class="text-slate-600 hover:text-slate-900">2.3 Explaining the Problem</a>
+        </li>
+        <li class="ml-4">
+          <a href="#listing-tech" class="text-slate-600 hover:text-slate-900">2.4 Listing Technology Stack</a>
+        </li>
+        <li class="ml-4">
+          <a href="#sharing-experience" class="text-slate-600 hover:text-slate-900">2.5 Sharing Experience</a>
+        </li>
+        <li>
+          <a href="#uploading-materials" class="citation">3. Uploading Materials</a>
+        </li>
+        <li class="ml-4">
+          <a href="#preparing-deck" class="text-slate-600 hover:text-slate-900">3.1 Preparing Deck</a>
+        </li>
+        <li class="ml-4">
+          <a href="#uploading-pdf" class="text-slate-600 hover:text-slate-900">3.2 Uploading PDF</a>
+        </li>
+        <li>
+          <a href="#finalizing" class="citation">4. Finalizing Submission</a>
+        </li>
+        <li class="ml-4">
+          <a href="#reviewing" class="text-slate-600 hover:text-slate-900">4.1 Reviewing Information</a>
+        </li>
+        <li class="ml-4">
+          <a href="#confirming" class="text-slate-600 hover:text-slate-900">4.2 Confirming</a>
+        </li>
+        <li class="ml-4">
+          <a href="#deadline" class="text-slate-600 hover:text-slate-900">4.3 Acknowledging Deadline</a>
+        </li>
+      </ul>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="content-main">
+      <!-- Hero Section with Bento Layout -->
+      <section class="mb-16">
+        <div class="bento-grid">
+          <!-- Main Hero Content -->
+          <div class="bento-main hero-gradient relative">
+            <img src="https://kimi-web-img.moonshot.cn/img/cdn.prod.website-files.com/f369d434749cd4ce83b906a6884fe97ebfe21b1c.webp" alt="Holographic interface of artificial intelligence agents" class="w-full h-full object-cover opacity-30" size="wallpaper" aspect="wide" color="blue" style="photo" query="AI agents holographic interface" referrerpolicy="no-referrer" data-modified="1" data-score="0.00"/>
+            <div class="absolute inset-0 bg-gradient-to-br from-slate-900/40 to-blue-900/20"></div>
+            <div class="absolute bottom-0 left-0 right-0 p-8">
+              <h1 class="font-serif text-5xl font-bold text-white mb-4 leading-tight">
+                <em>Submitting Your Idea</em>
+                <br/>
+                to the AI Agents Hackathon 2025
+              </h1>
+              <p class="text-xl text-blue-100 font-light">
+                A comprehensive guide to successfully navigating the submission process
+              </p>
+            </div>
+          </div>
+
+          <!-- Side Elements -->
+          <div class="bento-side">
+            <div class="bg-slate-50 p-6 rounded-lg border border-slate-200">
+              <div class="flex items-center mb-3">
+                <i class="fas fa-calendar-alt text-blue-600 mr-3"></i>
+                <h3 class="font-semibold text-slate-800">Deadline</h3>
+              </div>
+              <p class="text-slate-600 font-medium">April 30, 2025</p>
+              <p class="text-sm text-slate-500">11:59 PM PST</p>
+            </div>
+
+            <div class="bg-blue-50 p-6 rounded-lg border border-blue-200">
+              <div class="flex items-center mb-3">
+                <i class="fas fa-link text-blue-600 mr-3"></i>
+                <h3 class="font-semibold text-slate-800">Portal</h3>
+              </div>
+              <p class="text-sm break-all">
+                <a href="https://aka.ms/agenthack" class="citation">aka.ms/agenthack</a>
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Introduction -->
+      <section id="introduction" class="mb-16">
+        <div class="max-w-4xl">
+          <h2 class="font-serif text-3xl font-bold text-slate-800 mb-6">Introduction</h2>
+          <div class="prose prose-lg max-w-none">
+            <p class="text-slate-700 leading-relaxed mb-6">
+              This report provides a comprehensive, step-by-step guide for submitting a project to the AI Agents Hackathon 2025, a virtual event hosted by Microsoft. The submission process is centralized through a dedicated online portal, and participants are required to provide detailed information about their project, including its concept, the problem it addresses, the technology used, and their team&#39;s experience.
+            </p>
+            <p class="text-slate-700 leading-relaxed">
+              This guide is structured to walk participants through each stage of the submission, from accessing the portal to finalizing their entry, ensuring all requirements are met for a successful submission before the <strong>April 30, 2025 deadline</strong>
+              <a href="https://microsoft.github.io/AI_Agents_Hackathon/" class="citation">[379]</a>.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <div class="section-divider"></div>
+
+      <!-- Section 1: Accessing the Submission Portal -->
+      <section id="accessing-portal" class="mb-16">
+        <div class="max-w-4xl">
+          <div class="flex items-center mb-8">
+            <div class="step-number mr-4">1</div>
+            <h2 class="font-serif text-3xl font-bold text-slate-800">Accessing the Submission Portal</h2>
+          </div>
+
+          <p class="text-slate-700 leading-relaxed mb-8">
+            The initial and most critical step in the submission process is to correctly locate and access the official hackathon portal. This centralized platform serves as the gateway for all submission-related activities, including team registration, project details entry, and file uploads.
+          </p>
+
+          <!-- 1.1 Locating the Dashboard -->
+          <div id="locating-dashboard" class="mb-12">
+            <h3 class="font-serif text-2xl font-semibold text-slate-800 mb-6">Locating the Official Submission Dashboard</h3>
+
+            <div class="highlight-box">
+              <div class="flex items-start">
+                <i class="fas fa-exclamation-circle text-blue-600 mt-1 mr-3"></i>
+                <div>
+                  <h4 class="font-semibold text-slate-800 mb-2">Critical Information</h4>
+                  <p class="text-slate-700">
+                    The official submission portal for the AI Agents Hackathon 2025 is located at:
+                    <br/>
+                    <strong class="text-blue-600">https://aka.ms/agenthack</strong>
+                    <a href="https://microsoft.github.io/AI_Agents_Hackathon/rules/" class="citation">[391]</a>
+                    <a href="https://microsoft.github.io/AI_Agents_Hackathon/rules/" class="citation">[418]</a>
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <p class="text-slate-700 leading-relaxed mb-6">
+              This link is consistently referenced across all official Microsoft documentation and promotional materials for the event, including the main event page and the official rules <a href="https://microsoft.github.io/AI_Agents_Hackathon/" class="citation">[379]</a>
+              <a href="https://microsoft.github.io/AI_Agents_Hackathon/rules/" class="citation">[391]</a>. Participants should navigate to this URL to begin the submission process.
+            </p>
+
+            <p class="text-slate-700 leading-relaxed">
+              The portal is the designated platform where all project entries must be submitted to be considered for the competition. It is crucial to use this specific link, as it directs to the official Microsoft-managed platform, ensuring that the submission is received and processed correctly.
+            </p>
+          </div>
+
+          <!-- 1.2 Logging In -->
+          <div id="logging-in" class="mb-12">
+            <h3 class="font-serif text-2xl font-semibold text-slate-800 mb-6">Logging In to Your Account</h3>
+
+            <div class="bg-slate-50 p-6 rounded-lg border border-slate-200 mb-6">
+              <div class="flex items-center mb-4">
+                <i class="fas fa-sign-in-alt text-blue-600 mr-3"></i>
+                <h4 class="font-semibold text-slate-800">Authentication Process</h4>
+              </div>
+              <p class="text-slate-700 leading-relaxed">
+                Upon navigating to the official submission portal, participants will be required to log in to their account. The login process is a standard authentication step designed to verify the identity of the user and associate the submission with the correct team and individual profiles.
+              </p>
+            </div>
+
+            <p class="text-slate-700 leading-relaxed">
+              It is essential to use the same credentials that were used during the initial registration for the hackathon to ensure continuity and avoid any discrepancies. If a participant has not yet registered for the event, they will need to do so first before they can access the submission dashboard <a href="https://microsoft.github.io/AI_Agents_Hackathon/rules/" class="citation">[391]</a>.
+            </p>
+          </div>
+
+          <!-- 1.3 Navigating to Submissions -->
+          <div id="navigating-submissions" class="mb-12">
+            <h3 class="font-serif text-2xl font-semibold text-slate-800 mb-6">Navigating to the Submissions Section</h3>
+
+            <p class="text-slate-700 leading-relaxed mb-6">
+              After successfully logging in to the hackathon dashboard, the next step is to locate and navigate to the &#34;Submissions&#34; section. This section is the core of the submission process, where participants will find the official submission form and upload their project materials.
+            </p>
+
+            <div class="bg-blue-50 p-6 rounded-lg border border-blue-200">
+              <div class="flex items-center mb-3">
+                <i class="fas fa-compass text-blue-600 mr-3"></i>
+                <h4 class="font-semibold text-slate-800">Navigation Tips</h4>
+              </div>
+              <ul class="space-y-2 text-slate-700">
+                <li class="flex items-start">
+                  <i class="fas fa-chevron-right text-blue-400 mt-1 mr-2 text-xs"></i>
+                  Look for &#34;Submissions&#34; in the main navigation bar
+                </li>
+                <li class="flex items-start">
+                  <i class="fas fa-chevron-right text-blue-400 mt-1 mr-2 text-xs"></i>
+                  Check for dedicated tiles on the dashboard homepage
+                </li>
+                <li class="flex items-start">
+                  <i class="fas fa-chevron-right text-blue-400 mt-1 mr-2 text-xs"></i>
+                  The section is prominently displayed for easy access
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div class="section-divider"></div>
+
+      <!-- Section 2: Completing the Submission Form -->
+      <section id="completing-form" class="mb-16">
+        <div class="max-w-4xl">
+          <div class="flex items-center mb-8">
+            <div class="step-number mr-4">2</div>
+            <h2 class="font-serif text-3xl font-bold text-slate-800">Completing the Submission Form</h2>
+          </div>
+
+          <p class="text-slate-700 leading-relaxed mb-8">
+            The submission form is the heart of the entry process, requiring detailed information about the project. It is designed to capture all the essential elements of the AI agent, from its core concept to the technical implementation. It is crucial to fill out every field in the submission form to ensure that the entry is complete and eligible for judging <a href="https://microsoft.github.io/AI_Agents_Hackathon/submission/" class="citation">[414]</a>.
+          </p>
+
+          <!-- Themes Table -->
+          <div class="bg-white border border-slate-200 rounded-lg overflow-hidden mb-12">
+            <div class="bg-slate-50 px-6 py-4 border-b border-slate-200">
+              <h3 class="font-serif text-xl font-semibold text-slate-800">Available Prize Categories</h3>
+            </div>
+            <div class="overflow-x-auto">
+              <table class="w-full">
+                <thead class="bg-slate-50">
+                  <tr>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-slate-600 uppercase tracking-wider">Prize Category</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-slate-600 uppercase tracking-wider">Prize Amount</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-slate-600 uppercase tracking-wider">Description</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-200">
+                  <tr>
+                    <td class="px-6 py-4 font-medium text-slate-900">Best Overall Agent</td>
+                    <td class="px-6 py-4 text-green-600 font-semibold">$20,000</td>
+                    <td class="px-6 py-4 text-slate-700">Awarded to the most innovative and impactful AI agent across all categories.</td>
+                  </tr>
+                  <tr class="bg-slate-50">
+                    <td class="px-6 py-4 font-medium text-slate-900">Best Agent in Python</td>
+                    <td class="px-6 py-4 text-green-600 font-semibold">$5,000</td>
+                    <td class="px-6 py-4 text-slate-700">Recognizes the best AI agent built using the Python programming language.</td>
+                  </tr>
+                  <tr>
+                    <td class="px-6 py-4 font-medium text-slate-900">Best Agent in C#</td>
+                    <td class="px-6 py-4 text-green-600 font-semibold">$5,000</td>
+                    <td class="px-6 py-4 text-slate-700">Recognizes the best AI agent built using the C# programming language.</td>
+                  </tr>
+                  <tr class="bg-slate-50">
+                    <td class="px-6 py-4 font-medium text-slate-900">Best Agent in Java</td>
+                    <td class="px-6 py-4 text-green-600 font-semibold">$5,000</td>
+                    <td class="px-6 py-4 text-slate-700">Recognizes the best AI agent built using the Java programming language.</td>
+                  </tr>
+                  <tr>
+                    <td class="px-6 py-4 font-medium text-slate-900">Best Agent in JavaScript/TypeScript</td>
+                    <td class="px-6 py-4 text-green-600 font-semibold">$5,000</td>
+                    <td class="px-6 py-4 text-slate-700">Recognizes the best AI agent built using JavaScript or TypeScript.</td>
+                  </tr>
+                  <tr class="bg-slate-50">
+                    <td class="px-6 py-4 font-medium text-slate-900">Best Copilot Agent</td>
+                    <td class="px-6 py-4 text-green-600 font-semibold">$5,000</td>
+                    <td class="px-6 py-4 text-slate-700">Awarded to the best agent built using Microsoft Copilot Studio or the Microsoft 365 Agents SDK.</td>
+                  </tr>
+                  <tr>
+                    <td class="px-6 py-4 font-medium text-slate-900">Best Azure AI Agent Service Usage</td>
+                    <td class="px-6 py-4 text-green-600 font-semibold">$5,000</td>
+                    <td class="px-6 py-4 text-slate-700">Recognizes the project that makes the most effective use of the Azure AI Agent Service.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- 2.1 Selecting Theme -->
+          <div id="selecting-theme" class="mb-12">
+            <h3 class="font-serif text-2xl font-semibold text-slate-800 mb-6">Selecting a Theme</h3>
+
+            <p class="text-slate-700 leading-relaxed mb-6">
+              The first step in the submission form is to select a theme for the project. The AI Agents Hackathon 2025 features several distinct categories, each with its own focus and prize <a href="https://microsoft.github.io/AI_Agents_Hackathon/" class="citation">[379]</a>
+              <a href="https://microsoft.github.io/AI_Agents_Hackathon/" class="citation">[388]</a>.
+            </p>
+
+            <div class="bg-amber-50 p-6 rounded-lg border border-amber-200 mb-6">
+              <div class="flex items-center mb-3">
+                <i class="fas fa-info-circle text-amber-600 mr-3"></i>
+                <h4 class="font-semibold text-slate-800">Important Note</h4>
+              </div>
+              <p class="text-slate-700">
+                Each team can only win in one category, so it is important to choose the one that best represents the project&#39;s strengths <a href="https://microsoft.github.io/AI_Agents_Hackathon/" class="citation">[379]</a>.
+              </p>
+            </div>
+          </div>
+
+          <!-- 2.2 Describing Idea -->
+          <div id="describing-idea" class="mb-12">
+            <h3 class="font-serif text-2xl font-semibold text-slate-800 mb-6">Describing Your Idea</h3>
+
+            <div class="bg-gradient-to-r from-blue-50 to-indigo-50 p-6 rounded-lg border border-blue-200 mb-6">
+              <div class="flex items-center mb-3">
+                <i class="fas fa-lightbulb text-blue-600 mr-3"></i>
+                <h4 class="font-semibold text-slate-800">Character Limit: 2000 characters</h4>
+              </div>
+              <p class="text-slate-700">
+                The &#34;Idea Description&#34; section requires a clear and concise explanation of your project, showcasing creativity and innovation while providing judges with a high-level understanding of your AI agent.
+              </p>
+            </div>
+
+            <p class="text-slate-700 leading-relaxed mb-6">
+              When crafting the idea description, it is important to start with a strong opening statement that clearly articulates the core concept of the AI agent. This should be followed by a more detailed explanation of the agent&#39;s functionality, including its key features and capabilities.
+            </p>
+
+            <div class="grid md:grid-cols-2 gap-6 mb-6">
+              <div class="bg-green-50 p-4 rounded-lg border border-green-200">
+                <h5 class="font-semibold text-green-800 mb-2">Do Include:</h5>
+                <ul class="text-sm text-green-700 space-y-1">
+                  <li>• Strong opening statement</li>
+                  <li>• Key features and capabilities</li>
+                  <li>• Unique value proposition</li>
+                  <li>• Accessible language</li>
+                </ul>
+              </div>
+              <div class="bg-red-50 p-4 rounded-lg border border-red-200">
+                <h5 class="font-semibold text-red-800 mb-2">Avoid:</h5>
+                <ul class="text-sm text-red-700 space-y-1">
+                  <li>• Overly technical jargon</li>
+                  <li>• Vague descriptions</li>
+                  <li>• Exceeding character limit</li>
+                  <li>• Typos and errors</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <!-- 2.3 Explaining Problem -->
+          <div id="explaining-problem" class="mb-12">
+            <h3 class="font-serif text-2xl font-semibold text-slate-800 mb-6">Explaining the Problem</h3>
+
+            <p class="text-slate-700 leading-relaxed mb-6">
+              The &#34;Problem Statement&#34; section is where participants define the real-world problem their AI agent is designed to solve. This is a critical component that provides context and justification for the project.
+            </p>
+
+            <div class="highlight-box">
+              <h4 class="font-semibold text-slate-800 mb-3">Key Elements of a Strong Problem Statement:</h4>
+              <div class="grid md:grid-cols-2 gap-4">
+                <div>
+                  <h5 class="font-medium text-slate-800 mb-2">Problem Definition</h5>
+                  <ul class="text-sm text-slate-700 space-y-1">
+                    <li>• Specific and focused</li>
+                    <li>• Clear pain points</li>
+                    <li>• Evidence-supported</li>
+                    <li>• Relatable context</li>
+                  </ul>
+                </div>
+                <div>
+                  <h5 class="font-medium text-slate-800 mb-2">Impact Demonstration</h5>
+                  <ul class="text-sm text-slate-700 space-y-1">
+                    <li>• Scale and scope</li>
+                    <li>• Quantified metrics</li>
+                    <li>• Real-world examples</li>
+                    <li>• Urgency and importance</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 2.4 Listing Technology Stack -->
+          <div id="listing-tech" class="mb-12">
+            <h3 class="font-serif text-2xl font-semibold text-slate-800 mb-6">Listing Your Technology Stack</h3>
+
+            <p class="text-slate-700 leading-relaxed mb-6">
+              The &#34;Technology Stack&#34; section requires listing all technologies, frameworks, and tools used to build the AI agent. This demonstrates technical expertise and provides judges with insight into the project&#39;s implementation.
+            </p>
+
+            <div class="bg-slate-50 p-6 rounded-lg border border-slate-200 mb-6">
+              <h4 class="font-semibold text-slate-800 mb-4">Technology Stack Organization</h4>
+              <div class="grid md:grid-cols-3 gap-4">
+                <div>
+                  <h5 class="font-medium text-slate-800 mb-2">Programming Languages</h5>
+                  <p class="text-sm text-slate-600">Python, C#, Java, JavaScript/TypeScript</p>
+                </div>
+                <div>
+                  <h5 class="font-medium text-slate-800 mb-2">Frameworks &amp; Libraries</h5>
+                  <p class="text-sm text-slate-600">TensorFlow, PyTorch, Scikit-learn</p>
+                </div>
+                <div>
+                  <h5 class="font-medium text-slate-800 mb-2">Cloud Services</h5>
+                  <p class="text-sm text-slate-600">Azure ML, Cognitive Services, Functions</p>
+                </div>
+              </div>
+            </div>
+
+            <p class="text-slate-700 leading-relaxed">
+              In addition to listing technologies, explain the rationale behind your choices. This demonstrates critical thinking and strategic decision-making in technology selection.
+            </p>
+          </div>
+
+          <!-- 2.5 Sharing Experience -->
+          <div id="sharing-experience" class="mb-12">
+            <h3 class="font-serif text-2xl font-semibold text-slate-800 mb-6">Sharing Your Hackathon Experience</h3>
+
+            <p class="text-slate-700 leading-relaxed mb-6">
+              The &#34;Hackathon Experience&#34; section allows participants to share their background and experience, providing judges with a holistic view of the team and adding a human element to the submission.
+            </p>
+
+            <div class="grid md:grid-cols-2 gap-6">
+              <div class="bg-blue-50 p-6 rounded-lg border border-blue-200">
+                <h4 class="font-semibold text-blue-800 mb-3">First-time Participants</h4>
+                <p class="text-blue-700 text-sm">Share excitement, motivation, and fresh perspective</p>
+              </div>
+              <div class="bg-green-50 p-6 rounded-lg border border-green-200">
+                <h4 class="font-semibold text-green-800 mb-3">Experienced Teams</h4>
+                <p class="text-green-700 text-sm">Share previous experiences, lessons learned, and growth</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div class="section-divider"></div>
+
+      <!-- Section 3: Uploading Materials -->
+      <section id="uploading-materials" class="mb-16">
+        <div class="max-w-4xl">
+          <div class="flex items-center mb-8">
+            <div class="step-number mr-4">3</div>
+            <h2 class="font-serif text-3xl font-bold text-slate-800">Uploading Your Submission Materials</h2>
+          </div>
+
+          <p class="text-slate-700 leading-relaxed mb-8">
+            In addition to filling out the submission form, participants must upload supporting materials that provide detailed information about their project. These materials are essential for judges to gain a comprehensive understanding of the project&#39;s concept, design, and implementation.
+          </p>
+
+          <!-- 3.1 Preparing Deck -->
+          <div id="preparing-deck" class="mb-12">
+            <h3 class="font-serif text-2xl font-semibold text-slate-800 mb-6">Preparing Your Idea Submission Deck</h3>
+
+            <div class="bg-red-50 p-6 rounded-lg border border-red-200 mb-6">
+              <div class="flex items-center mb-3">
+                <i class="fas fa-file-pdf text-red-600 mr-3"></i>
+                <h4 class="font-semibold text-red-800">Format Requirement: PDF Only</h4>
+              </div>
+              <p class="text-red-700">
+                The submission guidelines specify that the idea submission deck must be in PDF format to ensure compatibility across platforms.
+              </p>
+            </div>
+
+            <div class="bg-white border border-slate-200 rounded-lg p-6 mb-6">
+              <h4 class="font-semibold text-slate-800 mb-4">Recommended Deck Structure</h4>
+              <div class="space-y-3">
+                <div class="flex items-center">
+                  <span class="bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded mr-3">1</span>
+                  <span class="text-slate-700">Title Slide (Project Title, Team Name, Members)</span>
+                </div>
+                <div class="flex items-center">
+                  <span class="bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded mr-3">2</span>
+                  <span class="text-slate-700">Problem Statement</span>
+                </div>
+                <div class="flex items-center">
+                  <span class="bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded mr-3">3</span>
+                  <span class="text-slate-700">Solution Overview</span>
+                </div>
+                <div class="flex items-center">
+                  <span class="bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded mr-3">4</span>
+                  <span class="text-slate-700">Technology Stack</span>
+                </div>
+                <div class="flex items-center">
+                  <span class="bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded mr-3">5</span>
+                  <span class="text-slate-700">Demo (Screenshots/Video)</span>
+                </div>
+                <div class="flex items-center">
+                  <span class="bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded mr-3">6</span>
+                  <span class="text-slate-700">Impact and Future Work</span>
+                </div>
+                <div class="flex items-center">
+                  <span class="bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded mr-3">7</span>
+                  <span class="text-slate-700">Team Introduction</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 3.2 Uploading PDF -->
+          <div id="uploading-pdf" class="mb-12">
+            <h3 class="font-serif text-2xl font-semibold text-slate-800 mb-6">Uploading the PDF File</h3>
+
+            <div class="highlight-box">
+              <div class="flex items-start">
+                <i class="fas fa-upload text-blue-600 mt-1 mr-3"></i>
+                <div>
+                  <h4 class="font-semibold text-slate-800 mb-2">Upload Process</h4>
+                  <ol class="text-slate-700 space-y-2 ml-4 list-decimal">
+                    <li>Locate the file upload section at the end of the submission form</li>
+                    <li>Click &#34;Upload File&#34; or &#34;Choose File&#34; button</li>
+                    <li>Select your PDF file in the file browser</li>
+                    <li>Click &#34;Upload&#34; or &#34;Submit&#34; to attach the file</li>
+                    <li>Verify the upload was successful through confirmation message</li>
+                  </ol>
+                </div>
+              </div>
+            </div>
+
+            <p class="text-slate-700 leading-relaxed mt-6">
+              After selecting the PDF file, attach it to the submission form and verify the upload was successful. The portal will typically display a confirmation message or preview of the uploaded file. Double-check the file name and size to ensure the correct file was uploaded.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <div class="section-divider"></div>
+
+      <!-- Section 4: Finalizing Submission -->
+      <section id="finalizing" class="mb-16">
+        <div class="max-w-4xl">
+          <div class="flex items-center mb-8">
+            <div class="step-number mr-4">4</div>
+            <h2 class="font-serif text-3xl font-bold text-slate-800">Finalizing and Submitting Your Idea</h2>
+          </div>
+
+          <p class="text-slate-700 leading-relaxed mb-8">
+            The final stage involves a thorough review of all information and materials, followed by official confirmation of your submission. This is your last opportunity to make changes before your project is locked in for judging.
+          </p>
+
+          <!-- 4.1 Reviewing -->
+          <div id="reviewing" class="mb-12">
+            <h3 class="font-serif text-2xl font-semibold text-slate-800 mb-6">Reviewing All Entered Information</h3>
+
+            <div class="bg-amber-50 p-6 rounded-lg border border-amber-200 mb-6">
+              <div class="flex items-center mb-3">
+                <i class="fas fa-search text-amber-600 mr-3"></i>
+                <h4 class="font-semibold text-amber-800">Comprehensive Review Checklist</h4>
+              </div>
+              <div class="grid md:grid-cols-2 gap-4">
+                <div>
+                  <h5 class="font-medium text-amber-800 mb-2">Form Sections</h5>
+                  <ul class="text-sm text-amber-700 space-y-1">
+                    <li>• Project description accuracy</li>
+                    <li>• Problem statement clarity</li>
+                    <li>• Technology stack completeness</li>
+                    <li>• Team member details</li>
+                  </ul>
+                </div>
+                <div>
+                  <h5 class="font-medium text-amber-800 mb-2">Materials &amp; Details</h5>
+                  <ul class="text-sm text-amber-700 space-y-1">
+                    <li>• Correct theme selection</li>
+                    <li>• Uploaded PDF verification</li>
+                    <li>• File accessibility check</li>
+                    <li>• Fresh pair of eyes review</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <p class="text-slate-700 leading-relaxed">
+              Before finalizing your submission, conduct a comprehensive review of all entered information. This is your last chance to catch errors, omissions, or inconsistencies. It is a good practice to have a teammate or trusted colleague review your submission as well.
+            </p>
+          </div>
+
+          <!-- 4.2 Confirming -->
+          <div id="confirming" class="mb-12">
+            <h3 class="font-serif text-2xl font-semibold text-slate-800 mb-6">Confirming the Submission of Your Project</h3>
+
+            <div class="bg-green-50 p-6 rounded-lg border border-green-200 mb-6">
+              <div class="flex items-center mb-3">
+                <i class="fas fa-check-circle text-green-600 mr-3"></i>
+                <h4 class="font-semibold text-green-800">Final Confirmation</h4>
+              </div>
+              <p class="text-green-700 mb-3">
+                Once you have completed your review and are satisfied with all information, click the &#34;Submit&#34; or &#34;Confirm Submission&#34; button.
+              </p>
+              <p class="text-sm text-green-600 font-medium">
+                <i class="fas fa-exclamation-triangle mr-2"></i>
+                Note: After confirmation, no further changes can be made.
+              </p>
+            </div>
+
+            <p class="text-slate-700 leading-relaxed">
+              After confirming your submission, you should receive a confirmation message or email from the hackathon organizers, acknowledging that your project has been successfully submitted. Keep a record of this confirmation for your records.
+            </p>
+          </div>
+
+          <!-- 4.3 Deadline -->
+          <div id="deadline" class="mb-12">
+            <h3 class="font-serif text-2xl font-semibold text-slate-800 mb-6">Acknowledging the Submission Deadline</h3>
+
+            <div class="bg-red-50 p-8 rounded-lg border-2 border-red-200 text-center">
+              <i class="fas fa-clock text-red-600 text-3xl mb-4"></i>
+              <h4 class="font-bold text-red-800 text-xl mb-2">CRITICAL DEADLINE</h4>
+              <p class="text-red-700 text-lg mb-2">
+                <strong>April 30, 2025, at 11:59 PM PST</strong>
+                <a href="https://microsoft.github.io/AI_Agents_Hackathon/" class="citation">[379]</a>
+              </p>
+              <p class="text-red-600 font-medium">
+                Any submissions received after this deadline will not be considered.
+              </p>
+            </div>
+
+            <div class="mt-6 space-y-4">
+              <div class="flex items-start">
+                <i class="fas fa-clock text-blue-600 mt-1 mr-3"></i>
+                <div>
+                  <h4 class="font-semibold text-slate-800">Submit Early</h4>
+                  <p class="text-slate-700">Do not wait until the last minute to avoid technical difficulties from high traffic volumes.</p>
+                </div>
+              </div>
+              <div class="flex items-start">
+                <i class="fas fa-shield-alt text-blue-600 mt-1 mr-3"></i>
+                <div>
+                  <h4 class="font-semibold text-slate-800">Plan Accordingly</h4>
+                  <p class="text-slate-700">Complete and submit your project well in advance to allow ample time for review and corrections.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Conclusion -->
+      <section class="mb-16">
+        <div class="max-w-4xl">
+          <div class="bg-gradient-to-r from-blue-600 to-indigo-600 text-white p-8 rounded-lg">
+            <h2 class="font-serif text-2xl font-bold mb-4">Ready to Submit?</h2>
+            <p class="text-blue-100 leading-relaxed mb-4">
+              Follow this comprehensive guide to ensure your AI Agents Hackathon 2025 submission is complete, professional, and submitted before the deadline. Remember that preparation and attention to detail are key to success.
+            </p>
+            <div class="flex items-center">
+              <i class="fas fa-external-link-alt mr-2"></i>
+              <a href="https://aka.ms/agenthack" class="text-blue-200 hover:text-white transition-colors">
+                Access the submission portal now
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <script>
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+  
+
+</body></html>

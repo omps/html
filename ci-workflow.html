@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>GitLab → YAML → Terraform → KubeVirt VM (interactive report)</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial;margin:0;padding:2rem;background:#f7f7f7;color:#222}
+  h1{margin-top:0}
+  .step{background:#fff;border:1px solid #ddd;border-radius:6px;padding:1rem;margin:1rem 0;position:relative}
+  .step:hover{box-shadow:0 2px 8px rgba(0,0,0,.1)}
+  .toggle{background:#0057d2;color:#fff;border:none;padding:.4rem .8rem;border-radius:4px;cursor:pointer;font-size:.8rem}
+  pre{background:#f4f4f4;border:1px solid #ccc;border-radius:4px;padding:1rem;overflow-x:auto;font-size:.8rem;display:none}
+  .note{font-size:.8rem;color:#555;margin-top:.5rem}
+  textarea{width:100%;font-family:monospace;font-size:.8rem;border:1px solid #ccc;border-radius:4px;padding:.5rem;resize:vertical}
+</style>
+</head>
+<body>
+
+<h1>Interactive workflow: GitLab CI → YAML → Terraform → KubeVirt VM</h1>
+
+<div class="step">
+  <strong>1. Developer pushes VM spec (YAML)</strong>
+  <button class="toggle">Show code</button>
+  <pre><textarea rows="10">
+# vm-spec.yaml
+apiVersion: kubevirt.io/v1
+kind: VirtualMachine
+metadata:
+  name: rhel9-vm
+  namespace: vms
+spec:
+  running: true
+  template:
+    spec:
+      domain:
+        cpu:
+          cores: 2
+        memory: 4Gi
+        devices:
+          disks:
+          - name: rootdisk
+            disk: {}
+      volumes:
+      - name: rootdisk
+        dataVolume:
+          name: rhel9-dv
+</textarea></pre>
+  <div class="note">Plain KubeVirt manifest fragment stored in GitLab repo.</div>
+</div>
+
+<div class="step">
+  <strong>2. GitLab CI renders Terraform file</strong>
+  <button class="toggle">Show code</button>
+  <pre><textarea rows="18">
+# rendered vm.tf (snippet)
+terraform {
+  required_providers {
+    kubernetes = {
+      source  = "hashicorp/kubernetes"
+      version = ">= 2.20"
+    }
+  }
+}
+
+resource "kubernetes_manifest" "vm" {
+  manifest = yamldecode(file("${path.module}/vm-spec.yaml"))
+}
+</textarea></pre>
+  <div class="note">Job uses a small Python/Jinja2 script to wrap the YAML into a <code>kubernetes_manifest</code> resource.</div>
+</div>
+
+<div class="step">
+  <strong>3. Terraform plan / apply</strong>
+  <button class="toggle">Show code</button>
+  <pre><textarea rows="8">
+# .gitlab-ci.yml excerpt
+plan:
+  stage: plan
+  script:
+    - terraform init
+    - terraform plan -out=tfplan
+apply:
+  stage: apply
+  when: manual
+  only: [main]
+  script:
+    - terraform apply -auto-approve tfplan
+</textarea></pre>
+  <div class="note">State stored in GitLab-managed backend (EE) or Terraform Cloud.</div>
+</div>
+
+<div class="step">
+  <strong>4. OpenShift creates the VM</strong>
+  <div class="note">KubeVirt operator picks up the CR and boots the VM.  Ready ✔</div>
+</div>
+
+<script>
+  document.querySelectorAll('.toggle').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      const pre = btn.nextElementSibling;
+      pre.style.display = pre.style.display==='none'?'block':'none';
+      btn.textContent = pre.style.display==='none'?'Show code':'Hide code';
+    });
+  });
+</script>
+
+</body>
+</html>
