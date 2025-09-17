@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>AO⁺ Solutions – DevFinOps in 90 min</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    :root {
+      --primary: #0a7cff;
+      --accent: #ff4a3f;
+      --bg: #f6f9fc;
+      --text: #111;
+      --radius: 14px;
+    }
+    * {
+      box-sizing: border-box;
+      font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+    section {
+      padding: 4rem 1.5rem;
+      max-width: 960px;
+      margin: auto;
+    }
+    h1, h2 {
+      margin-top: 0;
+    }
+    h1 {
+      font-size: 2.2rem;
+    }
+    h2 {
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+    }
+    .btn {
+      display: inline-block;
+      background: var(--primary);
+      color: #fff;
+      padding: .8rem 1.6rem;
+      border: none;
+      border-radius: var(--radius);
+      cursor: pointer;
+      transition: .25s;
+      text-decoration: none;
+    }
+    .btn:hover {
+      background: var(--accent);
+    }
+    /* HERO */
+    .hero {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 1.2rem;
+    }
+    .hero p {
+      font-size: 1.1rem;
+      max-width: 600px;
+    }
+    /* CALCULATOR */
+    .calc {
+      background: #fff;
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, .06);
+    }
+    .calc-row {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 1rem;
+      flex-wrap: wrap;
+    }
+    .calc-row label {
+      flex: 1 1 220px;
+      font-weight: 600;
+    }
+    .calc-row input[type="range"] {
+      width: 100%;
+    }
+    .output {
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--accent);
+    }
+    /* ACCORDION */
+    .accordion {
+      margin-top: 2rem;
+    }
+    .accordion-item {
+      background: #fff;
+      border-radius: var(--radius);
+      margin-bottom: .8rem;
+      overflow: hidden;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, .04);
+    }
+    .accordion-title {
+      width: 100%;
+      background: none;
+      border: none;
+      text-align: left;
+      padding: 1rem 1.4rem;
+      font-size: 1.1rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .accordion-title:after {
+      content: "+";
+      font-size: 1.4rem;
+      color: var(--primary);
+      transition: .2s;
+    }
+    .accordion-item.active .accordion-title:after {
+      content: "−";
+    }
+    .accordion-content {
+      max-height: 0;
+      padding: 0 1.4rem;
+      transition: max-height .3s ease;
+    }
+    .accordion-item.active .accordion-content {
+      max-height: 400px;
+      padding-bottom: 1.2rem;
+    }
+    /* FOOTER */
+    footer {
+      text-align: center;
+      padding: 2rem 1rem;
+      font-size: .9rem;
+      color: #555;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- 1. HERO -->
+  <section class="hero">
+    <h1>AO⁺ Solutions</h1>
+    <p>DevFinOps in 90 min – cut cloud spend by <strong>70 %</strong> while you sleep.</p>
+    <a class="btn" href="#calc">See Your Savings</a>
+  </section>
+
+  <!-- 2. CALCULATOR -->
+  <section id="calc" class="calc">
+    <h2>Interactive Savings Calculator</h2>
+    <div class="calc-row">
+      <label>
+        Monthly AWS/Azure/GCP spend (₹ lakh)
+        <input type="range" id="spend" min="1" max="100" value="10" step="1">
+        <div>₹ <span id="spendOut">10</span> L</div>
+      </label>
+      <label>
+        Storage waste guess (%)
+        <input type="range" id="waste" min="10" max="70" value="40" step="5">
+        <span id="wasteOut">40</span> %
+      </label>
+    </div>
+    <p>Projected annual savings with AO⁺ : <span class="output" id="saveOut">₹ 28.8 L</span></p>
+    <a class="btn" href="mailto:founders@aoplus.ai?subject=I want these savings">Get the ROI report</a>
+  </section>
+
+  <!-- 3. ACCORDION FAQ -->
+  <section>
+    <h2>How it Works</h2>
+    <div class="accordion">
+      <div class="accordion-item">
+        <button class="accordion-title">1. Connect – zero-knowledge access</button>
+        <div class="accordion-content">
+          Read-only IAM roles let AO⁺ scan usage and cost—no code changes, no agents.
+        </div>
+      </div>
+      <div class="accordion-item">
+        <button class="accordion-title">2. AI Optimise – predictive rightsizing</button>
+        <div class="accordion-content">
+          Our models (trained on 1 B+ usage points) auto-shrink discs, suspend idle VMs and right-size DB warehouses while preserving performance.
+        </div>
+      </div>
+      <div class="accordion-item">
+        <button class="accordion-title">3. DevOps Boost – secure IaC templates</button>
+        <div class="accordion-content">
+          One-click deploy CIS-hardened Kubernetes, CI/CD, monitoring & DPDP-compliant backups—cut project delivery time by 50 %.
+        </div>
+      </div>
+      <div class="accordion-item">
+        <button class="accordion-title">4. Continuous – Slack bot & reports</button>
+        <div class="accordion-content">
+          Ask “Why did my bill spike?” or let weekly reports prove savings—automatically.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. FOOTER -->
+  <footer>
+    © 2025 AO⁺ Solutions Pvt Ltd – Built for Indian SMBs, priced for scale.
+  </footer>
+
+  <script>
+    // ----- CALCULATOR LOGIC -----
+    const spend = document.getElementById('spend');
+    const waste = document.getElementById('waste');
+    const spendOut = document.getElementById('spendOut');
+    const wasteOut = document.getElementById('wasteOut');
+    const saveOut = document.getElementById('saveOut');
+
+    function update() {
+      const s = +spend.value;
+      const w = +waste.value;
+      spendOut.textContent = s;
+      wasteOut.textContent = w;
+      // assume 70 % of waste is reclaimable; show annual figure
+      const annualSave = s * 12 * (w / 100) * 0.7;
+      saveOut.textContent = '₹ ' + annualSave.toFixed(1) + ' L';
+    }
+    spend.addEventListener('input', update);
+    waste.addEventListener('input', update);
+    update();
+
+    // ----- ACCORDION -----
+    document.querySelectorAll('.accordion-title').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const item = btn.parentElement;
+        item.classList.toggle('active');
+      });
+    });
+  </script>
+</body>
+</html>
