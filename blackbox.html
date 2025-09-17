@@ -1,163 +1,329 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>What is a Black-Box? – Infrastructure Report</title>
+<meta charset="utf-8">
+<title>Enterprise Standard – Black-Box Infrastructure Perspective</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="category" content="enterprise-standard">
+<meta name="version" content="1.0">
+<meta name="date" content="2025-09-17">
+<meta name="owner" content="Platform Engineering">
+<meta name="status" content="ACTIVE">
 <style>
+/* ---------- DESIGN TOKENS ---------- */
 :root{
-  --bg:#ffffff;
-  --fg:#222222;
-  --accent:#0066cc;
-  --card:#f5f5f5;
-  --code:#e4e4e4;
+  --bg:#ffffff;--bg2:#f8f9fa;--bg3:#e9ecef;
+  --fg:#212529;--fg2:#495057;--fg3:#6c757d;
+  --accent:#005ea2;--accent2:#004d84;
+  --ok:#2e7d32;--warn:#e65100;--err:#c62828;
+  --font:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  --mono:"SFMono-Regular",Consolas,"Liberation Mono",Menlo,monospace;
+  --line:1px solid var(--bg3);
 }
 [data-theme="dark"]{
-  --bg:#121212;
-  --fg:#e0e0e0;
-  --accent:#4dabf7;
-  --card:#1e1e1e;
-  --code:#2a2a2a;
+  --bg:#121212;--bg2:#1e1e1e;--bg3:#2a2a2a;
+  --fg:#e0e0e0;--fg2:#b0b0b0;--fg3:#888;
+  --accent:#4dabf7;--accent2:#2196f3;
+  --ok:#66bb6a;--warn:#ffb74d;--err:#ef5350;
 }
-body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
-     background:var(--bg);color:var(--fg);margin:0;padding:2rem 1rem;line-height:1.55;}
-h1,h2,h3{line-height:1.2;margin-top:0}
-a{color:var(--accent)}
-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:2rem}
-button{cursor:pointer;border:1px solid var(--accent);background:transparent;color:var(--accent);padding:.4rem .8rem;border-radius:4px}
-.card{background:var(--card);padding:1.5rem;border-radius:8px;margin-bottom:1.5rem}
-details{margin-bottom:1rem}
-summary{font-weight:600;cursor:pointer}
-pre{background:var(--code);padding:1rem;border-radius:6px;overflow:auto}
-footer{margin-top:3rem;font-size:.8rem;text-align:center;opacity:.7}
+/* ---------- RESET ---------- */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font);background:var(--bg);color:var(--fg);line-height:1.6;-webkit-text-size-adjust:100%}
+h1,h2,h3,h4,h5,h6{color:var(--fg);line-height:1.25;margin:0 0 .5em;font-weight:600}
+h1{font-size:2rem}h2{font-size:1.5rem}h3{font-size:1.25rem}h4{font-size:1.1rem}
+p{margin-bottom:1em}
+a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
+pre,code{background:var(--bg2);border-radius:4px;font-family:var(--mono)}
+pre{padding:1rem;overflow:auto;font-size:.875rem;border:var(--line)}
+code{padding:.15rem .3rem;font-size:.85em}
+blockquote{border-left:4px solid var(--accent);padding-left:1rem;margin:1rem 0;color:var(--fg2)}
+table{width:100%;border-collapse:collapse;font-size:.95rem}
+th,td{padding:.6rem .8rem;border-bottom:var(--line)}
+th{text-align:left;background:var(--bg2)}
+ul,ol{margin-left:1.25rem}
+li{margin-bottom:.25rem}
+img{max-width:100%;display:block}
+/* ---------- LAYOUT ---------- */
+.wrapper{display:flex;flex-direction:column;min-height:100vh}
+.container{max-width:1000px;margin:0 auto;padding:2rem 1.5rem}
+header{position:sticky;top:0;z-index:10;background:var(--bg);border-bottom:var(--line);padding:.75rem 0}
+.header-inner{display:flex;align-items:center;justify-content:space-between;max-width:1000px;margin:0 auto;padding:0 1.5rem}
+#theme-btn{background:transparent;border:1px solid var(--accent);color:var(--accent);padding:.4rem .6rem;border-radius:4px;cursor:pointer}
+nav ul{list-style:none;display:flex;gap:1.25rem}
+nav a{font-weight:500}
+.toc{position:fixed;top:90px;left:0;width:260px;height:calc(100vh - 100px);overflow-y:auto;background:var(--bg2);padding:1rem;border-right:var(--line);font-size:.95rem}
+.toc ul{list-style:none;margin-left:0}
+.toc li{margin-bottom:.35rem}
+.toc a{display:block;padding:.25rem 0;color:var(--fg2)}
+.toc a:hover{color:var(--accent)}
+.toc ul ul{margin-left:.8rem;font-size:.9rem}
+.main{margin-left:280px}
+#toc-toggle{display:none;background:var(--bg2);padding:.4rem .6rem;border-radius:4px}
+@media (max-width:900px){
+  .toc{transform:translateX(-100%);transition:transform .3s}
+  .toc.open{transform:translateX(0)}
+  #toc-toggle{display:inline-block}
+  .main{margin-left:0}
+}
+@media print{
+  .toc,#toc-toggle,#theme-btn{display:none !important}
+  .main{margin-left:0}
+  body{background:#fff;color:#000}
+}
 </style>
 </head>
-<body>
+<body class="wrapper">
 <header>
-  <h1>What is a Black-Box?<br><small style="font-size:.5em;font-weight:400">Infrastructure Perspective</small></h1>
-  <button id="themeBtn" aria-label="Toggle dark mode">🌗</button>
+  <div class="header-inner">
+    <div style="font-weight:700;font-size:1.1rem">Enterprise Standard – Black-Box Perspective</div>
+    <nav>
+      <ul>
+        <li><a href="#scope">Scope</a></li>
+        <li><a href="#definitions">Definitions</a></li>
+        <li><a href="#requirements">Requirements</a></li>
+        <li><a href="#implementation">Implementation</a></li>
+        <li><a href="#compliance">Compliance</a></li>
+      </ul>
+    </nav>
+    <button id="theme-btn" aria-label="Toggle theme">🌗</button>
+  </div>
 </header>
 
-<main>
-<section class="card">
-  <h2>1. TL;DR (30-second answer)</h2>
-  <p>A <strong>black-box</strong> is any infrastructure component whose internals you <em>ignore</em>; you only watch what goes in and what comes out.  If the outputs break their contract, the box is “down”&mdash;no matter what’s happening inside.</p>
+<button id="toc-toggle" class="btn">☰ TOC</button>
+<aside class="toc" id="toc"></aside>
+
+<main class="main">
+<section id="scope" class="card">
+  <h1>Enterprise Standard – Black-Box Infrastructure Perspective</h1>
+  <p><strong>Document ID:</strong> STD-INFRA-001<br>
+     <strong>Version:</strong> 1.0<br>
+     <strong>Effective Date:</strong> 2025-09-17<br>
+     <strong>Owner:</strong> Platform Engineering & Architecture<br>
+     <strong>Review Cycle:</strong> Annual<br>
+     <strong>Classification:</strong> Internal Use Only</p>
+
+  <h2>1. Purpose</h2>
+  <p>This standard defines the minimum set of practices, metrics and tooling required to adopt a <strong>black-box perspective</strong> across all technology domains (compute, storage, network, application, security) for the purposes of:</p>
+  <ul>
+    <li>User-centric service-level measurement</li>
+    <li>Regulatory compliance attestation</li>
+    <li>Incident detection and response</li>
+    <li>Patch and change qualification</li>
+  </ul>
+
+  <h2>2. Scope</h2>
+  <p>In-scope: all revenue-affecting, customer-facing or compliance-scoped systems regardless of deployment model (on-prem, IaaS, PaaS, SaaS).  
+     Out-of-scope: development environments unless explicitly used for pre-production validation of black-box controls.</p>
 </section>
 
-<section class="card">
-  <h2>2. Why This Viewpoint Matters</h2>
+<section id="definitions" class="card">
+  <h2>3. Normative Definitions</h2>
+  <dl>
+    <dt><strong>Black-Box Component</strong></dt>
+    <dd>A system or subsystem whose internal structure, source code or configuration is <u>unknown or intentionally ignored</u>; assurance is derived solely by observing inputs and corresponding outputs against an agreed interface contract.</dd>
+
+    <dt><strong>Interface Contract</strong></dt>
+    <dd>Machine-readable or documented specification that defines acceptable inputs, expected outputs, latency thresholds, error rate limits and security requirements (e.g., OpenAPI schema, RFC 792 for ICMP, TLS 1.3 RFC 8446).</dd>
+
+    <dt><strong>Probe</strong></dt>
+    <dd>Automated test agent that exercises the interface contract and records telemetry (success, latency, payload hash, certificate validity, etc.).</dd>
+
+    <dt><strong>Synthetic Point-of-Presence (PoP)</strong></dt>
+    <dd>Geographically distributed probe deployment location under organisational control or provided by a contracted third party.</dd>
+
+    <dt><strong>White-Box Component</strong></dt>
+    <dd>Complementary opposite: internal state is fully observable (metrics, logs, traces, configuration).</dd>
+  </dl>
+</section>
+
+<section id="requirements" class="card">
+  <h2>4. Requirements</h2>
+
+  <h3>4.1 Availability Measurement</h3>
+  <table>
+    <thead><tr><th>Metric</th><th>Target</th><th>Measurement Window</th><th>Probe Frequency</th></tr></thead>
+    <tbody>
+      <tr><td>Black-box availability</td><td>≥ 99.9 %</td><td>30 calendar days</td><td>≤ 60 s</td></tr>
+      <tr><td>Black-box p95 latency</td><td>≤ 600 ms</td><td>30 calendar days</td><td>≤ 60 s</td></tr>
+      <tr><td>SSL/TLS certificate expiry</td><td>> 30 days</td><td>24 h</td><td>≤ 3600 s</td></tr>
+    </tbody>
+  </table>
+
+  <h3>4.2 Coverage Requirements</h3>
   <ul>
-    <li>Users interact externally; their reality is black-box by definition.</li>
-    <li>Catch ISP, CDN, DNS or SSL issues invisible inside your VPC.</li>
-    <li>Compliance audits (PCI-DSS, ISO-27001) demand periodic external tests.</li>
-    <li>Zero agents, zero code changes, vendor-neutral.</li>
+    <li>At least one probe per externally reachable service IP:port tuple.</li>
+    <li>Minimum of three synthetic PoPs on separate Tier-1 backbones.</li>
+    <li>Probes must traverse the same CDN, WAF and DDoS scrubbing path as end-users.</li>
+  </ul>
+
+  <h3>4.3 Alerting & Escalation</h3>
+  <ul>
+    <li>Alert generated when ≥ 2 PoPs report non-compliance within 120 s window.</li>
+    <li>Page on-call engineer if error budget burn-rate exceeds 5× over 1 h.</li>
+    <li>Auto-create incident ticket in ITSM with severity derived from SLA impact.</li>
+  </ul>
+
+  <h3>4.4 Evidence Retention</h3>
+  <ul>
+    <li>Raw probe metrics: 13 months minimum (ISO-27001, SOC-2).</li>
+    <li>Certificate scan reports: 24 months (PCI-DSS v4.0).</li>
+    <li>Pen-test and remediation evidence: 36 months (regulatory trend).</li>
   </ul>
 </section>
 
-<section class="card">
-  <h2>3. Black-Box vs White-Box vs Grey-Box</h2>
-  <table style="width:100%;border-collapse:collapse">
-    <thead><tr><th style="border-bottom:2px solid var(--accent);padding:.5rem">Lens</th><th style="border-bottom:2px solid var(--accent);padding:.5rem">Knowledge</th><th style="border-bottom:2px solid var(--accent);padding:.5rem">Example Data</th></tr></thead>
+<section id="implementation" class="card">
+  <h2>5. Implementation Reference</h2>
+
+  <h3>5.1 Governance Model</h3>
+  <ul>
+    <li><strong>Platform Engineering</strong> – owns tooling, standards, SLO templates.</li>
+    <li><strong>Product/Dev Squads</strong> – declare interface contracts, consume dashboards.</li>
+    <li><strong>InfoSec</strong> – validates external pen-test scope, reviews evidence.</li>
+    <li><strong>Compliance & Risk</strong> – attests evidence packages, tracks exceptions.</li>
+  </ul>
+
+  <h3>5.2 Tooling Baseline (Version-Locked)</h3>
+  <table>
+    <thead><tr><th>Component</th><th>Minimum Version</th><th>Purpose</th></tr></thead>
     <tbody>
-      <tr><td style="padding:.5rem"><strong>Black-Box</strong></td><td style="padding:.5rem">None</td><td style="padding:.5rem">HTTP 200, ping RTT, SSL expiry</td></tr>
-      <tr><td style="padding:.5rem"><strong>White-Box</strong></td><td style="padding:.5rem">Full</td><td style="padding:.5rem">CPU, logs, traces, source code</td></tr>
-      <tr><td style="padding:.5rem"><strong>Grey-Box</strong></td><td style="padding:.5rem">Partial</td><td style="padding:.5rem">Read-only metrics, architecture docs</td></tr>
+      <tr><td>Prometheus Blackbox Exporter</td><td>v0.25.0</td><td>Probe execution</td></tr>
+      <tr><td>Prometheus Server</td><td>v2.54.0</td><td>Metrics TSDB</td></tr>
+      <tr><td>Alertmanager</td><td>v0.27.0</td><td>Routing & notification</td></tr>
+      <tr><td>Grafana</td><td>v11.1.0</td><td>Dashboards & SLA UI</td></tr>
+      <tr><td>Thanos Sidecar</td><td>v0.35.0</td><td>Long-term retention</td></tr>
+    </tbody>
+  </table>
+
+  <h3>5.3 Configuration Standard</h3>
+  <pre><code># blackbox.yml – minimum mandatory modules
+modules:
+  http_2xx:
+    prober: http
+    timeout: 5s
+    http:
+      valid_status_codes: [200]
+      fail_if_ssl_not_expired_in: 720h   # 30 days
+  tcp_connect:
+    prober: tcp
+    timeout: 3s
+  icmp:
+    prober: icmp
+    timeout: 2s</code></pre>
+
+  <h3>5.4 Prometheus Recording Rules (Normative)</h3>
+  <pre><code>groups:
+- name: blackbox_slo
+  interval: 60s
+  rules:
+  - record: slo:blackbox_availability_5m
+    expr: |
+      avg_over_time(probe_success[5m])
+  - record: slo:blackbox_latency_p95_5m
+    expr: |
+      histogram_quantile(0.95,
+        rate(probe_duration_seconds_bucket[5m]))</code></pre>
+
+  <h3>5.5 Alerting Rules (Mandatory)</h3>
+  <pre><code>- alert: BlackboxSloViolation
+    expr: slo:blackbox_availability_5m < 0.999
+    for: 5m
+    labels:
+      severity: critical
+      team: platform
+    annotations:
+      summary: "Black-box availability below SLO"
+      description: "5-min availability = {{ $value | humanizePercentage }} for {{ $labels.instance }}"
+
+  - alert: BlackboxLatencyP95High
+    expr: slo:blackbox_latency_p95_5m > 0.6
+    for: 10m
+    labels:
+      severity: warning
+    annotations:
+      summary: "p95 latency above 600 ms"</code></pre>
+</section>
+
+<section id="compliance" class="card">
+  <h2>6. Compliance Mapping</h2>
+  <table>
+    <thead><tr><th>Framework</th><th>Clause</th><th>Black-box Evidence</th><th>Retention</th></tr></thead>
+    <tbody>
+      <tr><td>PCI-DSS v4.0</td><td>11.3; 11.4</td><td>External pen-test report, segmentation validation</td><td>36 months</td></tr>
+      <tr><td>ISO-27001:2022</td><td>A.8.1, A.5.7</td><td>Asset inventory, vulnerability scan summary</td><td>24 months</td></tr>
+      <tr><td>SOC-2 CC-6</td><td>Logical access, transmission integrity</td><td>SSL grade, external availability metrics</td><td>13 months</td></tr>
+      <tr><td>GDPR Art. 32</td><td>Technical measures effectiveness</td><td>External TLS scan, uptime report</td><td>24 months</td></tr>
     </tbody>
   </table>
 </section>
 
 <section class="card">
-  <h2>4. Everyday Use-Cases</h2>
-  <details open>
-    <summary>Monitoring / SRE</summary>
-    <p>Synthetic probes for login, checkout, API health from multiple continents.</p>
-  </details>
-  <details>
-    <summary>Security</summary>
-    <p>External port scans, credential-stuffing simulations, SSL/TLS grading.</p>
-  </details>
-  <details>
-    <summary>Networking</summary>
-    <p>BGP route propagation, DNS resolution time, packet-loss to branch offices.</p>
-  </details>
-  <details>
-    <summary>Cloud & CI/CD</summary>
-    <p>Post-deploy gate: if external probe fails, automatically roll back blue-green release.</p>
-  </details>
+  <h2>7. Roles & Responsibilities</h2>
+  <table>
+    <thead><tr><th>Role</th><th>Responsibility</th></tr></thead>
+    <tbody>
+      <tr><td>Head of Platform</td><td>Sign-off on standard, budget approval, exception escalation</td></tr>
+      <tr><td>SRE Lead</td><td>Maintain probe catalogue, SLO dashboards, burn-rate alerts</td></tr>
+      <tr><td>InfoSec Manager</td><td>Validate external pen-test scope, ensure remediation SLA</td></tr>
+      <tr><td>Compliance Officer</td><td>Audit evidence retention, attestation letters</td></tr>
+      <tr><td>Product Owner</td><td>Declare interface contracts, approve error budget policy</td></tr>
+    </tbody>
+  </table>
 </section>
 
 <section class="card">
-  <h2>5. Mini Architecture Diagram</h2>
-  <pre style="font-size:.85em">
-Probe PoPs (5 regions)
-    │ ICMP/HTTP/DNS
-    ▼
-Public Load Balancer  ← You only know: reachable? fast? cert valid?
-    │
-    ▼
-Internal VPC  (unknown magic)
-  </pre>
+  <h2>8. Exceptions & Deviation Process</h2>
+  <ol>
+    <li>Submit <strong>STD-DEV-001</strong> form to Platform Engineering.</li>
+    <li>Include business justification, residual risk, compensating controls.</li>
+    <li>Approved by Head of Platform + CISO for security-related deviations.</li>
+    <li>Reviewed quarterly; maximum validity 12 months.</li>
+  </ol>
 </section>
 
 <section class="card">
-  <h2>6. Quick Start – Prometheus Blackbox Exporter</h2>
-  <p>Spin up in under 5 minutes:</p>
-  <pre><code>docker run -d -p 9115:9115 \
-  -v $PWD/blackbox.yml:/config/blackbox.yml \
-  prom/blackbox-exporter --config.file=/config/blackbox.yml</code></pre>
-  <p>Example <code>blackbox.yml</code>:</p>
-  <pre><code>modules:
-  http_2xx:
-    prober: http
-    timeout: 5s
-    http:
-      valid_status_codes: [200]</code></pre>
-  <p>Prometheus scrape snippet & Grafana dashboard JSON are in the <a href="https://github.com/prometheus/blackbox_exporter" target="_blank" rel="noopener">official repo</a>.</p>
-</section>
-
-<section class="card">
-  <h2>7. Strengths & Limitations</h2>
-  <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem">
-    <div>
-      <h4 style="color:var(--accent)">Strengths</h4>
+  <h2>9. Review & Version Control</h2>
+  <ul>
+    <li>Annual review aligned with ISO-27001 surveillance cycle.</li>
+    <li>Out-of-cycle review triggered by:
       <ul>
-        <li>User-centric truth</li>
-        <li>Vendor-neutral</li>
-        <li>Zero overhead</li>
-        <li>Compliance evidence</li>
+        <li>Major regulatory change (e.g., PCI-DSS v5.0)</li>
+        <li>Significant technology refresh (e.g., Istio service mesh)</li>
+        <li>Post-incident where black-box observability gap is root cause</li>
       </ul>
-    </div>
-    <div>
-      <h4>Limitations</h4>
-      <ul>
-        <li>No root-cause visibility</li>
-        <li>Reactive (alarms after impact)</li>
-        <li>False positives from network jitter</li>
-        <li>Cannot probe non-public paths</li>
-      </ul>
-    </div>
-  </div>
-</section>
-
-<section class="card">
-  <h2>8. Rule of Thumb – When to Use Which Lens</h2>
-  <p><strong>Black-box</strong> = “Is the symptom real?”<br>
-     <strong>White-box</strong> = “Why is it happening?”<br>
-  Combine both for true observability.</p>
+    </li>
+    <li>Source of truth: internal Git repository “enterprise-standards”. Main branch is protected; changes via pull-request with two approvals.</li>
+  </ul>
 </section>
 </main>
 
 <footer>
-  <p>MIT-0 licence – feel free to reuse, remix, redistribute.</p>
+  <p>Document maintained by: Platform Engineering – <a href="mailto:platform@company.com">platform@company.com</a></p>
+  <p>Version 1.0 – 17 September 2025 – Classification: Internal Use Only</p>
 </footer>
 
 <script>
+// theme toggle
 const btn=document.getElementById('themeBtn');
 btn.onclick=()=>{
-  const html=document.documentElement;
-  html.setAttribute('data-bs-theme',
-    html.getAttribute('data-bs-theme')==='dark'?'light':'dark');
+  const h=document.documentElement;
+  h.classList.toggle('dark');
+  localStorage.setItem('theme',h.classList.contains('dark')?'dark':'light');
 };
+if(localStorage.getItem('theme')==='dark') document.documentElement.classList.add('dark');
+
+// auto TOC
+const toc=document.getElementById('toc');
+const headings=Array.from(document.querySelectorAll('section[id],h2,h3')).filter(el=>el.id);
+headings.forEach(el=>{
+  const a=document.createElement('a');
+  a.href='#'+el.id;
+  a.textContent=el.tagName==='H3'?'  – '+el.textContent:el.textContent;
+  toc.appendChild(a);
+});
+
+// mobile toggle
+const toggle=document.getElementById('toc-toggle');
+toggle.onclick=()=>toc.classList.toggle('open');
 </script>
 </body>
 </html>

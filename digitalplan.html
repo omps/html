@@ -19,7 +19,38 @@
     input[type=range]{width:100%;}
     .val{font-weight:700;color:var(--primary);}
     @media print{body{background:#fff;}.no-print{display:none;}}
-  </style>
+    /* Sticky Legend */
+#stickyLegend{
+  position:fixed;
+  bottom:0;left:0;right:0;
+  background:#fff;
+  border-top:4px solid var(--primary);
+  max-height:42vh;
+  overflow-y:auto;
+  padding:1rem;
+  font-size:.85rem;
+  box-shadow:0 -4px 12px rgba(0,0,0,.15);
+  z-index:100;
+}
+.legend-row{
+  display:flex;
+  justify-content:space-between;
+  padding:.35rem .5rem;
+  margin:.15rem 0;
+  border-radius:4px;
+}
+.rev{background:#e6f4ea;color:#137333;}
+.cost{background:#fce8e6;color:#c5221f;}
+.neutral{background:#f1f3f4;color:#3c4043;}
+#topLink{background:var(--accent);color:#fff;padding:.4rem .8rem;border-radius:4px;font-size:.8rem;text-decoration:none;margin-left:1rem;}
+
+  .tooltip{position:relative;display:inline-block;border-bottom:1px dotted var(--primary);}
+  .tooltip .tttext{visibility:hidden;width:220px;background:#333;color:#fff;text-align:center;border-radius:6px;padding:6px;position:absolute;z-index:1;bottom:125%;left:50%;margin-left:-110px;font-size:.8rem;opacity:0;transition:opacity .25s;}
+  .tooltip:hover .tttext{visibility:visible;opacity:1;}
+  @media (hover:none){
+    .tooltip .tttext{display:none;} /* mobile fallback uses footer */
+  }
+</style>
 </head>
 <body>
   <section>
@@ -228,5 +259,142 @@ toggleLock(); // init
   // re-colour when sliders move
   ['traffic','cvr','aov','repeat','dist','doo','gm','cac'].forEach(id=>$(id).addEventListener('input',colourKPI));
 </script>
+<!-- ====== LEGEND & DETAILED SUMMARY ====== -->
+<footer style="margin-top:3rem;padding:2rem 1rem;background:#f1f1f1;border-top:4px solid var(--primary);font-size:0.9rem;">
+  <details>
+    <summary style="cursor:pointer;font-weight:700;color:var(--primary);font-size:1.1rem;">
+      📖 Legend & Detailed Explanation
+    </summary>
+    <div style="margin-top:1rem;display:grid;gap:1rem;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));">
+
+      <!-- COLUMN-1 -->
+      <div>
+        <h4>Acronyms</h4>
+        <ul>
+          <li><strong>CAC:</strong> Customer Acquisition Cost. Money spent to get one paying order (ads, influencer pay-out, QR print, creative fees). Excludes COGS & shipping.</li>
+          <li><strong>CVR:</strong> Conversion Rate. Orders ÷ Website Sessions. 2.5 % = 25 orders per 1 000 visitors.</li>
+          <li><strong>AOV:</strong> Average Order Value. Revenue ÷ Orders. Raise via bundles, upsells, free-shipping threshold.</li>
+          <li><strong>ROAS:</strong> Return on Ad Spend. Revenue ÷ Ad Spend. 2.5 means ₹2.5 back for every ₹1 spent.</li>
+          <li><strong>RTO:</strong> Return to Origin. COD orders cancelled before delivery / returned. Hurts cash & courier score.</li>
+          <li><strong>LTV:</strong> Lifetime Value. Net profit you expect from a customer over their life. We use 60-day simplified model.</li>
+          <li><strong>MOQ:</strong> Minimum Order Quantity. Smallest carton count a distributor must buy first time.</li>
+          <li><strong>UGC:</strong> User-Generated Content. Videos, pics, reviews shot by real buyers; used in ads & reels.</li>
+          <li><strong>P-Max:</strong> Google Performance Max. Automated campaign across Search, YouTube, Gmail, Discover.</li>
+          <li><strong>CAPI:</strong> Conversions API. Sends purchase event from server to Meta, bypassing browser blocks.</li>
+          <li><strong>QR:</strong> Quick-Response code sticker on retail shelf; links to WhatsApp or product page.</li>
+        </ul>
+      </div>
+
+      <!-- COLUMN-2 -->
+      <div>
+        <h4>Formulas Used</h4>
+        <ul>
+          <li><strong>Blended CAC:</strong> Σ(Channel-CAC × Channel-traffic-share)</li>
+          <li><strong>Revenue:</strong> (Paid traffic + Organic traffic) × CVR × AOV + Distributors × OpeningOrder</li>
+          <li><strong>Gross Profit:</strong> Revenue × Gross-Margin %</li>
+          <li><strong>Net Margin:</strong> (Gross Profit – Total Ad Spend) ÷ Revenue</li>
+          <li><strong>LTV (60d):</strong> AOV × (1 + Repeat-60d × 2 cycles)</li>
+          <li><strong>LTV/CAC:</strong> LTV ÷ Blended CAC (target ≥3)</li>
+        </ul>
+      </div>
+
+      <!-- COLUMN-3 -->
+      <div>
+        <h4>Traffic-Light Logic</h4>
+        <table style="width:100%;font-size:.85rem;">
+          <thead><tr><th>Metric</th><th>Green</th><th>Amber</th><th>Red</th></tr></thead>
+          <tbody>
+            <tr><td>Site CVR</td><td>≥2.5 %</td><td>1.8-2.4 %</td><td>&lt;1.8 %</td></tr>
+            <tr><td>Blended CAC</td><td>≤₹280</td><td>₹281-350</td><td>&gt;₹350</td></tr>
+            <tr><td>RTO %</td><td>≤12 %</td><td>13-18 %</td><td>&gt;18 %</td></tr>
+            <tr><td>Repeat 60d</td><td>≥30 %</td><td>20-29 %</td><td>&lt;20 %</td></tr>
+            <tr><td>Google ROAS</td><td>≥2.5</td><td>2.0-2.4</td><td>&lt;2.0</td></tr>
+          </tbody>
+        </table>
+        <p style="margin-top:.5rem;font-size:.75rem;color:#555;">*Amber triggers weekly review; Red triggers immediate action plan.*</p>
+      </div>
+    </div>
+
+    <!-- DETAILED NARRATIVE -->
+    <div style="margin-top:2rem;padding:1rem;background:#fff;border-left:4px solid var(--accent);">
+      <h4>Detailed Summary for Stakeholders</h4>
+      <p>
+        <strong>Objective (90 days):</strong> Profitably sell 1,000 orders, build first-party data spine, onboard 15 distributors.  
+        We will achieve this by running a dual funnel: B2C (quiz-led, COD-friendly) and B2B (LinkedIn ABM + trade-show QR funnels).  
+        Paid media will be capped at 65 % of total spend; remaining 35 % comes from influencer rev-share, SEO blogs, and in-store QR codes.  
+        Creatives follow a 3-day refresh rule to combat ad fatigue and keep CAC ≤ ₹280.  
+        All tools start on free tiers; upgrade gates are revenue-linked (≥₹25 L/mo).  
+        Channel-level CAC sliders allow real-time re-allocation: if Meta CAC spikes, budget automatically tilts toward Google P-Max or influencer CPA deals.  
+        RTO is managed via WhatsApp COD confirmation bot and “pre-order” toggle during stock-outs.  
+        Net margin target ≥12 % by day 90, scaling to 20 % at ₹1 Cr monthly run-rate.  
+        Breakeven month 11 under base-case; downside protected by variable freelancer pool and zero long-term ad commitments.
+      </p>
+    </div>
+  </details>
+  <!-- ===== HINDI LEGEND SUB-SECTION ===== -->
+<details style="margin-top:1.5rem;">
+  <summary style="cursor:pointer;font-weight:600;color:var(--primary);">हिंदी पारिभाषिक शब्दावली</summary>
+  <div style="margin-top:1rem;font-size:.85rem;">
+    <ul>
+      <li><strong>CAC (ग्राहक अधिग्रहण लागत):</strong> विज्ञापन + प्रभावक खर्च ÷ कुल ऑर्डर</li>
+      <li><strong>CVR (रूपांतरण दर):</strong> ऑर्डर Â÷ वेबसाइट विज़िटर %</li>
+      <li><strong>AOV (औसत ऑर्डर मूल्य):</strong> कुल बिक्री ÷ ऑर्डर संख्या</li>
+      <li><strong>ROAS (विज्ञापन पर लाभ):</strong> बिक्री ÷ विज्ञापन खर्च</li>
+      <li><strong>RTO (वापसी):</strong> COD ऑर्डर जो वापस आ गया</li>
+      <li><strong>LTV (जीवनकाल मूल्य):</strong> एक ग्राहक से अपेक्षित कुल लाभ</li>
+      <li><strong>MOQ (न्यूनतम ऑर्डर मात्रा):</strong> डिस्ट्रीब्यूटर को खरीदनी होगी न्यूनतम कार्टन</li>
+    </ul>
+  </div>
+</details>
+</footer>
+
+<!-- STICKY LEGEND -->
+<section id="stickyLegend" aria-label="Legend">
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.5rem;">
+    <span style="font-weight:700;color:var(--primary);">📖 Legend & Formulas</span>
+    <a href="#top" style="font-size:.75rem;">Back to top</a>
+  </div>
+
+  <div class="legend-row neutral">
+    <span><strong>CAC</strong> Customer Acquisition Cost</span>
+    <span>Total marketing spend ÷ Orders</span>
+  </div>
+  <div class="legend-row rev">
+    <span><strong>CVR</strong> Conversion Rate</span>
+    <span>Orders ÷ Sessions (%)</span>
+  </div>
+  <div class="legend-row rev">
+    <span><strong>AOV</strong> Average Order Value</span>
+    <span>Revenue ÷ Orders</span>
+  </div>
+  <div class="legend-row rev">
+    <span><strong>ROAS</strong> Return on Ad Spend</span>
+    <span>Revenue ÷ Ad Spend</span>
+  </div>
+  <div class="legend-row cost">
+    <span><strong>RTO</strong> Return to Origin</span>
+    <span>COD returns ÷ Total orders (%)</span>
+  </div>
+  <div class="legend-row rev">
+    <span><strong>LTV</strong> Lifetime Value</span>
+    <span>AOV × (1 + Repeat % × cycles)</span>
+  </div>
+  <div class="legend-row cost">
+    <span><strong>MOQ</strong> Minimum Order Qty</span>
+    <span>Lowest carton count per SKU</span>
+  </div>
+  <div class="legend-row neutral">
+    <span><strong>GM</strong> Gross Margin</span>
+    <span>(Revenue – COGS) ÷ Revenue (%)</span>
+  </div>
+
+  <!-- Hindi quick row -->
+  <div style="margin-top:.75rem;font-size:.8rem;border-top:1px solid #ccc;padding-top:.5rem;">
+    <strong>हिंदी संक्षेप:</strong> CAC = विज्ञापन खर्च ÷ ऑर्डर | ROAS = बिक्री ÷ विज्ञापन खर्च | RTO = वापसी %
+  </div>
+</section>
+
+<!-- spacer so last chart isn't hidden behind sticky legend -->
+<div style="height:50vh;"></div>
 </body>
 </html>
