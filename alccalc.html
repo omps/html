@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Mumbai Alcohol Fix-It Calculator</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  body{font-family:Arial,Helvetica,sans-serif;background:#111;color:#eee;margin:0;padding:20px}
+  h1,h2{margin:0 0 10px}
+  .card{background:#222;border-radius:8px;padding:15px;margin-bottom:15px}
+  label{display:block;margin:10px 0 5px;font-size:14px}
+  input[type=range]{width:100%}
+  .val{display:inline-block;width:60px;text-align:right;font-weight:bold}
+  .red{color:#f55}.amber{color:#fb0}.green{color:#5f5}
+  #actions,#avoid{margin-top:10px;font-size:14px;line-height:1.6}
+  .avoid-item{display:inline-block;background:#444;border-radius:4px;padding:4px 8px;margin:4px 4px 4px 0;font-size:13px}
+  button{padding:8px 14px;margin-right:8px;border:none;border-radius:4px;background:#09f;color:#fff;cursor:pointer}
+  button:hover{background:#07d}
+</style>
+</head>
+<body>
+
+<h1>Mumbai Alcohol Fix-It Calculator</h1>
+
+<div class="card">
+  <h2>Inputs (move sliders)</h2>
+  <label>Alcohol (ml, 40%) <span id="alVal" class="val">0</span> ml</label>
+  <input type="range" id="al" min="0" max="400" value="0">
+
+  <label>Beers (330 ml, 5%) <span id="beVal" class="val">0</span></label>
+  <input type="range" id="be" min="0" max="10" value="0">
+
+  <label>Cigarettes <span id="ciVal" class="val">0</span></label>
+  <input type="range" id="ci" min="0" max="30" value="0">
+
+  <label>Water glasses (250 ml) <span id="waVal" class="val">0</span></label>
+  <input type="range" id="wa" min="0" max="20" value="0">
+
+  <label>Ate dinner? <input type="checkbox" id="din"></label>
+
+  <label>Sleep hours <span id="slVal" class="val">0</span></label>
+  <input type="range" id="sl" min="0" max="10" value="0">
+</div>
+
+<div class="card">
+  <h2>Instant Summary</h2>
+  <div>Calories from booze: <span id="kcal">0</span> kcal</div>
+  <div>Dehydration need: <span id="deficit">0</span> ml extra water</div>
+  <div>B-vit risk: <span id="bvit" class="red">HIGH</span></div>
+  <div>Mg/K risk: <span id="mgk" class="red">HIGH</span></div>
+  <div>Craving risk: <span id="crave">0</span>%</div>
+</div>
+
+<div class="card">
+  <h2>AVOID Tonight (Mumbai)</h2>
+  <div id="avoid"></div>
+</div>
+
+<div class="card">
+  <h2>Next-Day Rescue Plan</h2>
+  <div id="actions"></div>
+</div>
+
+<button onclick="saveData()">Save Session</button>
+<button onclick="resetData()">Reset</button>
+
+<script>
+const els=['al','be','ci','wa','sl'].map(id=>document.getElementById(id));
+els.forEach(sl=>sl.addEventListener('input',update));
+
+function update(){
+  const alv=+al.value,bev=+be.value,civ=+ci.value,wav=+wa.value,slv=+sl.value,dinv=din.checked;
+  document.getElementById('alVal').textContent=alv;
+  document.getElementById('beVal').textContent=bev;
+  document.getElementById('ciVal').textContent=civ;
+  document.getElementById('waVal').textContent=wav;
+  document.getElementById('slVal').textContent=slv;
+
+  const kcal=alv*2.3+bev*140;
+  const waterNeed=(alv+bev*330)*0.6;
+  const drunk=wav*250;
+  const deficit=Math.max(0,waterNeed-drunk);
+  const bvitRisk=alv>60||bev>3;
+  const mgRisk=alv>40||bev>2||civ>10;
+  const crave=Math.min(100,Math.round((alv/4+bev*8+civ*2.5-wav*1.5+(dinv?-10:0)+(slv>6?-10:0))*2));
+
+  document.getElementById('kcal').textContent=kcal.toFixed(0);
+  document.getElementById('deficit').textContent=deficit.toFixed(0);
+  const bvel=document.getElementById('bvit'),mgel=document.getElementById('mgk');
+  bvel.textContent=bvitRisk?'HIGH':'OK'; bvel.className=bvitRisk?'red':'green';
+  mgel.textContent=mgRisk?'HIGH':'OK'; mgel.className=mgRisk?'red':'green';
+  document.getElementById('crave').textContent=crave;
+
+  // AVOID list
+  const avoid=[];
+  if(alv+bev>0){avoid.push('Vada-Pav','Bhajiya','Samosa','Kachori');}
+  if(alv>40){avoid.push('Extra Beer','Bun-Maska');}
+  if(alv>0){avoid.push('Misal-Pav','Pani-Puri','Sev-Puri');}
+  if(alv>0){avoid.push('Paneer Tikka','Cheese Pav');}
+  if(alv>0){avoid.push('Room-temp Chicken Tikka');}
+  document.getElementById('avoid').innerHTML=avoid.map(x=>`<span class="avoid-item">${x}</span>`).join('');
+
+  // NEXT-DAY rescue
+  let acts=[];
+  acts.push('Wake 5 am: Drink 1 coconut water (Khar/Dadar stall).');
+  acts.push('Breakfast: 2 Idli + Sambar (low oil, local Udipi).');
+  acts.push('B-vit: Take B1 300 mg + folate 5 mg (chemist opposite station).');
+  acts.push('Mid-morn: 1 banana + 500 ml water.');
+  acts.push('Lunch: Dal-rice + 1 tsp ghee + curd.');
+  acts.push('Evening: Kokum sherbet (no sugar) + 500 ml water.');
+  acts.push('Dinner before 9 pm: Khichdi + curd.');
+  acts.push('Sleep target 7 h; phone off 10:30 pm.');
+  if(deficit>500)acts.unshift(`Right now: Drink 600 ml water + pinch salt.`);
+  document.getElementById('actions').innerHTML=acts.join('<br>');
+}
+function saveData(){
+  const data={al:al.value,be:be.value,ci:ci.value,wa:wa.value,din:din.checked,sl:sl.value,ts:new Date().toISOString()};
+  localStorage.setItem('mumCalc',JSON.stringify(data));
+  alert('Saved locally.');
+}
+function resetData(){
+  els.forEach(sl=>sl.value=0); din.checked=false; update();
+  localStorage.removeItem('mumCalc');
+}
+(function load(){
+  const s=localStorage.getItem('mumCalc');
+  if(s){const d=JSON.parse(s); al.value=d.al||0;be.value=d.be||0;ci.value=d.ci||0;wa.value=d.wa||0;din.checked=d.din||false;sl.value=d.sl||0;}
+  update();
+})();
+</script>
+</body>
+</html>
