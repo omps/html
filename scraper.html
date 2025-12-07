@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>MSME Quick Scraper</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <style>
+    body{font-family:system-ui, sans-serif; margin:0; background:#f6f8fc;}
+    .box{max-width:680px; margin:auto; background:#fff; padding:2rem; border-radius:8px; box-shadow:0 2px 8px rgba(0,0,0,.05);}
+    h1{color:#0b57d0}
+    input,button{width:100%; padding:.75rem; margin-top:.5rem; font-size:1rem}
+    button{background:#0b57d0; color:#fff; border:0; cursor:pointer}
+    pre{background:#f4f6f8; padding:1rem; border-radius:4px; white-space:pre-wrap; word-break:break-word}
+    .hidden{display:none}
+  </style>
+</head>
+<body>
+  <div class="box">
+    <h1>MSME Quick Scraper</h1>
+    <label>Website URL
+      <input id="url" type="url" placeholder="https://example.com">
+    </label>
+    <label>Gemini API key (free tier)
+      <input id="key" type="password" placeholder="AIza...">
+    </label>
+    <button id="go">Scrape</button>
+
+    <div id="wait" class="hidden">Working…</div>
+    <pre id="out" class="hidden"></pre>
+    <button id="copy" class="hidden">Copy row</button>
+  </div>
+
+  <script>
+    const $ = id => document.getElementById(id);
+    const url = $('url'), key=$('key'), go=$('go'), wait=$('wait'), out=$('out'), copy=$('copy');
+
+    go.onclick = async () => {
+      if(!url.value || !key.value){ alert('Fill both fields'); return; }
+      wait.classList.remove('hidden'); out.classList.add('hidden'); copy.classList.add('hidden');
+
+      // 1. grab page text via free CORS proxy
+      const proxy = 'https://api.allorigins.win/raw?url=' + encodeURIComponent(url.value);
+      let html = await fetch(proxy).then(r => r.text()).catch(()=>'');
+      if(!html){ alert('Could not fetch site'); wait.classList.add('hidden'); return; }
+
+      // 2. remove scripts / styles to reduce token count
+      html = html.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi,'');
+      html = html.replace(/<style\b[^<]*(?:(?!<\/style>)<[^<]*)*<\/style>/gi,'');
+      const text = html.replace(/<[^>]+>/g,' ').replace(/\s{2,}/g,' ').trim().slice(0,8000);
+
+      // 3. ask Gemini for the 6 fields
+      const prompt = `Extract only these 6 items from the text below and return pure JSON (no markdown, no extra words):
+{"Name":"","Industry":"","Website":"","Contact No.":"","Contact Person":"","What the company is about?":""}
+
+Text:
+${text}`;
+
+      const resp = await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key='+key.value,{
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({contents:[{parts:[{text:prompt}]}]})
+      }).then(r=>r.json());
+
+      const raw = resp.candidates?.[0]?.content?.parts?.[0]?.text||'{}';
+      let data = {};
+      try{ data = JSON.parse(raw); }catch{ data = {Name:'',Industry:'',Website:url.value,Contact No.:'',Contact Person:'',"What the company is about?":'Parse failed'}; }
+
+      // 4. output row
+      const row = `${data.Name||''}, ${data.Industry||''}, ${data.Website||url.value}, ${data['Contact No.']||''}, ${data['Contact Person']||''}, ${data['What the company is about?']||''}`;
+      out.textContent = row;
+      wait.classList.add('hidden'); out.classList.remove('hidden'); copy.classList.remove('hidden');
+    };
+
+    copy.onclick = () => navigator.clipboard.writeText(out.textContent);
+  </script>
+</body>
+</html>
