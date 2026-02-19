@@ -1,0 +1,2384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Content Automation System - Complete Documentation</title>
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --secondary: #7c3aed;
+            --accent: #06b6d4;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --dark: #0f172a;
+            --darker: #020617;
+            --light: #f8fafc;
+            --gray: #64748b;
+            --code-bg: #1e293b;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: var(--darker);
+            color: var(--light);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        /* Animated background */
+        .bg-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.03;
+            background: 
+                radial-gradient(circle at 20% 50%, var(--primary) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, var(--secondary) 0%, transparent 50%),
+                radial-gradient(circle at 40% 20%, var(--accent) 0%, transparent 50%);
+            animation: pulse 15s ease-in-out infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+        
+        /* Layout */
+        .container {
+            display: flex;
+            min-height: 100vh;
+        }
+        
+        /* Sidebar */
+        .sidebar {
+            width: 300px;
+            background: var(--dark);
+            border-right: 1px solid rgba(255,255,255,0.1);
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+            z-index: 100;
+            transition: transform 0.3s ease;
+        }
+        
+        .sidebar-header {
+            padding: 2rem;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .nav-menu {
+            padding: 1rem 0;
+        }
+        
+        .nav-item {
+            padding: 0.75rem 2rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            border-left: 3px solid transparent;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 0.9rem;
+        }
+        
+        .nav-item:hover {
+            background: rgba(255,255,255,0.05);
+            border-left-color: var(--primary);
+        }
+        
+        .nav-item.active {
+            background: rgba(37, 99, 235, 0.1);
+            border-left-color: var(--primary);
+            color: var(--primary);
+        }
+        
+        .nav-icon {
+            width: 20px;
+            text-align: center;
+        }
+        
+        .nav-section {
+            padding: 1.5rem 2rem 0.5rem;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--gray);
+            font-weight: 600;
+        }
+        
+        /* Main Content */
+        .main-content {
+            margin-left: 300px;
+            flex: 1;
+            padding: 2rem;
+            max-width: calc(100% - 300px);
+        }
+        
+        .content-section {
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        .content-section.active {
+            display: block;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* Typography */
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--light), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        h2 {
+            font-size: 1.75rem;
+            margin: 2rem 0 1rem;
+            color: var(--light);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        h3 {
+            font-size: 1.25rem;
+            margin: 1.5rem 0 0.75rem;
+            color: var(--accent);
+        }
+        
+        p {
+            margin-bottom: 1rem;
+            color: rgba(248, 250, 252, 0.8);
+        }
+        
+        /* Cards */
+        .card {
+            background: var(--dark);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+        }
+        
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        
+        .card-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--light);
+        }
+        
+        .badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+        
+        .badge-primary { background: var(--primary); color: white; }
+        .badge-success { background: var(--success); color: white; }
+        .badge-warning { background: var(--warning); color: black; }
+        .badge-danger { background: var(--danger); color: white; }
+        .badge-secondary { background: var(--secondary); color: white; }
+        
+        /* Code Blocks */
+        .code-block {
+            background: var(--code-bg);
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem 0;
+            overflow-x: auto;
+            position: relative;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.85rem;
+            line-height: 1.5;
+        }
+        
+        .code-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .code-title {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            color: var(--gray);
+            letter-spacing: 0.05em;
+        }
+        
+        .copy-btn {
+            background: rgba(255,255,255,0.1);
+            border: none;
+            color: var(--light);
+            padding: 0.25rem 0.75rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.75rem;
+            transition: background 0.2s;
+        }
+        
+        .copy-btn:hover {
+            background: rgba(255,255,255,0.2);
+        }
+        
+        pre {
+            color: #e2e8f0;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+        
+        .json-key { color: #7dd3fc; }
+        .json-string { color: #86efac; }
+        .json-number { color: #fca5a5; }
+        .json-boolean { color: #f0abfc; }
+        
+        /* Tables */
+        .table-container {
+            overflow-x: auto;
+            margin: 1rem 0;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9rem;
+        }
+        
+        th {
+            background: rgba(37, 99, 235, 0.2);
+            padding: 0.75rem;
+            text-align: left;
+            font-weight: 600;
+            color: var(--accent);
+            border-bottom: 2px solid var(--primary);
+        }
+        
+        td {
+            padding: 0.75rem;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        
+        tr:hover {
+            background: rgba(255,255,255,0.02);
+        }
+        
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: none;
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+        
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            transform: translateY(-1px);
+        }
+        
+        .btn-secondary {
+            background: rgba(255,255,255,0.1);
+            color: var(--light);
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+        
+        .btn-secondary:hover {
+            background: rgba(255,255,255,0.15);
+        }
+        
+        /* Grid */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin: 1.5rem 0;
+        }
+        
+        /* Workflow Diagram */
+        .workflow-diagram {
+            background: var(--dark);
+            border-radius: 12px;
+            padding: 2rem;
+            margin: 1.5rem 0;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .flow-container {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        
+        .flow-row {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+        
+        .flow-node {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            text-align: center;
+            min-width: 150px;
+            position: relative;
+            box-shadow: 0 4px 15px rgba(37, 99, 235, 0.3);
+        }
+        
+        .flow-node.trigger {
+            background: linear-gradient(135deg, var(--success), var(--accent));
+        }
+        
+        .flow-node.process {
+            background: linear-gradient(135deg, var(--warning), var(--danger));
+        }
+        
+        .flow-node.output {
+            background: linear-gradient(135deg, var(--secondary), var(--primary));
+        }
+        
+        .flow-arrow {
+            font-size: 1.5rem;
+            color: var(--accent);
+        }
+        
+        .flow-arrow.down {
+            transform: rotate(90deg);
+        }
+        
+        /* Tabs */
+        .tabs {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding-bottom: 0.5rem;
+        }
+        
+        .tab {
+            padding: 0.5rem 1rem;
+            cursor: pointer;
+            border-radius: 6px;
+            transition: all 0.2s;
+            font-size: 0.9rem;
+        }
+        
+        .tab:hover {
+            background: rgba(255,255,255,0.05);
+        }
+        
+        .tab.active {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        /* Checklist */
+        .checklist {
+            list-style: none;
+        }
+        
+        .checklist li {
+            padding: 0.5rem 0;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        
+        .checklist input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+            accent-color: var(--primary);
+        }
+        
+        /* Search */
+        .search-box {
+            position: relative;
+            margin-bottom: 2rem;
+        }
+        
+        .search-input {
+            width: 100%;
+            padding: 1rem 1rem 1rem 3rem;
+            background: var(--dark);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 8px;
+            color: var(--light);
+            font-size: 1rem;
+        }
+        
+        .search-input:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+        
+        .search-icon {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--gray);
+        }
+        
+        /* Mobile Menu */
+        .mobile-menu-btn {
+            display: none;
+            position: fixed;
+            top: 1rem;
+            left: 1rem;
+            z-index: 101;
+            background: var(--dark);
+            border: 1px solid rgba(255,255,255,0.1);
+            color: var(--light);
+            padding: 0.75rem;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+            
+            .sidebar.open {
+                transform: translateX(0);
+            }
+            
+            .main-content {
+                margin-left: 0;
+                max-width: 100%;
+                padding: 1rem;
+            }
+            
+            .mobile-menu-btn {
+                display: block;
+            }
+            
+            h1 { font-size: 1.75rem; }
+            h2 { font-size: 1.25rem; }
+        }
+        
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: var(--darker);
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: var(--gray);
+            border-radius: 4px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--primary);
+        }
+        
+        /* Highlight */
+        .highlight {
+            background: rgba(6, 182, 212, 0.2);
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 0.9em;
+        }
+        
+        /* Info boxes */
+        .info-box {
+            background: rgba(37, 99, 235, 0.1);
+            border-left: 4px solid var(--primary);
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 0 8px 8px 0;
+        }
+        
+        .warning-box {
+            background: rgba(245, 158, 11, 0.1);
+            border-left: 4px solid var(--warning);
+        }
+        
+        .success-box {
+            background: rgba(16, 185, 129, 0.1);
+            border-left: 4px solid var(--success);
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-animation"></div>
+    
+    <button class="mobile-menu-btn" onclick="toggleSidebar()">☰</button>
+    
+    <div class="container">
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <span>⚡</span>
+                    <span>ContentOS</span>
+                </div>
+            </div>
+            
+            <nav class="nav-menu">
+                <div class="nav-section">Overview</div>
+                <div class="nav-item active" onclick="showSection('overview')">
+                    <span class="nav-icon">🏠</span>
+                    <span>System Overview</span>
+                </div>
+                <div class="nav-item" onclick="showSection('architecture')">
+                    <span class="nav-icon">🏗️</span>
+                    <span>Architecture</span>
+                </div>
+                
+                <div class="nav-section">Workflows</div>
+                <div class="nav-item" onclick="showSection('workflow-trigger')">
+                    <span class="nav-icon">🎯</span>
+                    <span>01 - Master Trigger</span>
+                </div>
+                <div class="nav-item" onclick="showSection('workflow-content')">
+                    <span class="nav-icon">✍️</span>
+                    <span>02 - Content Creation</span>
+                </div>
+                <div class="nav-item" onclick="showSection('workflow-images')">
+                    <span class="nav-icon">🎨</span>
+                    <span>03 - Image Generation</span>
+                </div>
+                <div class="nav-item" onclick="showSection('workflow-publish')">
+                    <span class="nav-icon">🚀</span>
+                    <span>04 - Publisher</span>
+                </div>
+                <div class="nav-item" onclick="showSection('workflow-video')">
+                    <span class="nav-icon">🎬</span>
+                    <span>05 - Video Production</span>
+                </div>
+                <div class="nav-item" onclick="showSection('workflow-calendar')">
+                    <span class="nav-icon">📅</span>
+                    <span>00 - Calendar Scheduler</span>
+                </div>
+                
+                <div class="nav-section">Integration</div>
+                <div class="nav-item" onclick="showSection('google-sheets')">
+                    <span class="nav-icon">📊</span>
+                    <span>Google Sheets Setup</span>
+                </div>
+                <div class="nav-item" onclick="showSection('telegram')">
+                    <span class="nav-icon">💬</span>
+                    <span>Telegram Commands</span>
+                </div>
+                
+                <div class="nav-section">Configuration</div>
+                <div class="nav-item" onclick="showSection('credentials')">
+                    <span class="nav-icon">🔐</span>
+                    <span>API Credentials</span>
+                </div>
+                <div class="nav-item" onclick="showSection('personas')">
+                    <span class="nav-icon">🎭</span>
+                    <span>Persona Configuration</span>
+                </div>
+                <div class="nav-item" onclick="showSection('optimal-times')">
+                    <span class="nav-icon">⏰</span>
+                    <span>Optimal Posting Times</span>
+                </div>
+                
+                <div class="nav-section">Deployment</div>
+                <div class="nav-item" onclick="showSection('setup')">
+                    <span class="nav-icon">⚙️</span>
+                    <span>Setup Guide</span>
+                </div>
+                <div class="nav-item" onclick="showSection('checklist')">
+                    <span class="nav-icon">✅</span>
+                    <span>Deployment Checklist</span>
+                </div>
+                <div class="nav-item" onclick="showSection('troubleshooting')">
+                    <span class="nav-icon">🔧</span>
+                    <span>Troubleshooting</span>
+                </div>
+            </nav>
+        </aside>
+        
+        <main class="main-content">
+            <!-- Search -->
+            <div class="search-box">
+                <span class="search-icon">🔍</span>
+                <input type="text" class="search-input" placeholder="Search documentation..." id="searchInput" onkeyup="searchContent()">
+            </div>
+            
+            <!-- Overview Section -->
+            <section id="overview" class="content-section active">
+                <h1>Content Automation System</h1>
+                <p>A comprehensive n8n-powered content creation and publishing platform with AI-driven writing, image generation, multi-platform publishing, and Google Sheets calendar integration.</p>
+                
+                <div class="grid">
+                    <div class="card">
+                        <div class="card-header">
+                            <span class="card-title">🎯 Core Features</span>
+                            <span class="badge badge-primary">v2.0</span>
+                        </div>
+                        <ul style="list-style: none; line-height: 2;">
+                            <li>✅ AI-powered content research & writing</li>
+                            <li>✅ DALL-E 3 image generation</li>
+                            <li>✅ Multi-platform publishing</li>
+                            <li>✅ Google Sheets editorial calendar</li>
+                            <li>✅ Optimal time scheduling</li>
+                            <li>✅ Telegram bot control</li>
+                            <li>✅ Video script generation</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card-header">
+                            <span class="card-title">📊 Supported Platforms</span>
+                            <span class="badge badge-success">6 Platforms</span>
+                        </div>
+                        <ul style="list-style: none; line-height: 2;">
+                            <li>💼 LinkedIn (Personal & Company)</li>
+                            <li>🐦 Twitter/X</li>
+                            <li>📘 Facebook Business</li>
+                            <li>📸 Instagram</li>
+                            <li>📝 WordPress</li>
+                            <li>🎬 Video (YouTube/TikTok ready)</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card-header">
+                            <span class="card-title">🤖 AI Integration</span>
+                            <span class="badge badge-secondary">GPT-4o</span>
+                        </div>
+                        <ul style="list-style: none; line-height: 2;">
+                            <li>🧠 OpenAI GPT-4o for writing</li>
+                            <li>🎨 DALL-E 3 for images</li>
+                            <li>🔍 SerpAPI for research</li>
+                            <li>🗣️ ElevenLabs for voiceover</li>
+                            <li>📝 Custom persona training</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="workflow-diagram">
+                    <h3 style="text-align: center; margin-bottom: 2rem;">System Workflow</h3>
+                    <div class="flow-container">
+                        <div class="flow-row">
+                            <div class="flow-node trigger">📱 Telegram<br><small>Command Input</small></div>
+                            <div class="flow-arrow">→</div>
+                            <div class="flow-node trigger">📅 Google Sheets<br><small>Calendar</small></div>
+                        </div>
+                        <div class="flow-arrow down">↓</div>
+                        <div class="flow-row">
+                            <div class="flow-node">🎯 Master Trigger<br><small>Parse & Route</small></div>
+                        </div>
+                        <div class="flow-arrow down">↓</div>
+                        <div class="flow-row">
+                            <div class="flow-node process">💡 Ideation<br><small>AI Brief</small></div>
+                            <div class="flow-arrow">→</div>
+                            <div class="flow-node process">🔍 Research<br><small>Web Data</small></div>
+                            <div class="flow-arrow">→</div>
+                            <div class="flow-node process">✍️ Writing<br><small>GPT-4o</small></div>
+                        </div>
+                        <div class="flow-arrow down">↓</div>
+                        <div class="flow-row">
+                            <div class="flow-node process">🎨 Images<br><small>DALL-E 3</small></div>
+                            <div class="flow-arrow">→</div>
+                            <div class="flow-node process">🎬 Video<br><small>Script + Voice</small></div>
+                        </div>
+                        <div class="flow-arrow down">↓</div>
+                        <div class="flow-row">
+                            <div class="flow-node output">🚀 Publish<br><small>6 Platforms</small></div>
+                            <div class="flow-arrow">→</div>
+                            <div class="flow-node output">📊 Analytics<br><small>Track Results</small></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="info-box">
+                    <strong>Quick Start:</strong> This system requires n8n (self-hosted or cloud), API keys for OpenAI, and social media accounts. Estimated setup time: 2-3 hours for basic configuration, 4-5 hours for full production deployment.
+                </div>
+            </section>
+            
+            <!-- Architecture Section -->
+            <section id="architecture" class="content-section">
+                <h1>System Architecture</h1>
+                
+                <h2>Workflow Interconnection</h2>
+                <div class="code-block">
+                    <div class="code-header">
+                        <span class="code-title">Workflow Dependency Map</span>
+                        <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                    </div>
+                    <pre>{
+  "workflows": {
+    "00-calendar-scheduler": {
+      "triggers": ["schedule"],
+      "calls": ["01-master-trigger"],
+      "description": "Hourly check for scheduled content"
+    },
+    "01-master-trigger": {
+      "triggers": ["telegram", "webhook"],
+      "calls": ["02-ideate-research-write"],
+      "description": "Entry point for all content requests"
+    },
+    "02-ideate-research-write": {
+      "triggers": ["execute-workflow"],
+      "calls": ["03-image-creation", "04-content-publisher"],
+      "description": "Content strategy, research, and writing"
+    },
+    "03-image-creation": {
+      "triggers": ["execute-workflow"],
+      "calls": ["04-content-publisher"],
+      "description": "AI image generation and storage"
+    },
+    "04-content-publisher": {
+      "triggers": ["execute-workflow"],
+      "calls": [],
+      "description": "Multi-platform publishing"
+    },
+    "05-video-production": {
+      "triggers": ["execute-workflow"],
+      "calls": ["04-content-publisher"],
+      "description": "Video script and voice generation"
+    }
+  }
+}</pre>
+                </div>
+                
+                <h2>Data Flow Schema</h2>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Stage</th>
+                                <th>Data Structure</th>
+                                <th>Storage</th>
+                                <th>Duration</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Trigger</td>
+                                <td>Command + Metadata</td>
+                                <td>Memory</td>
+                                <td>&lt;1s</td>
+                            </tr>
+                            <tr>
+                                <td>Brief</td>
+                                <td>Strategy + Research Questions</td>
+                                <td>Memory</td>
+                                <td>30-60s</td>
+                            </tr>
+                            <tr>
+                                <td>Research</td>
+                                <td>SERP Data + Insights</td>
+                                <td>Memory</td>
+                                <td>10-30s</td>
+                            </tr>
+                            <tr>
+                                <td>Content</td>
+                                <td>Full Text + SEO Data</td>
+                                <td>Memory + S3</td>
+                                <td>60-120s</td>
+                            </tr>
+                            <tr>
+                                <td>Media</td>
+                                <td>Image URLs + Video Assets</td>
+                                <td>S3</td>
+                                <td>30-90s</td>
+                            </tr>
+                            <tr>
+                                <td>Published</td>
+                                <td>Post URLs + Analytics</td>
+                                <td>Google Sheets</td>
+                                <td>Permanent</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <h2>External Services</h2>
+                <div class="grid">
+                    <div class="card">
+                        <div class="card-header">
+                            <span class="card-title">OpenAI</span>
+                            <span class="badge badge-primary">Required</span>
+                        </div>
+                        <p><strong>Models:</strong> GPT-4o, DALL-E 3</p>
+                        <p><strong>Cost:</strong> ~$0.05-0.15 per content piece</p>
+                        <p><strong>Rate Limit:</strong> Tier-dependent (TPM)</p>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card-header">
+                            <span class="card-title">AWS S3</span>
+                            <span class="badge badge-primary">Required</span>
+                        </div>
+                        <p><strong>Purpose:</strong> Image storage</p>
+                        <p><strong>Cost:</strong> ~$0.023/GB/month</p>
+                        <p><strong>Region:</strong> Close to n8n instance</p>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card-header">
+                            <span class="card-title">SerpAPI</span>
+                            <span class="badge badge-secondary">Optional</span>
+                        </div>
+                        <p><strong>Purpose:</strong> Web research</p>
+                        <p><strong>Cost:</strong> $50-100/month</p>
+                        <p><strong>Alternative:</strong> Perplexity API</p>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Workflow: Master Trigger -->
+            <section id="workflow-trigger" class="content-section">
+                <h1>Workflow 01: Master Trigger & Orchestrator</h1>
+                
+                <div class="tabs">
+                    <div class="tab active" onclick="showTab('trigger-overview')">Overview</div>
+                    <div class="tab" onclick="showTab('trigger-json')">JSON Code</div>
+                    <div class="tab" onclick="showTab('trigger-nodes')">Node Details</div>
+                </div>
+                
+                <div id="trigger-overview" class="tab-content active">
+                    <p>The entry point for all content creation requests. Accepts input from Telegram bot or Google Sheets calendar, parses commands, validates input, and routes to appropriate child workflows.</p>
+                    
+                    <div class="info-box">
+                        <strong>Dual Input Support:</strong> This workflow handles both immediate Telegram commands and scheduled Google Sheets entries, normalizing them into a common format for downstream processing.
+                    </div>
+                    
+                    <h3>Command Format</h3>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span class="code-title">Telegram Command Structure</span>
+                            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                        </div>
+                        <pre>/create [account] [content_type] [topic/idea]
+
+Examples:
+/create linkedin-main carousel 5 tax tips for startups
+/create twitter-tech thread Why AI won't replace accountants
+/create wordpress-blog blog Complete GST registration guide
+/create all standard Breaking news: New tax reforms</pre>
+                    </div>
+                    
+                    <h3>Input Parameters</h3>
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Parameter</th>
+                                    <th>Type</th>
+                                    <th>Options</th>
+                                    <th>Description</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>account</td>
+                                    <td>string</td>
+                                    <td>linkedin-main, linkedin-personal, twitter-tech, twitter-personal, facebook-business, instagram-main, wordpress-blog, all</td>
+                                    <td>Target platform identifier</td>
+                                </tr>
+                                <tr>
+                                    <td>content_type</td>
+                                    <td>string</td>
+                                    <td>standard, carousel, thread, blog, video, story</td>
+                                    <td>Format of content</td>
+                                </tr>
+                                <tr>
+                                    <td>topic</td>
+                                    <td>string</td>
+                                    <td>Free text</td>
+                                    <td>Content subject matter</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                
+                <div id="trigger-json" class="tab-content">
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span class="code-title">Complete Workflow JSON</span>
+                            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                        </div>
+                        <pre id="trigger-json-code">{
+  "name": "01 - Master Trigger (Dual Source)",
+  "nodes": [
+    {
+      "parameters": {
+        "updates": ["message"],
+        "additionalFields": {}
+      },
+      "name": "Telegram Trigger",
+      "type": "n8n-nodes-base.telegramTrigger",
+      "typeVersion": 1,
+      "position": [250, 200],
+      "webhookId": "telegram-master-trigger"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Detect trigger source and normalize\nconst telegramData = $input.first().json;\n\n// Check if this is from Telegram or Google Sheets\nif (telegramData.message) {\n  // Telegram source\n  const message = telegramData.message;\n  const text = message.text || '';\n  \n  // Parse command: /create [account] [type] [idea]\n  const commandRegex = /^\\/create\\s+(\\S+)\\s+(\\S+)\\s+(.+)$/i;\n  const match = text.match(commandRegex);\n  \n  if (!match) {\n    return [{\n      valid_command: false,\n      source: 'telegram',\n      chat_id: message.chat.id,\n      error: 'Invalid command format'\n    }];\n  }\n  \n  return [{\n    valid_command: true,\n    source: 'telegram',\n    account: match[1].toLowerCase(),\n    content_type: match[2].toLowerCase(),\n    idea: match[3],\n    chat_id: message.chat.id,\n    user_id: message.from.id,\n    timestamp: new Date().toISOString(),\n    persona_key: null,\n    priority: 'normal'\n  }];\n} else if (telegramData.source === 'google_sheets_calendar') {\n  // Google Sheets source (already formatted)\n  return [{\n    valid_command: true,\n    source: 'google_sheets',\n    ...telegramData\n  }];\n} else {\n  return [{\n    valid_command: false,\n    source: 'unknown',\n    error: 'Unrecognized trigger source'\n  }];\n}"
+      },
+      "name": "Normalize Input",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [450, 300]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+n              "id": "condition-1",
+              "leftValue": "={{ $json.valid_command }}",
+              "rightValue": "true",
+              "operator": {
+                "type": "boolean",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        }
+      },
+      "name": "Valid Input?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [650, 300]
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $json.chat_id }}",
+        "text": "❌ Error: {{ $json.error }}\n\nTelegram format: /create [account] [type] [idea]\nOr use Google Sheets Calendar for scheduled posting.",
+        "additionalFields": {}
+      },
+      "name": "Send Error",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1,
+      "position": [650, 500]
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $json.chat_id }}",
+        "text": "=✅ Request received from {{ $json.source === 'telegram' ? 'Telegram' : 'Content Calendar' }}!\n\n🎯 Account: {{ $json.account }}\n📝 Type: {{ $json.content_type }}\n💡 Topic: {{ $json.idea.substring(0, 50) }}...\n⏰ Priority: {{ $json.priority || 'normal' }}\n\n{{ $json.scheduled_time ? '📅 Scheduled for: ' + $json.scheduled_time : '🚀 Starting immediately...' }}",
+        "additionalFields": {}
+      },
+      "name": "Confirm Receipt",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1,
+      "position": [850, 200]
+    },
+    {
+      "parameters": {
+        "workflowId": "02-ideate-research-write",
+        "options": {}
+      },
+      "name": "Execute Content Workflow",
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1,
+      "position": [1050, 200]
+    }
+  ],
+  "connections": {
+    "Telegram Trigger": {
+      "main": [[{ "node": "Normalize Input", "type": "main", "index": 0 }]]
+    },
+    "Normalize Input": {
+      "main": [[{ "node": "Valid Input?", "type": "main", "index": 0 }]]
+    },
+    "Valid Input?": {
+      "main": [
+        [{ "node": "Confirm Receipt", "type": "main", "index": 0 }],
+        [{ "node": "Send Error", "type": "main", "index": 0 }]
+      ]
+    },
+    "Confirm Receipt": {
+      "main": [[{ "node": "Execute Content Workflow", "type": "main", "index": 0 }]]
+    }
+  }
+}</pre>
+                    </div>
+                </div>
+                
+                <div id="trigger-nodes" class="tab-content">
+                    <h3>Node Specifications</h3>
+                    <div class="card">
+                        <div class="card-header">
+                            <span class="card-title">Telegram Trigger</span>
+                            <span class="badge badge-primary">Webhook</span>
+                        </div>
+                        <p><strong>Type:</strong> n8n-nodes-base.telegramTrigger</p>
+                        <p><strong>Webhook ID:</strong> telegram-master-trigger</p>
+                        <p><strong>Events:</strong> message</p>
+                        <p><strong>Output:</strong> Raw Telegram message object</p>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card-header">
+                            <span class="card-title">Normalize Input (Code Node)</span>
+                            <span class="badge badge-secondary">JavaScript</span>
+                        </div>
+                        <p>Detects trigger source (Telegram vs Google Sheets) and normalizes into common schema. Validates command format using regex.</p>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card-header">
+                            <span class="card-title">Valid Input? (If Node)</span>
+                            <span class="badge badge-warning">Condition</span>
+                        </div>
+                        <p><strong>Condition:</strong> <code>$json.valid_command equals true</code></p>
+                        <p><strong>True Branch:</strong> Proceed to confirmation</p>
+                        <p><strong>False Branch:</strong> Send error message</p>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Workflow: Content Creation -->
+            <section id="workflow-content" class="content-section">
+                <h1>Workflow 02: Ideate → Research → Write</h1>
+                
+                <div class="tabs">
+                    <div class="tab active" onclick="showTab('content-overview')">Overview</div>
+                    <div class="tab" onclick="showTab('content-persona')">Persona System</div>
+                    <div class="tab" onclick="showTab('content-prompts')">AI Prompts</div>
+                </div>
+                
+                <div id="content-overview" class="tab-content active">
+                    <p>The core content creation engine. Loads persona configuration, generates content strategy brief, conducts web research (optional), and produces platform-optimized content using GPT-4o.</p>
+                    
+                    <div class="workflow-diagram" style="padding: 1rem;">
+                        <div class="flow-row">
+                            <div class="flow-node">Load Persona</div>
+                            <div class="flow-arrow">→</div>
+                            <div class="flow-node">AI Brief</div>
+                            <div class="flow-arrow">→</div>
+                            <div class="flow-node">Research?</div>
+                        </div>
+                        <div class="flow-row" style="margin-top: 1rem;">
+                            <div class="flow-node process" style="opacity: 0.5;">Web Search</div>
+                            <div class="flow-arrow">→</div>
+                            <div class="flow-node process" style="opacity: 0.5;">Analyze</div>
+                            <div class="flow-arrow">→</div>
+                            <div class="flow-node">AI Write</div>
+                        </div>
+                    </div>
+                    
+                    <h3>Processing Stages</h3>
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Stage</th>
+                                    <th>Duration</th>
+                                    <th>Output</th>
+                                    <th>Cost (USD)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Load Persona</td>
+                                    <td>&lt;1s</td>
+                                    <td>Configuration object</td>
+                                    <td>$0.00</td>
+                                </tr>
+                                <tr>
+                                    <td>AI Content Brief</td>
+                                    <td>5-10s</td>
+                                    <td>Strategy + structure</td>
+                                    <td>~$0.02</td>
+                                </tr>
+                                <tr>
+                                    <td>Web Research</td>
+                                    <td>10-30s</td>
+                                    <td>SERP data + insights</td>
+                                    <td>~$0.01</td>
+                                </tr>
+                                <tr>
+                                    <td>AI Writing</td>
+                                    <td>15-30s</td>
+                                    <td>Complete content</td>
+                                    <td>~$0.05-0.10</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                
+                <div id="content-persona" class="tab-content">
+                    <h3>Persona Configuration Schema</h3>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span class="code-title">JavaScript Persona Object</span>
+                            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                        </div>
+                        <pre>const personas = {
+  'professional_ceo': {
+    name: 'Professional CEO',
+    tone: 'authoritative, insightful, data-driven',
+    style: 'business professional with personal touch',
+    vocabulary: 'industry terminology, strategic frameworks',
+    sentence_structure: 'mix of short punchy and detailed',
+    emoji_usage: 'minimal, professional',
+    cta_style: 'thought-provoking questions',
+    linkedin_specific: 'focus on leadership, trends, culture',
+    twitter_specific: 'concise insights, thread storytelling',
+    wordpress_specific: 'comprehensive guides, SEO-optimized'
+  },
+  
+  'thought_leader': {
+    name: 'Thought Leader',
+    tone: 'visionary, challenging, inspiring',
+    style: 'provocative ideas with actionable insights',
+    vocabulary: 'forward-thinking, disruptive, innovative',
+    sentence_structure: 'rhetorical questions + strong opinions',
+    emoji_usage: 'strategic for emphasis',
+    cta_style: 'invite debate and discussion',
+    linkedin_specific: 'contrarian takes, future predictions',
+    twitter_specific: 'hot takes, viral hooks',
+    wordpress_specific: 'deep dives, research-backed'
+  },
+  
+  'tech_influencer': {
+    name: 'Tech Influencer',
+    tone: 'enthusiastic, knowledgeable, accessible',
+    style: 'explaining complex tech simply',
+    vocabulary: 'tech jargon explained, analogies',
+    sentence_structure: 'problem-solution format',
+    emoji_usage: 'tech-related emojis',
+    cta_style: 'ask for experiences',
+    linkedin_specific: 'tech trends, career advice',
+    twitter_specific: 'quick tips, tool recommendations',
+    wordpress_specific: 'tutorials, reviews, comparisons'
+  },
+  
+  'seo_expert': {
+    name: 'SEO Expert',
+    tone: 'helpful, authoritative, comprehensive',
+    style: 'structured, skimmable, keyword-rich',
+    vocabulary: 'SEO terminology, action verbs',
+    sentence_structure: 'H2/H3 hierarchy, bullet points',
+    emoji_usage: 'section dividers',
+    cta_style: 'downloadable resources',
+    linkedin_specific: 'content marketing tips',
+    twitter_specific: 'SEO quick wins',
+    wordpress_specific: 'long-form, pillar content'
+  }
+};</pre>
+                    </div>
+                    
+                    <div class="info-box">
+                        <strong>Customization:</strong> When cloning workflows for different clients/accounts, modify the persona configuration in the "Load Persona Config" code node to match brand voice.
+                    </div>
+                </div>
+                
+                <div id="content-prompts" class="tab-content">
+                    <h3>AI Content Brief Prompt</h3>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span class="code-title">System Prompt for GPT-4o</span>
+                            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                        </div>
+                        <pre>You are a content strategist. Based on the persona below, analyze the content idea and create a detailed brief.
+
+PERSONA: {{ $json.persona_config.name }}
+TONE: {{ $json.persona_config.tone }}
+STYLE: {{ $json.persona_config.style }}
+
+ACCOUNT: {{ $json.account }}
+CONTENT TYPE: {{ $json.content_type }}
+
+Create a content brief including:
+1. Angle/hook (what makes this interesting)
+2. Key messages (3-5 points)
+3. Target audience pain points
+4. Research questions to investigate
+5. Content structure outline
+6. Visual requirements (image descriptions)
+7. SEO keywords (if applicable)
+8. Call-to-action recommendation</pre>
+                    </div>
+                    
+                    <h3>AI Writing Prompt</h3>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span class="code-title">Content Generation Prompt</span>
+                            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                        </div>
+                        <pre>You are an expert content writer. Write content following these exact specifications:
+
+PERSONA: {{ $json.persona_config.name }}
+WRITING STYLE: {{ $json.persona_config.style }}
+TONE: {{ $json.persona_config.tone }}
+VOCABULARY: {{ $json.persona_config.vocabulary }}
+SENTENCE STRUCTURE: {{ $json.persona_config.sentence_structure }}
+EMOJI USAGE: {{ $json.persona_config.emoji_usage }}
+
+CONTENT TYPE: {{ $json.content_type }}
+PLATFORM: {{ $json.account }}
+
+PLATFORM-SPECIFIC RULES:
+{{ $json.account.includes('linkedin') ? $json.persona_config.linkedin_specific : '' }}
+{{ $json.account.includes('twitter') ? $json.persona_config.twitter_specific : '' }}
+{{ $json.account.includes('wordpress') ? $json.persona_config.wordpress_specific : '' }}
+
+REQUIREMENTS:
+- Hook/Opening must be compelling
+- Include 3-5 key takeaways
+- Use platform-appropriate formatting
+- Include clear CTA
+- Optimize for engagement
+- If WordPress: Include SEO title, meta description, H2/H3 structure
+- If LinkedIn Carousel: Structure as slide-by-slide with image descriptions
+- If Twitter Thread: Number tweets, under 280 chars each</pre>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Workflow: Image Creation -->
+            <section id="workflow-images" class="content-section">
+                <h1>Workflow 03: Image Creation</h1>
+                <p>Generates platform-optimized images using DALL-E 3, converts to binary, uploads to AWS S3, and returns public URLs for publishing.</p>
+                
+                <h3>Image Size Specifications</h3>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Platform</th>
+                                <th>Dimensions</th>
+                                <th>DALL-E Size</th>
+                                <th>Aspect Ratio</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>LinkedIn Feed</td>
+                                <td>1200 x 627</td>
+                                <td>1792x1024</td>
+                                <td>1.91:1</td>
+                            </tr>
+                            <tr>
+                                <td>LinkedIn Carousel</td>
+                                <td>1080 x 1080</td>
+                                <td>1024x1024</td>
+                                <td>1:1</td>
+                            </tr>
+                            <tr>
+                                <td>Twitter/X</td>
+                                <td>1200 x 675</td>
+                                <td>1792x1024</td>
+                                <td>16:9</td>
+                            </tr>
+                            <tr>
+                                <td>Instagram Feed</td>
+                                <td>1080 x 1080</td>
+                                <td>1024x1024</td>
+                                <td>1:1</td>
+                            </tr>
+                            <tr>
+                                <td>Instagram Story</td>
+                                <td>1080 x 1920</td>
+                                <td>1024x1792</td>
+                                <td>9:16</td>
+                            </tr>
+                            <tr>
+                                <td>Facebook</td>
+                                <td>1200 x 630</td>
+                                <td>1792x1024</td>
+                                <td>1.91:1</td>
+                            </tr>
+                            <tr>
+                                <td>WordPress Featured</td>
+                                <td>1200 x 630</td>
+                                <td>1792x1024</td>
+                                <td>1.91:1</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <h3>S3 Storage Structure</h3>
+                <div class="code-block">
+                    <div class="code-header">
+                        <span class="code-title">Bucket Organization</span>
+                        <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                    </div>
+                    <pre>s3://your-content-bucket/
+├── content-images/
+│   ├── 2024/
+│   │   ├── 01/
+│   │   │   ├── image_001_1705683600.png
+│   │   │   └── ...
+│   │   ├── 02/
+│   │   └── ...
+│   └── ...
+├── videos/
+│   └── ...
+└── assets/
+    └── brand-templates/</pre>
+                </div>
+                
+                <div class="warning-box" style="margin-top: 1rem;">
+                    <strong>Important:</strong> Configure S3 bucket with public read access for the <code>content-images/</code> prefix or use CloudFront distribution for secure, cached delivery.
+                </div>
+            </section>
+            
+            <!-- Workflow: Publisher -->
+            <section id="workflow-publish" class="content-section">
+                <h1>Workflow 04: Content Publisher</h1>
+                <p>Publishes content to LinkedIn, Twitter/X, Facebook, Instagram, and WordPress with platform-specific formatting and API handling.</p>
+                
+                <h3>Platform API Specifications</h3>
+                
+                <div class="card">
+                    <div class="card-header">
+                        <span class="card-title">LinkedIn API</span>
+                        <span class="badge badge-primary">OAuth 2.0</span>
+                    </div>
+                    <p><strong>Permissions:</strong> r_basicprofile, r_organization_social, w_organization_social, w_member_social</p>
+                    <p><strong>Rate Limit:</strong> 100 posts per 24 hours</p>
+                    <p><strong>Character Limit:</strong> 3,000 (posts), 125 (headlines)</p>
+                </div>
+                
+                <div class="card">
+                    <div class="card-header">
+                        <span class="card-title">Twitter/X API v2</span>
+                        <span class="badge badge-primary">OAuth 2.0</span>
+                    </div>
+                    <p><strong>Access Level:</strong> Elevated (required for media uploads)</p>
+                    <p><strong>Rate Limit:</strong> 300 tweets per 3 hours</p>
+                    <p><strong>Character Limit:</strong> 280 per tweet (4,000 for Twitter Blue)</p>
+                </div>
+                
+                <div class="card">
+                    <div class="card-header">
+                        <span class="card-title">Instagram Graph API</span>
+                        <span class="badge badge-primary">Graph API</span>
+                    </div>
+                    <p><strong>Requirements:</strong> Business Account connected to Facebook Page</p>
+                    <p><strong>Rate Limit:</strong> 25 publishes per 24 hours</p>
+                    <p><strong>Aspect Ratios:</strong> 1.91:1 to 4:5 (photos), 9:16 (stories)</p>
+                </div>
+                
+                <div class="card">
+                    <div class="card-header">
+                        <span class="card-title">WordPress REST API</span>
+                        <span class="badge badge-secondary">Application Password</span>
+                    </div>
+                    <p><strong>Authentication:</strong> Basic Auth with Application Password</p>
+                    <p><strong>Endpoint:</strong> /wp-json/wp/v2/posts</p>
+                    <p><strong>Features:</strong> SEO metadata, featured images, categories, tags</p>
+                </div>
+            </section>
+            
+            <!-- Workflow: Video -->
+            <section id="workflow-video" class="content-section">
+                <h1>Workflow 05: Video Production</h1>
+                <p>Creates video scripts, generates scene images, and produces voiceover using ElevenLabs. Outputs assets for manual assembly or automated video generation.</p>
+                
+                <h3>Video Production Pipeline</h3>
+                <div class="workflow-diagram" style="padding: 1rem;">
+                    <div class="flow-row">
+                        <div class="flow-node">AI Script</div>
+                        <div class="flow-arrow">→</div>
+                        <div class="flow-node">Scene Breakdown</div>
+                        <div class="flow-arrow">→</div>
+                        <div class="flow-node">Voiceover</div>
+                    </div>
+                    <div class="flow-row" style="margin-top: 1rem;">
+                        <div class="flow-node process">Scene Images</div>
+                        <div class="flow-arrow">→</div>
+                        <div class="flow-node process">Video Assembly</div>
+                        <div class="flow-arrow">→</div>
+                        <div class="flow-node">Publish</div>
+                    </div>
+                </div>
+                
+                <h3>ElevenLabs Configuration</h3>
+                <div class="code-block">
+                    <div class="code-header">
+                        <span class="code-title">Voice Generation API</span>
+                        <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                    </div>
+                    <pre>{
+  "model_id": "eleven_multilingual_v2",
+  "text": "{{ script_text }}",
+  "voice_settings": {
+    "stability": 0.5,
+    "similarity_boost": 0.75,
+    "style": 0.3,
+    "use_speaker_boost": true
+  }
+}</pre>
+                </div>
+                
+                <div class="info-box">
+                    <strong>Voice Options:</strong> Use preset voices (Rachel, Domi, Bella) or create custom voice clone for brand consistency. Custom voices require 1-5 minutes of sample audio.
+                </div>
+            </section>
+            
+            <!-- Workflow: Calendar -->
+            <section id="workflow-calendar" class="content-section">
+                <h1>Workflow 00: Calendar Scheduler</h1>
+                <p>Hourly scheduled workflow that checks Google Sheets for approved content due for publishing, calculates optimal posting times, and triggers the content creation pipeline.</p>
+                
+                <h3>Scheduler Logic</h3>
+                <div class="code-block">
+                    <div class="code-header">
+                        <span class="code-title">Filtering Algorithm</span>
+                        <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                    </div>
+                    <pre>// Check every hour for content to publish
+const now = new Date();
+const currentHour = now.getHours();
+const today = now.toISOString().split('T')[0];
+
+// Filter criteria:
+// 1. Status is 'approved' or 'scheduled'
+// 2. Date is today
+// 3. Optimal time hour matches current hour (±1 hour buffer)
+// 4. Not already published or failed
+
+const scheduledContent = rows.filter(row => {
+  const status = row.Status?.toLowerCase();
+  const rowDate = row.Date;
+  const optimalTime = row.Optimal_Time ? new Date(row.Optimal_Time) : null;
+  const optimalHour = optimalTime ? optimalTime.getHours() : null;
+  
+  const isReady = ['approved', 'scheduled'].includes(status);
+  const isToday = rowDate === today;
+  const isRightTime = optimalHour !== null ? 
+    Math.abs(optimalHour - currentHour) <= 1 : true;
+  
+  return isReady && isToday && isRightTime;
+});</pre>
+                </div>
+                
+                <h3>Google Sheets Column Mapping</h3>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Column</th>
+                                <th>Header</th>
+                                <th>Data Type</th>
+                                <th>Auto/Manual</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>A</td>
+                                <td>Date</td>
+                                <td>Date (YYYY-MM-DD)</td>
+                                <td>Manual</td>
+                            </tr>
+                            <tr>
+                                <td>B</td>
+                                <td>Time</td>
+                                <td>Time (HH:MM)</td>
+                                <td>Manual (optional)</td>
+                            </tr>
+                            <tr>
+                                <td>C</td>
+                                <td>Platform</td>
+                                <td>String (dropdown)</td>
+                                <td>Manual</td>
+                            </tr>
+                            <tr>
+                                <td>D</td>
+                                <td>Content_Type</td>
+                                <td>String (dropdown)</td>
+                                <td>Manual</td>
+                            </tr>
+                            <tr>
+                                <td>E</td>
+                                <td>Topic</td>
+                                <td>String</td>
+                                <td>Manual</td>
+                            </tr>
+                            <tr>
+                                <td>F</td>
+                                <td>Status</td>
+                                <td>String (dropdown)</td>
+                                <td>Auto-updated</td>
+                            </tr>
+                            <tr>
+                                <td>G</td>
+                                <td>Optimal_Time</td>
+                                <td>DateTime</td>
+                                <td>Auto-calculated</td>
+                            </tr>
+                            <tr>
+                                <td>H</td>
+                                <td>Persona</td>
+                                <td>String (dropdown)</td>
+                                <td>Manual</td>
+                            </tr>
+                            <tr>
+                                <td>I</td>
+                                <td>Priority</td>
+                                <td>String (dropdown)</td>
+                                <td>Manual</td>
+                            </tr>
+                            <tr>
+                                <td>J</td>
+                                <td>Created_By</td>
+                                <td>String</td>
+                                <td>Auto (Apps Script)</td>
+                            </tr>
+                            <tr>
+                                <td>K</td>
+                                <td>Created_Date</td>
+                                <td>DateTime</td>
+                                <td>Auto (Apps Script)</td>
+                            </tr>
+                            <tr>
+                                <td>L</td>
+                                <td>Published_URL</td>
+                                <td>String</td>
+                                <td>Auto-updated</td>
+                            </tr>
+                            <tr>
+                                <td>M</td>
+                                <td>Error_Log</td>
+                                <td>String</td>
+                                <td>Auto-updated</td>
+                            </tr>
+                            <tr>
+                                <td>N</td>
+                                <td>Content_ID</td>
+                                <td>String</td>
+                                <td>Auto (formula)</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+            
+            <!-- Google Sheets Section -->
+            <section id="google-sheets" class="content-section">
+                <h1>Google Sheets Integration</h1>
+                
+                <h2>Setup Instructions</h2>
+                
+                <div class="card">
+                    <div class="card-header">
+                        <span class="card-title">Step 1: Google Cloud Project</span>
+                        <span class="badge badge-primary">Required</span>
+                    </div>
+                    <ol style="margin-left: 1.5rem; line-height: 2;">
+                        <li>Visit <a href="https://console.cloud.google.com/" target="_blank" style="color: var(--accent);">Google Cloud Console</a></li>
+                        <li>Create new project named <code>ContentAutomation</code></li>
+                        <li>Enable APIs: Google Sheets API + Google Drive API</li>
+                        <li>Navigate to IAM & Admin → Service Accounts</li>
+                        <li>Create service account: <code>n8n-content-calendar</code></li>
+                        <li>Role: Editor (or custom Sheets Editor)</li>
+                        <li>Create key → JSON → Download securely</li>
+                    </ol>
+                </div>
+                
+                <div class="card">
+                    <div class="card-header">
+                        <span class="card-title">Step 2: Sheet Configuration</span>
+                        <span class="badge badge-primary">Required</span>
+                    </div>
+                    <ol style="margin-left: 1.5rem; line-height: 2;">
+                        <li>Create new Google Sheet named <code>ContentCalendar</code></li>
+                        <li>Add column headers (A: Date through N: Content_ID)</li>
+                        <li>Set up data validation for dropdown columns (C, D, F, H, I)</li>
+                        <li>Apply conditional formatting for status colors</li>
+                        <li>Share with service account email (Editor access)</li>
+                        <li>Copy Sheet ID from URL: <code>/d/SHEET_ID/edit</code></li>
+                    </ol>
+                </div>
+                
+                <h3>Apps Script Automation</h3>
+                <div class="code-block">
+                    <div class="code-header">
+                        <span class="code-title">Google Apps Script (Extensions → Apps Script)</span>
+                        <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                    </div>
+                    <pre>function onEdit(e) {
+  const sheet = e.source.getActiveSheet();
+  if (sheet.getName() !== 'ContentCalendar') return;
+  
+  const row = e.range.getRow();
+  const col = e.range.getColumn();
+  
+  // Auto-timestamp when Date is added
+  if (col === 1 && row > 1) {
+    const createdDateCell = sheet.getRange(row, 11);
+    if (!createdDateCell.getValue()) {
+      createdDateCell.setValue(new Date());
+    }
+    
+    // Auto-calculate optimal time
+    const platform = sheet.getRange(row, 3).getValue();
+    const date = sheet.getRange(row, 1).getValue();
+    if (platform && date) {
+      const optimalTime = calculateOptimalTime(platform, date);
+      sheet.getRange(row, 7).setValue(optimalTime);
+    }
+  }
+  
+  // Status change logging
+  if (col === 6 && row > 1) {
+    const newStatus = e.value;
+    if (newStatus === 'published') {
+      sheet.getRange(row, 12).setValue(new Date());
+    }
+  }
+}
+
+function calculateOptimalTime(platform, date) {
+  const times = {
+    'linkedin-main': [9, 12, 17],
+    'twitter-tech': [8, 12, 17, 21],
+    'facebook-business': [13, 19],
+    'instagram-main': [11, 19],
+    'wordpress-blog': [9, 14]
+  };
+  
+  const hours = times[platform] || [10];
+  const randomHour = hours[Math.floor(Math.random() * hours.length)];
+  const randomMinute = Math.floor(Math.random() * 60);
+  
+  const result = new Date(date);
+  result.setHours(randomHour, randomMinute, 0);
+  return result;
+}</pre>
+                </div>
+            </section>
+            
+            <!-- Telegram Section -->
+            <section id="telegram" class="content-section">
+                <h1>Telegram Bot Commands</h1>
+                
+                <h3>Command Reference</h3>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Command</th>
+                                <th>Format</th>
+                                <th>Example</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code>/create</code></td>
+                                <td>/create [account] [type] [topic]</td>
+                                <td>/create linkedin-main carousel 5 tax tips</td>
+                                <td>Create and publish content immediately</td>
+                            </tr>
+                            <tr>
+                                <td><code>/schedule</code></td>
+                                <td>/schedule [account] [type] [date] [topic]</td>
+                                <td>/schedule twitter-tech thread 2024-01-20 AI trends</td>
+                                <td>Add to Google Sheets calendar</td>
+                            </tr>
+                            <tr>
+                                <td><code>/status</code></td>
+                                <td>/status [content_id]</td>
+                                <td>/status 20240115-abc123</td>
+                                <td>Check content status</td>
+                            </tr>
+                            <tr>
+                                <td><code>/accounts</code></td>
+                                <td>/accounts</td>
+                                <td>/accounts</td>
+                                <td>List available accounts</td>
+                            </tr>
+                            <tr>
+                                <td><code>/help</code></td>
+                                <td>/help</td>
+                                <td>/help</td>
+                                <td>Show detailed help</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <h3>BotFather Configuration</h3>
+                <div class="code-block">
+                    <div class="code-header">
+                        <span class="code-title">Command List for @BotFather</span>
+                        <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                    </div>
+                    <pre>setcommands
+
+start - Start the bot and see welcome message
+create - Create content immediately (format: /create account type idea)
+schedule - Schedule content for later (format: /schedule account type date idea)
+status - Check status of content by ID
+accounts - List all available social media accounts
+help - Show detailed help and examples</pre>
+                </div>
+                
+                <div class="info-box">
+                    <strong>Webhook Setup:</strong> After deploying n8n, set webhook URL:<br>
+                    <code>https://your-n8n-instance.com/webhook/telegram-master-trigger</code>
+                </div>
+            </section>
+            
+            <!-- Credentials Section -->
+            <section id="credentials" class="content-section">
+                <h1>API Credentials Matrix</h1>
+                
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Service</th>
+                                <th>Type</th>
+                                <th>Cost</th>
+                                <th>Rate Limits</th>
+                                <th>Priority</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>OpenAI</strong></td>
+                                <td>API Key</td>
+                                <td>Pay-per-use</td>
+                                <td>Tier-dependent</td>
+                                <td><span class="badge badge-danger">Critical</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Telegram</strong></td>
+                                <td>Bot Token</td>
+                                <td>Free</td>
+                                <td>30 msgs/sec</td>
+                                <td><span class="badge badge-danger">Critical</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>AWS S3</strong></td>
+                                <td>Access Key</td>
+                                <td>Storage + bandwidth</td>
+                                <td>3,500 PUTs/sec</td>
+                                <td><span class="badge badge-danger">Critical</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>LinkedIn</strong></td>
+                                <td>OAuth 2.0</td>
+                                <td>Free</td>
+                                <td>100 posts/day</td>
+                                <td><span class="badge badge-warning">Platform</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Twitter/X</strong></td>
+                                <td>OAuth 2.0</td>
+                                <td>Free-$5000/mo</td>
+                                <td>300 tweets/3hrs</td>
+                                <td><span class="badge badge-warning">Platform</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Facebook/IG</strong></td>
+                                <td>Graph API</td>
+                                <td>Free</td>
+                                <td>25 posts/day</td>
+                                <td><span class="badge badge-warning">Platform</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>WordPress</strong></td>
+                                <td>App Password</td>
+                                <td>Free</td>
+                                <td>Server-dependent</td>
+                                <td><span class="badge badge-warning">Platform</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>SerpAPI</strong></td>
+                                <td>API Key</td>
+                                <td>$50/mo+</td>
+                                <td>5,000 searches/mo</td>
+                                <td><span class="badge badge-secondary">Optional</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>ElevenLabs</strong></td>
+                                <td>API Key</td>
+                                <td>$5/mo+</td>
+                                <td>Character limits</td>
+                                <td><span class="badge badge-secondary">Video</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <h3>Credential Setup in n8n</h3>
+                <div class="card">
+                    <div class="card-header">
+                        <span class="card-title">OpenAI Configuration</span>
+                    </div>
+                    <p><strong>Name:</strong> OpenAI Account</p>
+                    <p><strong>API Key:</strong> sk-...</p>
+                    <p><strong>Base URL:</strong> https://api.openai.com/v1</p>
+                </div>
+                
+                <div class="card">
+                    <div class="card-header">
+                        <span class="card-title">Google Sheets Service Account</span>
+                    </div>
+                    <p><strong>Name:</strong> Google Sheets Account</p>
+                    <p><strong>Type:</strong> Service Account</p>
+                    <p><strong>Email:</strong> n8n-content-calendar@...</p>
+                    <p><strong>Private Key:</strong> -----BEGIN PRIVATE KEY-----...</p>
+                </div>
+            </section>
+            
+            <!-- Personas Section -->
+            <section id="personas" class="content-section">
+                <h1>Persona Configuration</h1>
+                <p>Define writing styles, tones, and platform-specific rules for each brand voice.</p>
+                
+                <div class="grid">
+                    <div class="card">
+                        <div class="card-header">
+                            <span class="card-title">Professional CEO</span>
+                            <span class="badge badge-primary">B2B</span>
+                        </div>
+                        <p><strong>Tone:</strong> Authoritative, insightful, data-driven</p>
+                        <p><strong>Style:</strong> Business professional with personal touch</p>
+                        <p><strong>Best for:</strong> LinkedIn company pages, industry leadership</p>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card-header">
+                            <span class="card-title">Thought Leader</span>
+                            <span class="badge badge-secondary">Influencer</span>
+                        </div>
+                        <p><strong>Tone:</strong> Visionary, challenging, inspiring</p>
+                        <p><strong>Style:</strong> Provocative ideas with actionable insights</p>
+                        <p><strong>Best for:</strong> Personal LinkedIn, Twitter, opinion pieces</p>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card-header">
+                            <span class="card-title">Tech Influencer</span>
+                            <span class="badge badge-success">Tech</span>
+                        </div>
+                        <p><strong>Tone:</strong> Enthusiastic, knowledgeable, accessible</p>
+                        <p><strong>Style:</strong> Explaining complex tech simply</p>
+                        <p><strong>Best for:</strong> Developer tools, SaaS products, tutorials</p>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card-header">
+                            <span class="card-title">Visual Storyteller</span>
+                            <span class="badge badge-warning">Creative</span>
+                        </div>
+                        <p><strong>Tone:</strong> Inspiring, aesthetic, narrative-driven</p>
+                        <p><strong>Style:</strong> Story-first approach</p>
+                        <p><strong>Best for:</strong> Instagram, lifestyle brands, behind-scenes</p>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card-header">
+                            <span class="card-title">SEO Expert</span>
+                            <span class="badge badge-danger">Content</span>
+                        </div>
+                        <p><strong>Tone:</strong> Helpful, authoritative, comprehensive</p>
+                        <p><strong>Style:</strong> Structured, skimmable, keyword-rich</p>
+                        <p><strong>Best for:</strong> WordPress blogs, long-form content, guides</p>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Optimal Times Section -->
+            <section id="optimal-times" class="content-section">
+                <h1>Optimal Posting Times</h1>
+                
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Platform</th>
+                                <th>Best Days</th>
+                                <th>Peak Times</th>
+                                <th>Timezone</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>LinkedIn</strong></td>
+                                <td>Tue, Wed, Thu</td>
+                                <td>8-10am, 12-2pm, 5-6pm</td>
+                                <td>Audience local time</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Twitter/X</strong></td>
+                                <td>Mon-Thu</td>
+                                <td>8-10am, 12-1pm, 5-7pm, 9-11pm</td>
+                                <td>Audience local time</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Facebook</strong></td>
+                                <td>Wed, Thu, Fri</td>
+                                <td>1-4pm, 7-9pm</td>
+                                <td>Audience local time</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Instagram</strong></td>
+                                <td>Sat, Sun</td>
+                                <td>7-9am, 11am-1pm, 7-9pm</td>
+                                <td>Audience local time</td>
+                            </tr>
+                            <tr>
+                                <td><strong>WordPress</strong></td>
+                                <td>Tue, Thu</td>
+                                <td>9-11am, 2-4pm</td>
+                                <td>Audience local time</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="code-block">
+                    <div class="code-header">
+                        <span class="code-title">Time Calculation Algorithm</span>
+                        <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                    </div>
+                    <pre>function calculateOptimalTime(platform, targetDate, timezone = 'Asia/Kolkata') {
+  const schedules = {
+    'linkedin-main': {
+      slots: [
+        { start: 8, end: 10, weight: 0.9 },
+        { start: 12, end: 14, weight: 1.0 },
+        { start: 17, end: 18, weight: 0.8 }
+      ],
+      bestDays: [1, 2, 3] // Mon-Wed
+    },
+    'twitter-tech': {
+      slots: [
+        { start: 8, end: 10, weight: 0.8 },
+        { start: 12, end: 13, weight: 0.9 },
+        { start: 17, end: 19, weight: 1.0 },
+        { start: 21, end: 23, weight: 0.85 }
+      ],
+      bestDays: [0, 1, 2, 3]
+    }
+    // ... additional platforms
+  };
+  
+  // Weighted random selection within best slots
+  const config = schedules[platform];
+  const totalWeight = config.slots.reduce((sum, s) => sum + s.weight, 0);
+  let random = Math.random() * totalWeight;
+  
+  const selected = config.slots.find(slot => {
+    random -= slot.weight;
+    return random <= 0;
+  });
+  
+  // Random minute within selected hour range
+  const hour = selected.start + Math.random() * (selected.end - selected.start);
+  const minute = Math.floor(Math.random() * 60);
+  
+  const result = new Date(targetDate);
+  result.setHours(Math.floor(hour), minute, 0, 0);
+  
+  return result.toLocaleString('en-US', { timeZone: timezone });
+}</pre>
+                </div>
+            </section>
+            
+            <!-- Setup Section -->
+            <section id="setup" class="content-section">
+                <h1>Setup Guide</h1>
+                
+                <h2>Step 1: Infrastructure</h2>
+                <div class="code-block">
+                    <div class="code-header">
+                        <span class="code-title">Docker Compose (Recommended)</span>
+                        <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                    </div>
+                    <pre>version: '3.8'
+
+services:
+  n8n:
+    image: n8nio/n8n:latest
+    restart: always
+    ports:
+      - "5678:5678"
+    environment:
+      - N8N_BASIC_AUTH_ACTIVE=true
+      - N8N_BASIC_AUTH_USER=admin
+      - N8N_BASIC_AUTH_PASSWORD=your_secure_password
+      - N8N_PROTOCOL=https
+      - N8N_HOST=automation.yourdomain.com
+      - DB_TYPE=postgresdb
+      - DB_POSTGRESDB_HOST=postgres
+      - DB_POSTGRESDB_DATABASE=n8n
+      - DB_POSTGRESDB_USER=n8n
+      - DB_POSTGRESDB_PASSWORD=db_password
+      - N8N_ENCRYPTION_KEY=your_32_char_encryption_key
+    volumes:
+      - ~/.n8n:/home/node/.n8n
+    depends_on:
+      - postgres
+
+  postgres:
+    image: postgres:14-alpine
+    restart: always
+    environment:
+      - POSTGRES_USER=n8n
+      - POSTGRES_PASSWORD=db_password
+      - POSTGRES_DB=n8n
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:</pre>
+                </div>
+                
+                <h2>Step 2: Install n8n</h2>
+                <div class="code-block">
+                    <div class="code-header">
+                        <span class="code-title">Installation Commands</span>
+                        <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                    </div>
+                    <pre># Create directory
+mkdir ~/n8n-automation && cd ~/n8n-automation
+
+# Save docker-compose.yml above
+nano docker-compose.yml
+
+# Start services
+docker-compose up -d
+
+# Check logs
+docker-compose logs -f n8n
+
+# Access at https://your-server-ip:5678</pre>
+                </div>
+                
+                <h2>Step 3: Import Workflows</h2>
+                <ol style="line-height: 2; margin-left: 1.5rem;">
+                    <li>Open n8n web interface</li>
+                    <li>Workflows → Import from File</li>
+                    <li>Import in order: 00, 01, 02, 03, 04, 05</li>
+                    <li>Update credential references in each workflow</li>
+                    <li>Activate workflows (toggle in top right)</li>
+                </ol>
+                
+                <h2>Step 4: Configure Webhooks</h2>
+                <div class="code-block">
+                    <div class="code-header">
+                        <span class="code-title">Telegram Webhook Setup</span>
+                        <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                    </div>
+                    <pre># Set webhook
+curl -F "url=https://your-n8n-instance.com/webhook/telegram-master-trigger" \
+     https://api.telegram.org/botYOUR_BOT_TOKEN/setWebhook
+
+# Verify
+curl https://api.telegram.org/botYOUR_BOT_TOKEN/getWebhookInfo</pre>
+                </div>
+            </section>
+            
+            <!-- Checklist Section -->
+            <section id="checklist" class="content-section">
+                <h1>Deployment Checklist</h1>
+                
+                <h3>Pre-Deployment</h3>
+                <ul class="checklist">
+                    <li><input type="checkbox"> Server provisioned (2 vCPU, 4GB RAM minimum)</li>
+                    <li><input type="checkbox"> Domain name configured with SSL</li>
+                    <li><input type="checkbox"> DNS A record pointing to server IP</li>
+                    <li><input type="checkbox"> Firewall rules: 443 (HTTPS), 5678 (n8n) open</li>
+                    <li><input type="checkbox"> Docker and Docker Compose installed</li>
+                </ul>
+                
+                <h3>Credentials</h3>
+                <ul class="checklist">
+                    <li><input type="checkbox"> OpenAI API key generated and funded</li>
+                    <li><input type="checkbox"> Telegram Bot created via BotFather</li>
+                    <li><input type="checkbox"> LinkedIn Developer App created and approved</li>
+                    <li><input type="checkbox"> Twitter Developer account approved (Elevated)</li>
+                    <li><input type="checkbox"> Facebook Business Manager verified</li>
+                    <li><input type="checkbox"> Instagram Business Account connected</li>
+                    <li><input type="checkbox"> WordPress Application Password generated</li>
+                    <li><input type="checkbox"> AWS Account with S3 bucket created</li>
+                    <li><input type="checkbox"> Google Cloud project with Sheets API enabled</li>
+                </ul>
+                
+                <h3>Configuration</h3>
+                <ul class="checklist">
+                    <li><input type="checkbox"> All workflow JSON files imported</li>
+                    <li><input type="checkbox"> Credentials created in n8n for all services</li>
+                    <li><input type="checkbox"> Google Sheet shared with service account</li>
+                    <li><input type="checkbox"> Sheet ID updated in all Google Sheets nodes</li>
+                    <li><input type="checkbox"> S3 bucket policy configured for public read</li>
+                    <li><input type="checkbox"> Persona configurations customized</li>
+                </ul>
+                
+                <h3>Testing</h3>
+                <ul class="checklist">
+                    <li><input type="checkbox"> Telegram webhook set successfully</li>
+                    <li><input type="checkbox"> Test message received in n8n</li>
+                    <li><input type="checkbox"> OpenAI connection test passed</li>
+                    <li><input type="checkbox"> Image generation test passed</li>
+                    <li><input type="checkbox"> S3 upload test passed</li>
+                    <li><input type="checkbox"> LinkedIn test post (draft) successful</li>
+                    <li><input type="checkbox"> Twitter test tweet successful</li>
+                    <li><input type="checkbox"> WordPress test post (draft) successful</li>
+                    <li><input type="checkbox"> Google Sheets calendar read test passed</li>
+                </ul>
+                
+                <div class="success-box" style="margin-top: 2rem;">
+                    <strong>Go-Live:</strong> After completing all checks, activate the Schedule Trigger in Workflow 00 to enable automated calendar publishing.
+                </div>
+            </section>
+            
+            <!-- Troubleshooting Section -->
+            <section id="troubleshooting" class="content-section">
+                <h1>Troubleshooting</h1>
+                
+                <div class="card">
+                    <div class="card-header">
+                        <span class="card-title">OpenAI Rate Limit</span>
+                        <span class="badge badge-danger">Error</span>
+                    </div>
+                    <p><strong>Symptom:</strong> 429 errors in OpenAI nodes</p>
+                    <p><strong>Solution:</strong> Add Wait node with exponential backoff, or upgrade to paid tier for higher TPM limits</p>
+                </div>
+                
+                <div class="card">
+                    <div class="card-header">
+                        <span class="card-title">LinkedIn Token Expired</span>
+                        <span class="badge badge-warning">Auth</span>
+                    </div>
+                    <p><strong>Symptom:</strong> 401 errors on publish</p>
+                    <p><strong>Solution:</strong> OAuth tokens expire every 60 days. Reconnect credential in n8n UI</p>
+                </div>
+                
+                <div class="card">
+                    <div class="card-header">
+                        <span class="card-title">Twitter Duplicate</span>
+                        <span class="badge badge-warning">Content</span>
+                    </div>
+                    <p><strong>Symptom:</strong> 403 error: duplicate content</p>
+                    <p><strong>Solution:</strong> Add unique timestamp or hash to each tweet content</p>
+                </div>
+                
+                <div class="card">
+                    <div class="card-header">
+                        <span class="card-title">Instagram Aspect Ratio</span>
+                        <span class="badge badge-warning">Media</span>
+                    </div>
+                    <p><strong>Symptom:</strong> Media upload failed</p>
+                    <p><strong>Solution:</strong> Ensure images are between 1.91:1 and 4:5 aspect ratio</p>
+                </div>
+                
+                <div class="card">
+                    <div class="card-header">
+                        <span class="card-title">S3 Permission Denied</span>
+                        <span class="badge badge-danger">Storage</span>
+                    </div>
+                    <p><strong>Symptom:</strong> 403 on image upload</p>
+                    <p><strong>Solution:</strong> Update bucket CORS policy and IAM permissions</p>
+                </div>
+                
+                <h3>Debug Commands</h3>
+                <div class="code-block">
+                    <div class="code-header">
+                        <span class="code-title">Useful Commands</span>
+                        <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                    </div>
+                    <pre># Check n8n health
+curl http://localhost:5678/healthz
+
+# View recent logs
+docker logs n8n --tail 100
+
+# Reset Telegram webhook
+curl -F "url=" https://api.telegram.org/bot<TOKEN>/setWebhook
+
+# Test OpenAI
+curl https://api.openai.com/v1/models \
+  -H "Authorization: Bearer $OPENAI_API_KEY"
+
+# Check S3 access
+aws s3 ls s3://your-bucket/content-images/</pre>
+                </div>
+            </section>
+        </main>
+    </div>
+    
+    <script>
+        // Navigation
+        function showSection(sectionId) {
+            // Hide all sections
+            document.querySelectorAll('.content-section').forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            // Show selected section
+            document.getElementById(sectionId).classList.add('active');
+            
+            // Update nav items
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            event.target.closest('.nav-item').classList.add('active');
+            
+            // Close mobile sidebar
+            if (window.innerWidth <= 768) {
+                document.getElementById('sidebar').classList.remove('open');
+            }
+        }
+        
+        // Tabs
+        function showTab(tabId) {
+            // Hide all tabs in current section
+            const section = event.target.closest('.content-section');
+            section.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            section.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Show selected tab
+            document.getElementById(tabId).classList.add('active');
+            event.target.classList.add('active');
+        }
+        
+        // Mobile sidebar toggle
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('open');
+        }
+        
+        // Copy code functionality
+        function copyCode(btn) {
+            const codeBlock = btn.closest('.code-block').querySelector('pre');
+            const text = codeBlock.innerText;
+            
+            navigator.clipboard.writeText(text).then(() => {
+                const original = btn.innerText;
+                btn.innerText = 'Copied!';
+                btn.style.background = 'var(--success)';
+                setTimeout(() => {
+                    btn.innerText = original;
+                    btn.style.background = '';
+                }, 2000);
+            });
+        }
+        
+        // Search functionality
+        function searchContent() {
+            const query = document.getElementById('searchInput').value.toLowerCase();
+            const sections = document.querySelectorAll('.content-section');
+            
+            sections.forEach(section => {
+                const text = section.innerText.toLowerCase();
+                if (text.includes(query)) {
+                    section.style.display = 'block';
+                } else {
+                    section.style.display = query === '' ? 'none' : 'none';
+                }
+            });
+            
+            // Show overview if search cleared
+            if (query === '') {
+                showSection('overview');
+            }
+        }
+        
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            // Add click handlers to nav items
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.addEventListener('click', function(e) {
+                    if (!e.target.closest('.nav-item')) return;
+                });
+            });
+        });
+        
+        // Close sidebar when clicking outside on mobile
+        document.addEventListener('click', (e) => {
+            if (window.innerWidth <= 768) {
+                const sidebar = document.getElementById('sidebar');
+                const menuBtn = document.querySelector('.mobile-menu-btn');
+                if (!sidebar.contains(e.target) && !menuBtn.contains(e.target)) {
+                    sidebar.classList.remove('open');
+                }
+            }
+        });
+    </script>
+</body>
+</html>
