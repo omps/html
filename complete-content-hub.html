@@ -1,0 +1,1424 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Om Prakash Singh — Content Strategy Hub</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Sora:wght@300;400;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap');
+
+:root {
+  --bg:      #0B0E14;
+  --surface: #111520;
+  --border:  #1E2535;
+  --text:    #C8D0E0;
+  --muted:   #4A5568;
+  --white:   #EEF2FF;
+  --blue:    #3B82F6;
+  --cyan:    #06B6D4;
+  --amber:   #F59E0B;
+  --green:   #10B981;
+  --violet:  #8B5CF6;
+  --red:     #EF4444;
+  --mono:    'JetBrains Mono', monospace;
+  --sans:    'Sora', sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--bg);font-family:var(--sans);color:var(--text);min-height:100vh;}
+
+/* TOPBAR */
+.topbar{background:var(--surface);border-bottom:1px solid var(--border);padding:0 20px;position:sticky;top:0;z-index:100;}
+.topbar-inner{display:flex;align-items:stretch;gap:0;max-width:1100px;margin:0 auto;}
+.brand{display:flex;align-items:center;gap:10px;padding:14px 20px 14px 0;border-right:1px solid var(--border);margin-right:14px;flex-shrink:0;}
+.avatar{width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,var(--blue),var(--violet));display:flex;align-items:center;justify-content:center;font-weight:800;font-size:13px;color:#fff;}
+.brand-name{font-size:13px;font-weight:700;color:var(--white);}
+.brand-sub{font-size:9px;color:var(--muted);letter-spacing:1px;text-transform:uppercase;}
+.tabs{display:flex;gap:1px;align-items:center;overflow-x:auto;flex:1;}
+.tabs::-webkit-scrollbar{height:2px;}
+.tabs::-webkit-scrollbar-thumb{background:var(--border);}
+.tab{padding:8px 13px;border:none;background:transparent;cursor:pointer;font-family:var(--sans);font-size:11px;font-weight:600;color:var(--muted);border-bottom:2px solid transparent;transition:all .15s;white-space:nowrap;}
+.tab:hover{color:var(--text);}
+.tab.active{color:var(--white);border-bottom-color:var(--blue);}
+.tab-group-label{font-size:9px;color:var(--muted);font-family:var(--mono);padding:0 8px;text-transform:uppercase;letter-spacing:1px;white-space:nowrap;border-right:1px solid var(--border);margin-right:4px;}
+
+/* HERO */
+.hero{padding:40px 24px 28px;max-width:1100px;margin:0 auto;border-bottom:1px solid var(--border);}
+.hero-tag{display:inline-block;font-family:var(--mono);font-size:10px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--blue);background:rgba(59,130,246,.1);padding:3px 9px;border-radius:4px;margin-bottom:12px;}
+.hero h1{font-size:clamp(20px,3.5vw,30px);font-weight:800;color:var(--white);line-height:1.2;letter-spacing:-.5px;margin-bottom:8px;}
+.hero p{font-size:13px;color:var(--muted);line-height:1.8;max-width:600px;}
+.hero-stats{display:flex;gap:20px;margin-top:20px;flex-wrap:wrap;}
+.stat{display:flex;flex-direction:column;gap:2px;}
+.stat-val{font-size:20px;font-weight:800;color:var(--white);font-family:var(--mono);}
+.stat-lbl{font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:1.5px;}
+
+/* MAIN */
+.main{max-width:1100px;margin:0 auto;padding:28px 24px 80px;}
+.section{display:none;}
+.section.active{display:block;}
+h2.sec-title{font-size:18px;font-weight:800;color:var(--white);margin-bottom:6px;letter-spacing:-.3px;}
+p.sec-sub{font-size:13px;color:var(--muted);line-height:1.8;margin-bottom:22px;max-width:640px;}
+.divider{height:1px;background:var(--border);margin:24px 0;}
+
+/* PILLAR GRID */
+.pillar-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px;margin-bottom:24px;}
+.pillar-card{background:var(--surface);border:1px solid var(--border);border-radius:10px;overflow:hidden;}
+.pillar-head{padding:16px 18px 12px;border-bottom:1px solid var(--border);display:flex;align-items:flex-start;gap:10px;}
+.pillar-icon{width:38px;height:38px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;}
+.pillar-body{padding:14px 18px;}
+.pillar-body p{font-size:12px;line-height:1.8;color:var(--muted);margin-bottom:12px;}
+.tag-list{display:flex;flex-wrap:wrap;gap:5px;}
+.tag{font-size:10px;padding:2px 8px;border-radius:20px;font-family:var(--mono);font-weight:600;}
+
+/* POST CARDS */
+.post-list{display:flex;flex-direction:column;gap:8px;}
+.post-card{background:var(--surface);border:1px solid var(--border);border-radius:10px;overflow:hidden;}
+.post-header{padding:13px 16px;cursor:pointer;display:flex;align-items:center;gap:10px;transition:background .15s;}
+.post-header:hover{background:rgba(255,255,255,.02);}
+.post-num{width:28px;height:28px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;flex-shrink:0;font-family:var(--mono);}
+.post-meta{flex:1;}
+.post-title{font-size:13px;font-weight:700;color:var(--white);line-height:1.4;}
+.post-sub{font-size:10px;color:var(--muted);margin-top:2px;}
+.chevron{color:var(--border);font-size:11px;transition:transform .2s;flex-shrink:0;}
+.post-card.open .chevron{transform:rotate(180deg);}
+.post-body{display:none;padding:0 16px 16px;border-top:1px solid var(--border);}
+.post-card.open .post-body{display:block;}
+
+/* BLOCKS */
+.block{margin-top:12px;padding:12px 14px;border-radius:8px;border:1px solid var(--border);}
+.block-label{font-size:9px;font-family:var(--mono);font-weight:600;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:7px;}
+.block-body{font-size:12px;color:var(--text);line-height:1.9;}
+.block-body em{font-style:italic;color:var(--white);}
+
+/* WEEK HEADER */
+.month-header{font-size:9px;color:var(--muted);font-weight:700;letter-spacing:3px;text-transform:uppercase;padding-bottom:8px;border-bottom:1px solid var(--border);margin:20px 0 10px;display:flex;justify-content:space-between;}
+
+/* PERSONA */
+.persona-box{background:var(--surface);border:1px solid var(--border);border-radius:12px;overflow:hidden;margin-bottom:16px;}
+.persona-head{padding:14px 18px;background:rgba(59,130,246,.06);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;}
+.persona-head h3{font-size:14px;font-weight:700;color:var(--white);}
+.persona-body{padding:18px;}
+.prompt-section{margin-bottom:16px;}
+.prompt-section:last-child{margin-bottom:0;}
+.prompt-label{font-size:9px;font-family:var(--mono);color:var(--blue);font-weight:600;text-transform:uppercase;letter-spacing:2px;margin-bottom:7px;}
+.prompt-item{font-size:12px;color:var(--text);line-height:1.7;display:flex;gap:8px;align-items:flex-start;margin-bottom:4px;}
+.prompt-item::before{content:"→";color:var(--blue);flex-shrink:0;font-family:var(--mono);}
+
+/* TEMPLATES */
+.template-tabs{display:flex;gap:5px;margin-bottom:14px;flex-wrap:wrap;}
+.t-tab{padding:5px 12px;border-radius:6px;border:1px solid var(--border);background:transparent;cursor:pointer;font-family:var(--sans);font-size:11px;font-weight:600;color:var(--muted);transition:all .15s;}
+.t-tab.active{border-color:var(--blue);color:var(--blue);background:rgba(59,130,246,.08);}
+.template-panel{display:none;}
+.template-panel.active{display:block;}
+pre.code-block{background:#0D1117;border:1px solid var(--border);border-radius:8px;padding:14px;font-family:var(--mono);font-size:11px;line-height:1.8;color:#A8C0E8;white-space:pre-wrap;overflow-x:auto;margin-top:12px;}
+
+/* COPY BTN */
+.copy-btn{display:inline-flex;align-items:center;gap:5px;padding:6px 12px;border-radius:6px;border:1px solid var(--border);background:transparent;cursor:pointer;font-family:var(--sans);font-size:10px;font-weight:600;color:var(--muted);margin-top:8px;transition:all .15s;}
+.copy-btn:hover,.copy-btn.copied{border-color:var(--green);color:var(--green);}
+
+/* PLATFORM BADGES */
+.platform-row{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px;}
+.pbadge{font-size:9px;font-weight:700;font-family:var(--mono);padding:2px 7px;border-radius:4px;}
+
+/* SAFETY */
+.safety-notice{background:rgba(16,185,129,.05);border:1px solid rgba(16,185,129,.2);border-radius:8px;padding:11px 14px;margin-bottom:18px;}
+.safety-notice p{font-size:11px;color:var(--muted);line-height:1.8;}
+.safety-notice strong{color:var(--green);}
+.rule-row{display:grid;grid-template-columns:180px 1fr;border:1px solid var(--border);border-radius:8px;overflow:hidden;margin-bottom:7px;}
+.rule-left{padding:11px 13px;background:rgba(16,185,129,.05);font-size:11px;font-weight:700;color:var(--green);line-height:1.5;}
+.rule-right{padding:11px 13px;font-size:11px;color:var(--muted);line-height:1.7;}
+
+/* WEEK RHYTHM */
+.rhythm-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:8px;}
+.rhythm-card{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:12px;border-top-width:3px;border-top-style:solid;}
+.rhythm-day{font-size:11px;font-weight:800;color:var(--white);margin-bottom:3px;}
+.rhythm-time{font-size:10px;font-weight:700;margin-bottom:5px;}
+.rhythm-desc{font-size:11px;color:var(--muted);line-height:1.6;}
+
+@media(max-width:600px){
+  .rule-row{grid-template-columns:1fr;}
+  .hero{padding:24px 16px 20px;}
+  .main{padding:20px 14px 60px;}
+  .topbar{padding:0 12px;}
+}
+</style>
+</head>
+<body>
+
+<nav class="topbar">
+  <div class="topbar-inner">
+    <div class="brand">
+      <div class="avatar">O</div>
+      <div>
+        <div class="brand-name">Om Prakash Singh</div>
+        <div class="brand-sub">Content Strategy Hub</div>
+      </div>
+    </div>
+    <div class="tabs">
+      <span class="tab-group-label">Newsletter</span>
+      <button class="tab active" data-tab="overview">Overview</button>
+      <button class="tab" data-tab="agents">AI Agents</button>
+      <button class="tab" data-tab="basics">AI Basics</button>
+      <button class="tab" data-tab="howto">AI How-To</button>
+      <span class="tab-group-label">Thought Leadership</span>
+      <button class="tab" data-tab="tl-k8s">K8s &amp; Platform</button>
+      <button class="tab" data-tab="tl-regulated">Regulated Infra</button>
+      <button class="tab" data-tab="tl-leadership">Infra Leadership</button>
+      <button class="tab" data-tab="calendar">90-Day Calendar</button>
+      <span class="tab-group-label">Tools</span>
+      <button class="tab" data-tab="persona">Persona Prompt</button>
+      <button class="tab" data-tab="templates">Templates</button>
+      <button class="tab" data-tab="safety">Safety Rules</button>
+    </div>
+  </div>
+</nav>
+
+<div class="hero">
+  <span class="hero-tag">// complete content strategy · v3 · all pillars unified</span>
+  <h1>Everything in One Place.<br>Newsletter + Thought Leadership.</h1>
+  <p>Three newsletter pillars (AI Agents, AI Basics, AI How-To) combined with three thought leadership pillars (Kubernetes, Regulated Infrastructure, Leadership) — with a 90-day calendar, persona prompt, and platform templates.</p>
+  <div class="hero-stats">
+    <div class="stat"><span class="stat-val">6</span><span class="stat-lbl">Content pillars</span></div>
+    <div class="stat"><span class="stat-val">28</span><span class="stat-lbl">Ready posts</span></div>
+    <div class="stat"><span class="stat-val">12</span><span class="stat-lbl">Weeks planned</span></div>
+    <div class="stat"><span class="stat-val">4</span><span class="stat-lbl">Platforms</span></div>
+    <div class="stat"><span class="stat-val">15min</span><span class="stat-lbl">Daily effort</span></div>
+  </div>
+</div>
+
+<div class="main">
+
+<!-- ══════════════════════════════════════════════
+     OVERVIEW
+══════════════════════════════════════════════ -->
+<section id="overview" class="section active">
+  <h2 class="sec-title">Your 6 Content Pillars</h2>
+  <p class="sec-sub">Three come from your newsletter. Three come from your 20-year infrastructure and leadership expertise. Together they serve three distinct audiences: the CNCF/K8s community, CTOs and VPs at Tier-1 banks, and Indian tech leaders.</p>
+
+  <div class="pillar-grid">
+    <div class="pillar-card">
+      <div class="pillar-head">
+        <div class="pillar-icon" style="background:rgba(59,130,246,.1)">🤖</div>
+        <div>
+          <div style="font-size:9px;color:var(--blue);font-weight:700;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:3px">Newsletter · Pillar 1</div>
+          <div style="font-size:14px;font-weight:700;color:var(--white)">AI Agents</div>
+          <div style="font-size:10px;color:var(--muted)">Authority · Digital workforce architecture</div>
+        </div>
+      </div>
+      <div class="pillar-body">
+        <p>From single-agent demos to coordinated multi-agent systems. Governance, observability, production reliability. You write from the infrastructure perspective nobody else occupies.</p>
+        <div class="tag-list">
+          <span class="tag" style="background:rgba(59,130,246,.1);color:var(--blue)">Multi-Agent</span>
+          <span class="tag" style="background:rgba(59,130,246,.1);color:var(--blue)">Governance</span>
+          <span class="tag" style="background:rgba(59,130,246,.1);color:var(--blue)">Observability</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="pillar-card">
+      <div class="pillar-head">
+        <div class="pillar-icon" style="background:rgba(16,185,129,.1)">🧠</div>
+        <div>
+          <div style="font-size:9px;color:var(--green);font-weight:700;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:3px">Newsletter · Pillar 2</div>
+          <div style="font-size:14px;font-weight:700;color:var(--white)">AI Basics</div>
+          <div style="font-size:10px;color:var(--muted)">Reach · Broadest audience</div>
+        </div>
+      </div>
+      <div class="pillar-body">
+        <p>Algorithms, ML vs DL vs AI, supervised vs unsupervised, evolution of AI. Complex ideas explained simply — the signature of deep expertise.</p>
+        <div class="tag-list">
+          <span class="tag" style="background:rgba(16,185,129,.1);color:var(--green)">ML vs DL</span>
+          <span class="tag" style="background:rgba(16,185,129,.1);color:var(--green)">Algorithms</span>
+          <span class="tag" style="background:rgba(16,185,129,.1);color:var(--green)">Neural Networks</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="pillar-card">
+      <div class="pillar-head">
+        <div class="pillar-icon" style="background:rgba(245,158,11,.1)">⚡</div>
+        <div>
+          <div style="font-size:9px;color:var(--amber);font-weight:700;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:3px">Newsletter · Pillar 3</div>
+          <div style="font-size:14px;font-weight:700;color:var(--white)">AI How-To</div>
+          <div style="font-size:10px;color:var(--muted)">Actionable · Highest save rate</div>
+        </div>
+      </div>
+      <div class="pillar-body">
+        <p>Step-by-step guides: burnout prediction, marketing automation, AI-powered content. Real tools, real outcomes, practical implementation.</p>
+        <div class="tag-list">
+          <span class="tag" style="background:rgba(245,158,11,.1);color:var(--amber)">Automation</span>
+          <span class="tag" style="background:rgba(245,158,11,.1);color:var(--amber)">Step-by-Step</span>
+          <span class="tag" style="background:rgba(245,158,11,.1);color:var(--amber)">AI Tools</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="pillar-card">
+      <div class="pillar-head">
+        <div class="pillar-icon" style="background:rgba(6,182,212,.1)">⚙️</div>
+        <div>
+          <div style="font-size:9px;color:var(--cyan);font-weight:700;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:3px">Thought Leadership · Pillar 4</div>
+          <div style="font-size:14px;font-weight:700;color:var(--white)">K8s &amp; Platform Engineering</div>
+          <div style="font-size:10px;color:var(--muted)">Fully safe · CNCF community + CTOs</div>
+        </div>
+      </div>
+      <div class="pillar-body">
+        <p>Pure technical practitioner content. Kubernetes operations, GitOps, SRE, OPA vs Kyverno, Platform Engineering. 20 years of production depth. No employer context required.</p>
+        <div class="tag-list">
+          <span class="tag" style="background:rgba(6,182,212,.1);color:var(--cyan)">Kubernetes</span>
+          <span class="tag" style="background:rgba(6,182,212,.1);color:var(--cyan)">GitOps</span>
+          <span class="tag" style="background:rgba(6,182,212,.1);color:var(--cyan)">SRE</span>
+          <span class="tag" style="background:rgba(6,182,212,.1);color:var(--cyan)">FinOps</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="pillar-card">
+      <div class="pillar-head">
+        <div class="pillar-icon" style="background:rgba(139,92,246,.1)">🏦</div>
+        <div>
+          <div style="font-size:9px;color:var(--violet);font-weight:700;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:3px">Thought Leadership · Pillar 5</div>
+          <div style="font-size:14px;font-weight:700;color:var(--white)">Regulated Infrastructure</div>
+          <div style="font-size:10px;color:var(--muted)">Safe with discipline · Bank CTOs</div>
+        </div>
+      </div>
+      <div class="pillar-body">
+        <p>K8s security in regulated environments, FinOps constraints in financial services, Policy-as-Code for compliance, audit readiness. Written generically — no institution named.</p>
+        <div class="tag-list">
+          <span class="tag" style="background:rgba(139,92,246,.1);color:var(--violet)">Compliance</span>
+          <span class="tag" style="background:rgba(139,92,246,.1);color:var(--violet)">Policy-as-Code</span>
+          <span class="tag" style="background:rgba(139,92,246,.1);color:var(--violet)">Audit-Ready</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="pillar-card">
+      <div class="pillar-head">
+        <div class="pillar-icon" style="background:rgba(245,158,11,.1)">🧭</div>
+        <div>
+          <div style="font-size:9px;color:var(--amber);font-weight:700;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:3px">Thought Leadership · Pillar 6</div>
+          <div style="font-size:14px;font-weight:700;color:var(--white)">Infra Leadership &amp; Career</div>
+          <div style="font-size:10px;color:var(--muted)">Universal lessons · Indian tech leaders</div>
+        </div>
+      </div>
+      <div class="pillar-body">
+        <p>Career progression, presenting to boards, global team management, Kubestronaut journey. Universal lessons — "any company" test applied to every post.</p>
+        <div class="tag-list">
+          <span class="tag" style="background:rgba(245,158,11,.1);color:var(--amber)">Career</span>
+          <span class="tag" style="background:rgba(245,158,11,.1);color:var(--amber)">Leadership</span>
+          <span class="tag" style="background:rgba(245,158,11,.1);color:var(--amber)">Kubestronaut</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+  <h2 class="sec-title">Weekly Publishing Rhythm</h2>
+  <p class="sec-sub">One idea. Written once. Four platforms in 50–60 minutes total across the week.</p>
+  <div class="rhythm-grid">
+    <div class="rhythm-card" style="border-top-color:#0A66C2">
+      <div class="rhythm-day">MON · 15 min</div>
+      <div class="rhythm-time" style="color:#0A66C2">LinkedIn</div>
+      <div class="rhythm-desc">Write and schedule. Draft Sunday night. Post 7–9am IST Tue or Wed.</div>
+    </div>
+    <div class="rhythm-card" style="border-top-color:#1D9BF0">
+      <div class="rhythm-day">TUE · 5 min</div>
+      <div class="rhythm-time" style="color:#1D9BF0">Twitter / X</div>
+      <div class="rhythm-desc">Each LinkedIn paragraph = one tweet. Add numbers. Add 🧵 to tweet 1.</div>
+    </div>
+    <div class="rhythm-card" style="border-top-color:#059669">
+      <div class="rhythm-day">WED · 20 min</div>
+      <div class="rhythm-time" style="color:#059669">Medium + Blog</div>
+      <div class="rhythm-desc">Add intro + conclusion. 600–900 words. Publish both places.</div>
+    </div>
+    <div class="rhythm-card" style="border-top-color:#0A66C2">
+      <div class="rhythm-day">THU · 5 min</div>
+      <div class="rhythm-time" style="color:#0A66C2">LinkedIn Reshare</div>
+      <div class="rhythm-desc">Two-sentence teaser + Medium link. Your free second post for the week.</div>
+    </div>
+    <div class="rhythm-card" style="border-top-color:var(--amber)">
+      <div class="rhythm-day">FRI · 5 min</div>
+      <div class="rhythm-time" style="color:var(--amber)">Engage + Plan</div>
+      <div class="rhythm-desc">Reply every comment. A question in comments = next Monday's topic.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════
+     AI AGENTS
+══════════════════════════════════════════════ -->
+<section id="agents" class="section">
+  <h2 class="sec-title">AI Agents — 4 Ready Posts</h2>
+  <p class="sec-sub">From your newsletter content. Authority posts positioning you as someone who operates at the infrastructure level of AI, not just the theory level.</p>
+  <div class="post-list" id="agents-list"></div>
+</section>
+
+<!-- ══════════════════════════════════════════════
+     AI BASICS
+══════════════════════════════════════════════ -->
+<section id="basics" class="section">
+  <h2 class="sec-title">AI Basics — 4 Ready Posts</h2>
+  <p class="sec-sub">Broadest reach pillar. Engineers, executives, and general tech readers all engage with this content. High share and save rate.</p>
+  <div class="post-list" id="basics-list"></div>
+</section>
+
+<!-- ══════════════════════════════════════════════
+     AI HOWTO
+══════════════════════════════════════════════ -->
+<section id="howto" class="section">
+  <h2 class="sec-title">AI How-To — 4 Ready Posts</h2>
+  <p class="sec-sub">Practical implementation content. Readers save How-To posts more than any other format. Every post shows a real tool and a real outcome.</p>
+  <div class="post-list" id="howto-list"></div>
+</section>
+
+<!-- ══════════════════════════════════════════════
+     TL: K8S & PLATFORM
+══════════════════════════════════════════════ -->
+<section id="tl-k8s" class="section">
+  <h2 class="sec-title">Kubernetes &amp; Platform Engineering — 4 Posts</h2>
+  <p class="sec-sub">Pure technical content. Belongs entirely to you. No employer context required or implied. Safety level: fully safe to publish at any time.</p>
+  <div class="post-list" id="k8s-list"></div>
+</section>
+
+<!-- ══════════════════════════════════════════════
+     TL: REGULATED INFRA
+══════════════════════════════════════════════ -->
+<section id="tl-regulated" class="section">
+  <h2 class="sec-title">Infrastructure in Regulated Industries — 4 Posts</h2>
+  <p class="sec-sub">Written at the level of "regulated financial environments" — no institution named, ever. Every bank and financial firm CTO reading this knows exactly what you mean.</p>
+  <div class="post-list" id="regulated-list"></div>
+</section>
+
+<!-- ══════════════════════════════════════════════
+     TL: LEADERSHIP
+══════════════════════════════════════════════ -->
+<section id="tl-leadership" class="section">
+  <h2 class="sec-title">Infrastructure Leadership &amp; Career — 4 Posts</h2>
+  <p class="sec-sub">Universal leadership lessons from 20 years. The "any company" test applied strictly. Could have happened at any large tech organisation — never traceable to one.</p>
+  <div class="post-list" id="leadership-list"></div>
+</section>
+
+<!-- ══════════════════════════════════════════════
+     90-DAY CALENDAR
+══════════════════════════════════════════════ -->
+<section id="calendar" class="section">
+  <h2 class="sec-title">90-Day Publishing Calendar</h2>
+  <p class="sec-sub">12 weeks. All 6 pillars. Sequenced so Month 1 establishes your voice, Month 2 builds authority, Month 3 compounds reach. Click any week to expand the full brief.</p>
+  <div id="calendar-list"></div>
+</section>
+
+<!-- ══════════════════════════════════════════════
+     PERSONA PROMPT
+══════════════════════════════════════════════ -->
+<section id="persona" class="section">
+  <h2 class="sec-title">Master Persona Prompt</h2>
+  <p class="sec-sub">Paste this into any AI tool before writing. It enforces your tone, structure, and hard rules across every post on every platform.</p>
+  <div class="persona-box">
+    <div class="persona-head">
+      <div style="font-size:18px">🎯</div>
+      <h3>Om Prakash Singh — Newsletter &amp; Thought Leadership Persona</h3>
+    </div>
+    <div class="persona-body" id="persona-content">
+      <div class="prompt-section">
+        <div class="prompt-label">Tone</div>
+        <div class="prompt-item">Clear, calm, and authoritative — like an experienced professional explaining complex ideas simply</div>
+        <div class="prompt-item">Avoid hype, buzzwords, and unnecessary jargon. Use plain language without oversimplifying the thinking.</div>
+        <div class="prompt-item">Blend authority with curiosity — sound like someone who understands systems, not just tools</div>
+        <div class="prompt-item">Focus on "why this matters" more than just "what it is"</div>
+      </div>
+      <div class="prompt-section">
+        <div class="prompt-label">Structure</div>
+        <div class="prompt-item">Start with a strong, thought-provoking or counter-intuitive opening line. Never start with "I".</div>
+        <div class="prompt-item">Build a narrative step-by-step. Short paragraphs — one idea per paragraph.</div>
+        <div class="prompt-item">Include one real-world example or scenario (anonymised if needed) to ground the idea.</div>
+        <div class="prompt-item">End with a clear one-sentence takeaway and one discussion-driving question.</div>
+      </div>
+      <div class="prompt-section">
+        <div class="prompt-label">Writing Style</div>
+        <div class="prompt-item">Use analogies to explain complex topics. Write as if guiding a smart reader, not impressing them.</div>
+        <div class="prompt-item">Every paragraph should build on the previous one. Logical flow is non-negotiable.</div>
+        <div class="prompt-item">Take a clear stance — thought leaders have opinions, not just information.</div>
+        <div class="prompt-item">Rewrite any sentence that sounds like AI output. It should sound like you thought it, not generated it.</div>
+      </div>
+      <div class="prompt-section">
+        <div class="prompt-label">Hard Rules — Non-Negotiable</div>
+        <div class="prompt-item">No company names. No internal stories. No references traceable to a specific employer.</div>
+        <div class="prompt-item">No jargon without explanation. Define every technical term in the next sentence.</div>
+        <div class="prompt-item">No bullet lists of more than 4 items — restructure into prose or numbered insights.</div>
+        <div class="prompt-item">Every post must pass this test: could a senior HR leader at any large company read this and find nothing problematic?</div>
+        <div class="prompt-item">Leadership lessons must pass the "any company" test: could this have happened at any large tech organisation, anywhere?</div>
+      </div>
+      <div class="prompt-section">
+        <div class="prompt-label">Audience Rotation</div>
+        <div class="prompt-item">Week A — CNCF/K8s community (technical depth, practitioner specifics)</div>
+        <div class="prompt-item">Week B — CTOs and VPs at Tier-1 banks (regulated industry angle, business outcomes)</div>
+        <div class="prompt-item">Week C — Indian tech leaders (career progression, leadership, practical AI application)</div>
+        <div class="prompt-item">Week D — Newsletter broad audience (AI Agents / Basics / How-To rotation)</div>
+      </div>
+    </div>
+  </div>
+  <button class="copy-btn" onclick="copyById('persona-content',this)">📋 Copy full persona prompt</button>
+</section>
+
+<!-- ══════════════════════════════════════════════
+     TEMPLATES
+══════════════════════════════════════════════ -->
+<section id="templates" class="section">
+  <h2 class="sec-title">Platform Templates</h2>
+  <p class="sec-sub">Fill in the brackets. One template per platform. Never start from a blank page again.</p>
+  <div class="template-tabs">
+    <button class="t-tab active" data-tmpl="li">LinkedIn</button>
+    <button class="t-tab" data-tmpl="tw">Twitter / X</button>
+    <button class="t-tab" data-tmpl="md">Medium / Blog</button>
+    <button class="t-tab" data-tmpl="img">Image Prompt</button>
+  </div>
+  <div id="tmpl-li" class="template-panel active">
+    <pre class="code-block">[BOLD OPENING — your most surprising or counter-intuitive insight.
+Never start with "I". Start with the idea.]
+
+[1–2 sentence context: what gives you authority on this.
+Brief. No company names.]
+
+Here is what I have learned:
+
+1/ [First insight — 1–2 sentences. Concrete and specific.]
+
+2/ [Second insight — builds on the first.]
+
+3/ [Third insight — the one people will screenshot.]
+
+[Optional: One short example — 2–3 sentences. Anonymised if needed.]
+
+The lesson: [One sentence. Your sharpest takeaway.]
+
+[One genuine question to drive comments.]</pre>
+    <button class="copy-btn" onclick="copyPre(this)">📋 Copy template</button>
+  </div>
+  <div id="tmpl-tw" class="template-panel">
+    <pre class="code-block">Tweet 1 (Hook):
+[Rewrite your LinkedIn opening in one punchy sentence. Add 🧵]
+
+Tweet 2:
+[One sentence: what qualifies you on this topic.]
+
+Tweet 3:
+[First insight. One idea only.]
+
+Tweet 4:
+[Second insight. Or the tension moment in your story.]
+
+Tweet 5:
+[Third insight. Or the resolution.]
+
+Tweet 6:
+[The lesson. One sentence. Most quotable line.]
+
+Tweet 7 (CTA):
+[Follow for more on [topic]. I post X times a week.]</pre>
+    <button class="copy-btn" onclick="copyPre(this)">📋 Copy template</button>
+  </div>
+  <div id="tmpl-md" class="template-panel">
+    <pre class="code-block">TITLE: [Specific and direct. Numbers outperform vague titles.]
+SUBTITLE: [One sentence — exactly what the reader will learn.]
+
+---
+
+[OPENING: 3–4 sentences expanding your LinkedIn hook. Set the scene immediately.]
+
+[CONTEXT: One paragraph. Your authority. Brief. No company names.]
+
+## [Section 1 — First insight as a question or clear statement]
+[2–3 paragraphs. One real example. Specific period, type of org, what was at stake.]
+
+## [Section 2 — The unexpected truth or complication]
+[2–3 paragraphs. What you thought vs what turned out to be true.]
+
+## [Section 3 — What to actually do about it]
+[2–3 paragraphs. Actionable. What should the reader do next?]
+
+## The Bottom Line
+[3–4 sentences. Restate the core insight. End with one forward-looking statement.]
+
+---
+Om Prakash Singh writes about AI infrastructure, platform engineering,
+and the practical application of AI in enterprise systems.</pre>
+    <button class="copy-btn" onclick="copyPre(this)">📋 Copy template</button>
+  </div>
+  <div id="tmpl-img" class="template-panel">
+    <pre class="code-block">For AI Agents posts:
+Futuristic enterprise control room. Multiple AI agent nodes as glowing orbs
+connected by data flow lines. One human professional guiding the system.
+Blue and teal palette. Dashboard UI on transparent screens. Corporate
+aesthetic. Mood: intelligent and controlled — enterprise realism, not sci-fi.
+Footer: Om Prakash Singh
+
+For AI Basics / K8s / Technical posts:
+Clean educational diagram showing [specific concept]. Minimal design.
+White or light grey background. Bold typography labels. No clutter.
+Professional infographic style. Blue and green accents.
+Footer: Om Prakash Singh
+
+For How-To / Leadership posts:
+Step-by-step visual workflow showing [specific process]. Clean flowchart
+aesthetic. Numbered steps with small icons. White background. Corporate
+SaaS product style. Blue and amber accents. Readable at mobile size.
+Footer: Om Prakash Singh</pre>
+    <button class="copy-btn" onclick="copyPre(this)">📋 Copy template</button>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════
+     SAFETY RULES
+══════════════════════════════════════════════ -->
+<section id="safety" class="section">
+  <h2 class="sec-title">Safety Rules</h2>
+  <p class="sec-sub">Every post in this hub passes these rules. Before publishing anything, run through this checklist yourself.</p>
+  <div class="safety-notice">
+    <p>The single question to ask before every post: <strong>"If my manager, skip-level, and HR all read this tomorrow — is there anything in it that creates a problem?"</strong> If the answer is even a hesitant maybe — rewrite or don't post.</p>
+  </div>
+  <div id="safety-rules"></div>
+</section>
+
+</div><!-- /main -->
+
+<script>
+// ════════════════════════════════════════
+// DATA
+// ════════════════════════════════════════
+
+const AGENTS_POSTS = [
+  {
+    id:"ag1", num:"A1", title:"AI agents are not automation tools. They are the first version of your digital workforce.",
+    sub:"Newsletter · Week 1 · Authority post",
+    li:`AI agents are not automation tools. They are the first version of your digital workforce.
+
+I lead infrastructure and platform engineering for large-scale enterprise systems — where reliability, security, and automation are non-negotiable.
+
+And what I am seeing with AI agents right now is the same shift we saw when cloud first appeared: underestimated early, then suddenly unavoidable.
+
+Here is what I have learned:
+
+1/ AI agents do not just execute tasks — they make decisions within boundaries. That is the difference between automation and autonomy.
+
+2/ The real power is not in one agent. It is in multiple agents working together. When they coordinate, you move from task execution to workflow ownership.
+
+3/ Without guardrails, agents become a liability. Security, observability, and control are not optional — they define whether this works or fails.
+
+In customer support, agents are no longer just replying to tickets. They can understand the issue, check backend systems, suggest actions, and resolve queries end to end. That is not support automation. That is a virtual support engineer.
+
+The lesson: AI agents are not about doing things faster. They are about changing who — or what — does the work.
+
+The companies that treat this like a tool will struggle. The ones that treat this like a workforce will win.
+
+What is your experience with AI agents — experimenting, or actually putting them into production?`,
+    tw:"AI agents are not automation tools. They are the first version of your digital workforce. 🧵\n\nMost companies are still treating them like fancy chatbots. Here is what they are missing.",
+    medium:"AI Agents Are Not Tools — They Are Your First Digital Employees. Here Is the Difference.",
+    img:"Futuristic enterprise control room. Multiple AI agent nodes as glowing holographic orbs connected by data flow lines. Human professional in foreground guiding the system. Blue and teal palette. Dashboard UI on transparent screens. Mood: intelligent, controlled, enterprise-ready. Footer: Om Prakash Singh"
+  },
+  {
+    id:"ag2", num:"A2", title:"Multi-agent systems: why teams of AI will outperform any single model",
+    sub:"Newsletter · Week 2 · Education post",
+    li:`Most AI conversations are still focused on a single agent doing a single task.
+
+That is already outdated thinking.
+
+The real shift happening right now is multi-agent systems — teams of AI agents that coordinate, communicate, and collectively own workflows.
+
+Think of it like the difference between hiring one brilliant generalist and hiring a coordinated team of specialists. Both can be smart. Only one scales.
+
+Here is what multi-agent systems actually change:
+
+1/ Parallel execution — multiple agents working different parts of the same problem simultaneously. Speed that a single agent cannot match.
+
+2/ Specialisation — each agent is optimised for a specific task. Quality goes up because no agent is trying to do everything.
+
+3/ Resilience — if one agent fails, others continue. The system does not stop because one component breaks.
+
+The challenge most organisations underestimate: coordination overhead. Agents communicating badly is worse than no agents at all.
+
+This is why observability, governance, and clear role definition are foundations — not afterthoughts.
+
+The companies building multi-agent infrastructure today are not experimenting with AI. They are building the operating model for the next decade.
+
+Where are you in this journey — single agents or starting to think in systems?`,
+    tw:"Everybody is talking about AI agents. Almost nobody is talking about multi-agent systems. That is the actual frontier. Thread on why teams of AI outperform any single model 🧵",
+    medium:"Why Multi-Agent AI Systems Will Outperform Any Single Model — And What That Means for Enterprise Architecture"
+  },
+  {
+    id:"ag3", num:"A3", title:"The three things that make AI agents fail in production — and how to fix them",
+    sub:"Newsletter · Week 3 · Practical insight",
+    li:`Everyone is deploying AI agents. Far fewer are making them reliable.
+
+After working in infrastructure where reliability is non-negotiable, here is what I see breaking in AI agent deployments consistently:
+
+1/ Agents lose context between steps
+Most single-agent implementations have no persistent memory. They forget what happened two actions ago. Fix: build explicit state management into your agent architecture from the start.
+
+2/ Decisions become inconsistent at scale
+The same input, same agent, different outputs. This is a guardrail problem. Fix: define decision boundaries clearly. If the agent cannot explain the decision, the boundary is not tight enough.
+
+3/ No observability into what the agent actually did
+Most teams deploy agents with application monitoring. That is not enough. You need agent-level traces: what was decided, why, and what changed. Fix: instrument agents the same way you instrument distributed systems.
+
+The pattern across all three failures is the same: teams are thinking about agents as tools they deploy, not systems they operate.
+
+Operating AI agents is a discipline. Not a feature you turn on.
+
+What failure mode have you hit first — context loss, inconsistency, or observability?`,
+    tw:"Everyone is deploying AI agents. Very few are making them reliable in production. Three failure modes I keep seeing — and the fixes 🧵",
+    medium:"Three Reasons AI Agents Fail in Production — and What to Do About Each One"
+  },
+  {
+    id:"ag4", num:"A4", title:"AI agents in customer support are not chatbots. Here is the actual difference.",
+    sub:"Newsletter · Week 4 · Explainer post",
+    li:`The word "chatbot" is doing real damage to how organisations think about AI agents.
+
+A chatbot responds. An AI agent acts.
+
+Here is the actual difference in customer support:
+
+Old chatbot: Customer asks a question. Bot gives a scripted answer. Escalates to human if it does not understand.
+
+AI agent: Customer raises an issue. Agent understands the context. Checks backend systems. Identifies the root cause. Takes action. Closes the loop. Only escalates when a decision requires human judgement.
+
+That is not a better chatbot. That is a virtual support engineer.
+
+The infrastructure requirements are also completely different:
+
+— Chatbots need a response database.
+— AI agents need system access, memory, reasoning capability, audit trails, and rollback mechanisms.
+
+Companies treating AI agent deployments like chatbot upgrades will underinvest in exactly the infrastructure that makes agents trustworthy.
+
+And untrusted agents get switched off.
+
+The question is not whether to deploy AI agents. It is whether your infrastructure is ready to support what they actually need to do.
+
+Are you building the infrastructure first, or discovering the gaps after deployment?`,
+    tw:"Stop calling AI agents chatbots. They are not the same thing. Here is the actual difference — and why it matters for your infrastructure 🧵",
+    medium:"AI Agents vs Chatbots: The Infrastructure Gap Nobody Talks About"
+  }
+];
+
+const BASICS_POSTS = [
+  {
+    id:"ba1", num:"B1", title:"ML, DL, and AI are not the same thing. Most people use them interchangeably. Here is why that matters.",
+    sub:"AI Basics · Week 1 · Clarity post",
+    li:`ML, DL, and AI are not the same thing. Most people use them interchangeably. Here is why that confusion creates real problems.
+
+Think of it as three nested layers — like Russian dolls, except calling the outer one by the inner one's name changes what you expect from it.
+
+Here is how they actually relate:
+
+1/ AI is the broadest concept — any system that performs tasks typically requiring human intelligence. Spam filters, chess engines, voice assistants. All AI. Not all the same.
+
+2/ Machine learning is a specific approach within AI — instead of writing rules manually, the system learns patterns from data. Your email spam filter learns which messages are junk. It was not programmed with rules. It was trained on examples.
+
+3/ Deep learning is a technique within machine learning — using neural networks with many layers to handle complex inputs like images, speech, and language. What makes voice assistants understand your accent. What makes your camera recognise a face.
+
+Why does the distinction matter? Because when you say "we are using AI" without knowing which layer you mean, you make the wrong infrastructure decisions, buy the wrong tools, and set the wrong expectations.
+
+A spam filter and a large language model are both AI. They need completely different things to work reliably at scale.
+
+Clarity on the layer changes the engineering conversation entirely.
+
+Which layer are you actually working with — and does your team know the difference?`,
+    tw:"AI. Machine learning. Deep learning. Three different things. Almost everyone uses them interchangeably. Here is why that confusion leads to expensive engineering mistakes 🧵",
+    medium:"AI vs Machine Learning vs Deep Learning: Why the Distinction Matters More Than You Think"
+  },
+  {
+    id:"ba2", num:"B2", title:"Supervised vs unsupervised learning — explained with no jargon and no equations",
+    sub:"AI Basics · Week 2 · Beginner explainer",
+    li:`The two most important types of machine learning explained without a single equation.
+
+Supervised learning — someone shows you labelled examples until you learn the pattern.
+
+Imagine 1,000 photos of fruit. Each one tagged: apple or orange. You look at enough of them and eventually you can identify a new fruit photo correctly. That is supervised learning. The labels are the teacher.
+
+Unsupervised learning — you are given the same 1,000 photos but with no labels. You start grouping by colour, shape, size. You develop categories yourself. Nobody told you what the categories were. You discovered them.
+
+Why this matters in practice:
+
+Supervised learning needs labelled data — which is expensive and time-consuming to create. But it is precise. Email spam filters, medical image diagnosis, voice recognition. All supervised.
+
+Unsupervised learning works without labels — which means it can run on vast raw datasets. Customer segmentation, fraud pattern detection, recommendation engines. Mostly unsupervised.
+
+Most real-world AI systems use both. The question is always: what data do you have, and what question are you actually asking?
+
+That question should come before any conversation about tools or models.
+
+Which type of learning is doing the most work in the AI systems you interact with daily?`,
+    tw:"Supervised vs unsupervised learning. The two most important AI concepts — explained without any equations or jargon. Thread 🧵",
+    medium:"Supervised vs Unsupervised Learning: The Simplest Explanation You Will Find"
+  },
+  {
+    id:"ba3", num:"B3", title:"AI did not start intelligent. Here is the four-stage evolution from rigid rules to neural networks.",
+    sub:"AI Basics · Week 3 · History + context",
+    li:`Early AI was not intelligent. It was a very long if-else statement.
+
+Understanding how we got from there to large language models changes how you think about where AI is going next.
+
+Stage 1 — Rule-based systems
+Human experts wrote every decision manually. Predictable. Brittle. Could not handle anything the programmer had not anticipated. Like a GPS stuck on last year's maps.
+
+Stage 2 — Machine learning
+Instead of writing rules, you fed the system data and let it learn the rules itself. The spam filter did not know what spam looked like — until it saw enough examples. This was the breakthrough that made AI practical.
+
+Stage 3 — Neural networks and deep learning
+Multiple layers of processing. Each layer extracts something more complex than the one before. Simple edges become shapes become objects. This made image recognition, speech understanding, and language generation possible at scale.
+
+Stage 4 — Transfer learning
+Models trained on enormous datasets are fine-tuned for specific tasks. You do not start from scratch for every problem. Large language models are the clearest example — trained broadly, then adapted narrowly.
+
+The pattern across every stage: less human instruction, more learning from data.
+
+The next stage is autonomous learning at runtime. We are at the very beginning of that.
+
+Which stage is the AI you are using today actually operating at?`,
+    tw:"Early AI was just a very long if-else statement. Here is how we got from that to large language models in four stages 🧵",
+    medium:"The Four Stages of AI Evolution: From Rigid Rules to Neural Networks"
+  },
+  {
+    id:"ba4", num:"B4", title:"Algorithms are the reason AI works. Here is what they actually do — without the textbook language.",
+    sub:"AI Basics · Week 4 · Foundational explainer",
+    li:`Every time AI surprises you — a recommendation that is exactly right, a voice assistant that understood you despite background noise — an algorithm made it happen.
+
+An algorithm is a set of step-by-step instructions for solving a problem. A recipe is an algorithm. A GPS route is an algorithm. What makes AI algorithms different is that they do not just follow instructions — they learn from data and improve over time.
+
+Three types you interact with daily:
+
+1/ Classification algorithms — is this email spam or not? They learn to sort things into categories from labelled examples.
+
+2/ Recommendation algorithms — what do you want to watch next? They learn your patterns and compare them against millions of similar patterns.
+
+3/ Sequence algorithms — what word comes next in this sentence? What action should this agent take? Used in language models and AI agent decision-making.
+
+The important thing to understand: algorithms are only as good as the data they learn from. Biased data produces biased decisions. Missing data produces blind spots.
+
+AI is not magic. It is math running on data. Understanding that makes you a much better consumer — and builder — of AI systems.
+
+Which algorithm type do you think is doing the most work in the tools you use daily?`,
+    tw:"Every time AI gets something exactly right, an algorithm made it happen. Here is what algorithms actually do — no textbook language 🧵",
+    medium:"What AI Algorithms Actually Do: A Practical Explanation Without the Textbook Language"
+  }
+];
+
+const HOWTO_POSTS = [
+  {
+    id:"ht1", num:"H1", title:"How to use AI to spot burnout before it becomes a resignation",
+    sub:"AI How-To · Week 1 · Workplace + wellbeing",
+    li:`Most organisations find out about burnout when someone hands in their notice. By then it is too late.
+
+AI-driven burnout prediction tools are changing that — detecting early warning signs weeks before visible symptoms appear.
+
+Here is how the practical implementation actually works:
+
+Step 1 — Define what you are measuring
+Not just hours worked. Also: meeting load, after-hours activity, survey responses, task completion pace. These signals together are more predictive than any single metric.
+
+Step 2 — Choose the right tool for your scale
+Small teams: Trello with Butler AI. Track task load patterns — simple but effective.
+Mid-size: WellBe AI. Emotional analytics and burnout scoring. Integrates with Slack and Teams.
+Enterprise: Microsoft Viva Insights. Built into Microsoft 365 environments.
+
+Step 3 — Collect baseline data first
+Do not optimise what you have not measured. Run for two to four weeks before drawing conclusions.
+
+Step 4 — Act on what the AI flags
+Redistribute workloads. Adjust schedules. Make wellness resources accessible. The AI identifies the risk. The human manager addresses it. Neither works without the other.
+
+One case study: a mid-sized team adopted WellBe AI and within three months burnout risk scores dropped 25% and absenteeism fell 18%.
+
+AI does not replace human empathy. It gives managers early enough warning to use it.
+
+Is your organisation detecting burnout early, or only after the damage is done?`,
+    tw:"Most organisations find out about burnout when someone resigns. AI tools can detect it weeks earlier. Here is the practical setup 🧵",
+    medium:"How to Use AI to Predict Burnout Before It Becomes a Resignation: A Step-by-Step Guide"
+  },
+  {
+    id:"ht2", num:"H2", title:"How to automate your marketing campaigns end-to-end with AI — without a team",
+    sub:"AI How-To · Week 2 · Marketing automation",
+    li:`Marketing used to require a team. Copywriters, designers, campaign managers, analysts. AI has changed that equation.
+
+Here is how a single person can now run an end-to-end campaign with the right setup:
+
+1/ Audience segmentation — AI analyses your customer data and groups it into meaningful segments. You stop guessing who wants what. Tools: Klaviyo, Mailchimp.
+
+2/ Content generation — AI drafts emails, social posts, and ad copy based on your product and audience. You edit. You do not start from a blank page.
+
+3/ Multi-channel delivery — one campaign, automatically distributed across email, SMS, and social at the times your audience is most likely to engage. No manual scheduling.
+
+4/ Performance analysis — AI dashboards show what is working. Not raw numbers — interpreted insights.
+
+5/ Continuous optimisation — A/B tests run automatically. Winning variant promoted. No manual review needed.
+
+One small ecommerce brand went from 50+ manual hours per month to fully automated campaigns using Mailchimp and Klaviyo. Holiday conversion rates up 35%.
+
+The tools are there. The process is learnable in a weekend. The gap is usually deciding to start.
+
+Which part of your marketing workflow still runs on manual effort when it does not need to?`,
+    tw:"You no longer need a marketing team to run a full campaign. Here is the AI-powered end-to-end setup that one person can run 🧵",
+    medium:"How to Automate Your Marketing Campaigns End-to-End with AI — Without a Team"
+  },
+  {
+    id:"ht3", num:"H3", title:"How to write better social captions using AI — without sounding like AI wrote them",
+    sub:"AI How-To · Week 3 · Content creation",
+    li:`The biggest mistake people make with AI-generated content: they publish the first draft.
+
+AI is a starting point. Not a finished product. Here is the workflow that produces captions that actually sound human:
+
+Step 1 — Give AI context, not just a task
+Bad prompt: "Write an Instagram caption for my product."
+Better prompt: "Write an Instagram caption for an eco-friendly skincare launch. Audience: women 25–40 who care about sustainability. Tone: warm and direct, not salesy. Under 150 characters. End with a question."
+
+Step 2 — Generate three versions, not one
+Ask for variations. The best caption is rarely the first — it is usually a combination of elements from two of them.
+
+Step 3 — Edit for your voice
+AI writes to the average of the internet. Change one thing in each caption that only you would say. A specific word. A reference that fits your audience. That is your voice.
+
+Step 4 — Test and track
+After 30 days, look at which captions drove engagement. Those patterns are your actual persona — not a written document, but real audience behaviour.
+
+AI does not replace your voice. It helps you produce more of it, faster.
+
+What is your current process for writing social content — fully manual, AI-assisted, or fully delegated?`,
+    tw:"The biggest AI caption mistake: publishing the first draft. Here is the four-step workflow that makes AI-generated content sound like you wrote it 🧵",
+    medium:"How to Write Better Social Media Captions with AI — Without Sounding Like AI Wrote Them"
+  },
+  {
+    id:"ht4", num:"H4", title:"How to launch a one-person AI-powered business — the honest version",
+    sub:"AI How-To · Week 4 · Entrepreneur + productivity",
+    li:`The AI tools for running a one-person business have never been better. The question is whether you will use them or just read about them.
+
+Here is the honest, practical version of how this actually works:
+
+What AI can do for you on day one:
+— Build a professional website in under an hour (Durable AI)
+— Draft your first 10 emails and social posts
+— Set up automated scheduling and follow-ups
+— Handle initial customer queries while you sleep
+
+What AI cannot do for you:
+— Choose the right niche
+— Build trust with your first clients
+— Make the difficult judgment calls
+— Show up consistently when results are slow
+
+The tools are not the bottleneck. Most people who fail at the one-person AI business do not fail at the technology. They fail at the fundamentals: a clear niche, consistent output, patience with the timeline.
+
+The setup takes a weekend. The results take six months.
+
+AI amplifies execution. It does not replace it.
+
+If you had to start a one-person business today using only AI tools, what would the first three steps look like for you?`,
+    tw:"The honest guide to launching a one-person AI-powered business. Not the hype version. Here is what the tools can and cannot do 🧵",
+    medium:"How to Launch a One-Person AI-Powered Business: The Honest Version"
+  }
+];
+
+const K8S_POSTS = [
+  {
+    id:"k1", num:"K1", title:"The difference between deploying Kubernetes and operating Kubernetes",
+    sub:"K8s & Platform · Week 1 · Practitioner insight · ✅ Fully safe",
+    li:`Most teams celebrate the day their first workload runs on Kubernetes. The real work starts the day after.
+
+Deploying K8s and operating K8s are two completely different disciplines — and very few organisations plan for the second.
+
+Here is what changes on day two:
+
+1/ You shift from "does it work" to "does it work reliably, at scale, under failure conditions."
+Deployment is a milestone. Operations is a practice.
+
+2/ Your problems change completely.
+Day one: networking, storage, ingress. Day two: capacity planning, multi-tenancy security, upgrade strategy, observability, incident response.
+
+3/ The skills that got you to deployment are not the skills that keep you operational.
+Deployment requires infrastructure knowledge. Operations requires SRE discipline, observability tooling, and an honest relationship with failure.
+
+Most Kubernetes failures I have seen in production did not happen at deployment. They happened three months later when the first real incident hit and the team had no runbooks, no on-call process, and no meaningful alerts.
+
+The gap between deploying and operating is where most K8s projects quietly fail.
+
+Where is your organisation right now — celebrating deployment, or building for operations?`,
+    tw:"Your K8s cluster is running. Congratulations. Now the real work begins. Thread on what 'operating Kubernetes' actually means 🧵",
+    medium:"Deploying Kubernetes Is the Easy Part. Here Is What Operating It Actually Demands."
+  },
+  {
+    id:"k2", num:"K2", title:"GitOps: what the tutorials skip and production demands",
+    sub:"K8s & Platform · Week 2 · Production reality · ✅ Fully safe",
+    li:`Every GitOps tutorial ends at the same place: your application deployed from a Git commit.
+
+Production starts exactly where those tutorials stop.
+
+After running GitOps across multi-region infrastructure, here are the problems no getting-started guide prepares you for:
+
+1/ Drift detection at scale
+GitOps tools tell you when state drifts. They do not tell you why, or whether it matters. Building a triage process for drift alerts — distinguishing signal from noise — is something every production team learns the hard way.
+
+2/ Secret management at the Git boundary
+Everything in Git. Except secrets. Which need to be in Git to work with GitOps. The solutions (Sealed Secrets, External Secrets Operator) all work — none are obvious until you have already committed a mistake.
+
+3/ Multi-cluster state management
+One cluster in a tutorial. Four clusters across regions in production. The synchronisation logic that is trivial at one cluster becomes an architectural decision at four.
+
+4/ Rollback under pressure
+GitOps makes rollback easy in theory. In a 3am incident with two engineers on a bridge call, the process needs to be practiced and documented before the incident — not figured out during it.
+
+The tutorial gets you to production. Operational discipline keeps you there.
+
+What did you learn about GitOps only after running it in production?`,
+    tw:"GitOps tutorial: commit → deploy. GitOps in production: commit → deploy → 4 things they never told you. Thread 🧵",
+    medium:"GitOps in Production: The Problems No Tutorial Prepares You For"
+  },
+  {
+    id:"k3", num:"K3", title:"OPA vs Kyverno: a practitioner's honest comparison after using both in production",
+    sub:"K8s & Platform · Week 3 · Tool comparison · ✅ Fully safe",
+    li:`Both OPA/Gatekeeper and Kyverno solve the same problem: enforcing policy in Kubernetes clusters. The articles comparing them are mostly written by people who have used one in a demo environment.
+
+Here is what two years of running both in production actually reveals:
+
+OPA/Gatekeeper
+Strengths: Maximum flexibility. If you can express it in Rego, you can enforce it. Powerful for complex policies that cross multiple resources.
+Production reality: Rego has a steep learning curve. Debugging failed policies under incident pressure is painful. Requires significant investment to get the team productive.
+
+Kyverno
+Strengths: YAML-native policies that Kubernetes engineers can read without learning a new language. Faster adoption. Easier debugging.
+Production reality: Less expressive for genuinely complex policies. When you hit the edge of what Kyverno can express natively, the workarounds are less elegant.
+
+The honest recommendation: if your team writes Kubernetes YAML daily and you need fast time-to-value — Kyverno. If you have complex policy requirements and engineers willing to invest in Rego — OPA.
+
+Most organisations choose the wrong one because they evaluate on features rather than on team context.
+
+Which are you running — and what did you wish you had known before choosing?`,
+    tw:"OPA vs Kyverno. I've run both in production for 2 years. The blog posts comparing them miss the most important differences. Thread 🧵",
+    medium:"OPA/Gatekeeper vs Kyverno: Two Years in Production, One Honest Comparison"
+  },
+  {
+    id:"k4", num:"K4", title:"The Kubestronaut journey: what certifications give you that production experience doesn't — and vice versa",
+    sub:"K8s & Platform · Week 4 · Personal journey · ✅ Fully safe",
+    li:`I have run Kubernetes in production for over 15 years. I am pursuing Kubestronaut status — all five certifications. The question I get most often: why bother, if you already have the production experience?
+
+The answer is more nuanced than most people expect.
+
+What production experience gives you that certifications never will:
+— Pattern recognition for failure modes. Certifications test scenarios. Production shows you the scenarios nobody wrote a question about.
+— Judgment under pressure. The calm to make the right call at 3am on a production incident is not testable in an exam environment.
+— Institutional knowledge of your specific environment. Context that takes years to build and cannot be transferred through a syllabus.
+
+What certifications give you that production experience doesn't:
+— Structured knowledge of the full surface area. Production experience is deep in the areas you have worked in. Certifications force you across everything.
+— Awareness of capabilities you never used. The KCSA surfaced a security control I had not used in my specific production context — and should have been.
+— External credibility that production experience alone cannot signal to someone who does not know your work.
+
+Both are necessary. Neither is sufficient alone.
+
+Where are you in the certification vs experience balance — and which side feels underdeveloped?`,
+    tw:"15 years of Kubernetes in production. Currently pursuing Kubestronaut. The most common question: why bother with certs? The answer surprises people. Thread 🧵",
+    medium:"Kubestronaut Journey: What Certifications Give You That 15 Years of Production Experience Doesn't"
+  }
+];
+
+const REGULATED_POSTS = [
+  {
+    id:"r1", num:"R1", title:"Why Kubernetes security in a regulated financial environment is a different problem than everywhere else",
+    sub:"Regulated Infra · Week 1 · Safety: ✅ No institution named",
+    li:`Every Kubernetes security guide covers the same ground: RBAC, network policies, image scanning. These are necessary. In a regulated financial environment, they are not sufficient.
+
+The gap between "K8s secure" and "audit ready" is wider than most cloud-native practitioners expect.
+
+Here is what regulated environments require that standard guides skip:
+
+1/ Control mapping, not just control implementation
+Regulators do not ask "do you have network policies?" They ask "which control in the framework does this address, who approved it, and when was it last reviewed?" Every security control needs a documented rationale that maps to a specific regulatory requirement.
+
+2/ Immutable audit trails for configuration changes
+Who changed the RBAC policy, when, and what was the business justification? In most K8s deployments this is an afterthought. In a regulated environment it is a first-class requirement that affects your GitOps design from day one.
+
+3/ Data residency constraints on cluster placement
+Cloud-native frameworks assume you can place workloads anywhere. Regulated financial environments frequently have data residency requirements that constrain cluster topology in ways standard K8s architecture guidance does not address.
+
+4/ Change management integration
+In regulated environments, every infrastructure change goes through a change management process. Your CI/CD pipeline that deploys every commit needs to accommodate controlled change windows — which changes how you think about Argo CD and Flux configurations entirely.
+
+K8s is solvable in regulated environments. But it requires designing for audit readiness from the start, not retrofitting it after deployment.
+
+What is the biggest gap you have seen between standard K8s security guidance and regulated industry requirements?`,
+    tw:"Standard K8s security: RBAC, network policies, image scanning. Regulated financial K8s: all of that plus 4 things nobody writes about. Thread 🧵",
+    medium:"Kubernetes Security in Regulated Industries: What the Standard Guides Miss"
+  },
+  {
+    id:"r2", num:"R2", title:"FinOps in regulated financial environments: when half the standard playbook is off the table",
+    sub:"Regulated Infra · Week 2 · Safety: ✅ No institution named",
+    li:`FinOps literature assumes a relatively unconstrained environment: move workloads, right-size instances, switch regions for cost, use spot instances.
+
+In a regulated financial institution, at least half of those levers are either restricted or require months of approval to use.
+
+Here is what FinOps actually looks like when the standard levers are constrained:
+
+1/ Workload placement is not a cost decision alone
+Data residency requirements, regulatory jurisdiction rules, and data sovereignty policies constrain where workloads can run. You cannot simply move to the cheapest region.
+
+2/ Spot instances require a risk assessment
+In an environment where a trading system going down has direct financial and regulatory consequences, spot instance interruptions require a formal risk acceptance process before you can use them for any non-trivial workload.
+
+3/ The optimisation levers that do work in regulated environments
+— Right-sizing within approved regions: always available and often underutilised
+— Reserved instance planning: requires longer cycles but yields consistent savings
+— Shared service architecture: consolidating common services reduces per-workload overhead
+— Scheduling non-production environments: the lowest-risk, fastest-win lever in any regulated estate
+
+4/ Showback before chargeback
+In regulated environments, cost allocation models require stakeholder agreement and sometimes formal policy approval. Building showback first — making costs visible without charging — gets you the data and the relationships you need before the harder chargeback conversation.
+
+FinOps in regulated environments is slower. It is also more defensible. The constraints force you to build cost governance that survives scrutiny.
+
+Which FinOps lever have you found works best inside a regulated or compliance-constrained environment?`,
+    tw:"Standard FinOps: right-size, move workloads, use spot instances. Regulated financial FinOps: half of those levers are blocked. Here is what you optimise instead 🧵",
+    medium:"FinOps in Regulated Financial Environments: When Half the Standard Playbook Is Off the Table"
+  },
+  {
+    id:"r3", num:"R3", title:"Policy-as-Code: turning compliance from a pipeline blocker into a pipeline step",
+    sub:"Regulated Infra · Week 3 · Safety: ✅ No institution named",
+    li:`In most organisations, compliance is a gate at the end of a deployment pipeline. Something to check before go-live.
+
+In regulated industries, this model collapses under the weight of the compliance surface area.
+
+Policy-as-Code changes the architecture of the problem — not just the tooling.
+
+The traditional compliance gate model has three structural problems:
+
+1/ It creates a bottleneck before every release. Every deployment waits for a compliance review. As deployment frequency increases, the compliance team becomes the constraint.
+
+2/ It catches problems late, when they are expensive to fix. A security misconfiguration found in a compliance review three weeks after a PR was merged costs significantly more to fix than one caught at commit time.
+
+3/ It does not scale with the organisation. As the K8s estate grows, manual compliance review cannot keep pace. The gap between what is deployed and what is reviewed widens silently.
+
+Policy-as-Code solves these problems by moving compliance logic into the pipeline itself:
+
+— Kyverno or OPA policies enforce controls at admission time. Non-compliant workloads cannot be deployed.
+— Policy violations are surfaced to developers immediately, in the same feedback loop as test failures.
+— Every control has a code representation that can be version-controlled, reviewed, and audited.
+
+The shift that makes this work is treating compliance controls as engineering artefacts — not as a checklist maintained by a separate team.
+
+Where is your compliance process today — gate at the end, or policy in the pipeline?`,
+    tw:"Compliance as a deployment gate: slow, error-prone, and it scales badly. Here is how Policy-as-Code changes the architecture of the problem — not just the tooling 🧵",
+    medium:"Policy-as-Code in Regulated Environments: Moving Compliance from Gate to Pipeline Step"
+  },
+  {
+    id:"r4", num:"R4", title:"Why major cloud migration frameworks break in regulated industries — and what to use instead",
+    sub:"Regulated Infra · Week 4 · Safety: ✅ No institution named",
+    li:`The major cloud migration frameworks from the hyperscalers are genuinely useful documents. They were also written for organisations with relatively few constraints on how and where they move data and workloads.
+
+In regulated financial environments, the assumptions embedded in these frameworks fail quietly — and the failures are expensive.
+
+Four assumptions that break in regulated environments:
+
+1/ "Move to the cheapest or closest region"
+Data sovereignty and regulatory jurisdiction rules mean that the optimal cloud region from a cost or latency perspective may not be an option at all.
+
+2/ "Lift, shift, then optimise"
+Regulated environments require security and compliance controls before a workload reaches production — not after. You cannot shift first and add controls later. The sequencing is inverted.
+
+3/ "Use managed services to reduce operational overhead"
+Many managed cloud services have data processing agreements, subprocessor chains, and audit trail limitations that create compliance challenges in regulated environments. The operational overhead of managing this exceeds the overhead of operating the service yourself.
+
+4/ "Speed of migration indicates success"
+In regulated environments, a migration that moves fast but misses a compliance control creates a remediation project that costs more than the migration saved. Cadence is not a measure of success. Compliance posture is.
+
+What a regulated cloud migration framework actually needs: compliance mapping before architecture decisions, data classification as a first-order input, change management integration from the start, and a residency-aware landing zone design.
+
+What assumption in a standard migration framework caused the most friction in your environment?`,
+    tw:"AWS CAF, Azure CAF, Google CAF. Excellent frameworks. Written for organisations that can move workloads freely. In a regulated financial environment, 4 core assumptions break. Thread 🧵",
+    medium:"Why Major Cloud Migration Frameworks Break in Regulated Industries — and What to Use Instead"
+  }
+];
+
+const LEADERSHIP_POSTS = [
+  {
+    id:"l1", num:"L1", title:"The difference between deploying infrastructure and leading infrastructure",
+    sub:"Infra Leadership · Week 1 · Safety: ✅ Universal lesson",
+    li:`There is a point in every infrastructure engineer's career where the job stops being about what you build and starts being about what you enable.
+
+Most people do not notice when they cross that line. And that invisibility is where careers stall.
+
+Here is the distinction that took me the longest to internalise:
+
+Deploying infrastructure means you are responsible for what runs. You measure success by uptime, performance, and feature delivery. Your output is visible and attributable.
+
+Leading infrastructure means you are responsible for the conditions under which a team of engineers builds and operates things reliably. Your output is their output. Your success is harder to attribute — and harder to make visible.
+
+The career trap is that the skills rewarded at the deployment level — deep technical expertise, fast individual execution, strong opinions on architecture — are actively counterproductive at the leadership level if they are not balanced with different capabilities.
+
+The leader who is the best engineer in the room tends to make the room worse. Decisions slow down waiting for their input. Engineers stop developing judgment because the senior person will weigh in anyway.
+
+The shift I had to make: stop being the person who knows the answer, and become the person who builds the environment where the team develops the answers.
+
+That shift is never complete. But becoming aware of it is the beginning of leading rather than just doing.
+
+What was the moment you realised the job had changed — and you needed to change with it?`,
+    tw:"There is a moment in every infrastructure engineer's career where the job stops being about what you build and starts being about what you enable. Most people miss it. Thread 🧵",
+    medium:"Deploying Infrastructure vs Leading Infrastructure: The Career Line Most Engineers Never Notice"
+  },
+  {
+    id:"l2", num:"L2", title:"How to present an infrastructure investment to a non-technical board",
+    sub:"Infra Leadership · Week 2 · Safety: ✅ Universal skill",
+    li:`An infrastructure leader's most important audience is often the one that understands infrastructure least.
+
+After presenting platform investments to senior non-technical stakeholders many times, I have learned that the presentation problem is not a technology problem. It is a translation problem.
+
+The three translation rules that changed how I present:
+
+1/ Translate capability into consequence — not feature into specification
+"We are moving from bare-metal to Kubernetes" means nothing to a CFO. "This change reduces our time to deploy a new service from six weeks to two days, which means we can respond to market changes faster than our current architecture allows" means something.
+
+2/ Translate risk into business language — not technical language
+"Our current deployment pipeline has no rollback capability" is a technical statement. "If a deployment fails on a Friday evening, our current setup means we cannot restore service until the following Monday morning unless we pay weekend emergency rates" is a business statement. Both describe the same situation. Only one gets budget approved.
+
+3/ Translate the ask into the cost of not acting
+Infrastructure investments are competed against revenue-generating projects. The question in every senior stakeholder's mind is: "what happens if we do not do this?" If you cannot answer that question clearly and in business terms, the investment will be deferred.
+
+The preparation I now do before any senior presentation: remove every sentence that requires technical knowledge to understand. If it cannot survive that edit, it is not ready.
+
+What is the translation challenge you find hardest when presenting infrastructure to non-technical leadership?`,
+    tw:"The hardest presentation an infrastructure leader gives is to the audience that understands infrastructure least. Here is the translation framework that changed how I do it 🧵",
+    medium:"How to Present an Infrastructure Investment to a Non-Technical Board: A Practitioner's Translation Guide"
+  },
+  {
+    id:"l3", num:"L3", title:"From engineer to SVP: the skill that mattered most at each level",
+    sub:"Infra Leadership · Week 3 · Safety: ✅ Universal career progression",
+    li:`The skills that got me promoted at each level were different. And not what most career advice says.
+
+Engineer → Senior Engineer
+The skill: depth of judgment, not breadth of knowledge.
+The transition point was learning to distinguish between problems that required immediate action and problems that required thought. Junior engineers treat every problem with the same urgency. Senior engineers triage.
+
+Senior Engineer → Manager
+The skill: tolerance for ambiguity in other people's decisions.
+The hardest part of becoming a manager is watching someone make a decision you would have made differently — and letting them make it anyway, because the cost of undermining their judgment is higher than the cost of the sub-optimal decision.
+
+Manager → Director / Lead
+The skill: making the invisible visible.
+At this level, your most important work is happening in conversations, not commits. The challenge is making that work legible to the organisation — through documentation, communication, and deliberately creating evidence of impact.
+
+Director → SVP
+The skill: thinking in systems, not in problems.
+Individual problems get solved and reappear. Systems get designed and produce consistent outcomes across many problems. The shift is learning to ask not "how do we fix this?" but "what about our environment keeps producing this class of problem?"
+
+Each promotion required unlearning something the previous level had rewarded.
+
+Which transition felt most like starting from scratch — and what did you have to unlearn?`,
+    tw:"Engineer → Senior → Manager → Director → SVP. The skill that mattered most at each level was different. And not what career advice books say. Thread 🧵",
+    medium:"From Engineer to SVP: The Skill That Mattered Most at Each Level — and What I Had to Unlearn"
+  },
+  {
+    id:"l4", num:"L4", title:"What managing infrastructure across four time zones taught me about asynchronous decision-making",
+    sub:"Infra Leadership · Week 4 · Safety: ✅ Universal lesson, no specific org",
+    li:`When your team spans four time zones, you cannot manage by being in the room. There is no room.
+
+The engineers who thrive in globally distributed infrastructure teams share one capability that local team management never develops: they make good decisions asynchronously — clearly, in writing, with the right level of context for someone who was not in the conversation.
+
+Here is what I learned about making distributed infrastructure teams work:
+
+1/ The quality of your written communication determines the quality of your team's decisions
+In a co-located team, a vague instruction gets clarified by a conversation. In a distributed team, a vague instruction at 5pm becomes a wrong decision at 2am. Every written decision needs to include: what was decided, what was considered and rejected, and what conditions would change the decision.
+
+2/ Asynchronous does not mean slow
+The instinct when something goes wrong is to get everyone on a call. In a team across four time zones, that call costs someone their sleep. The discipline of resolving incidents through structured async communication — with clear escalation criteria for when synchronous is actually necessary — is learnable and worth the investment.
+
+3/ Autonomy is not given. It is designed.
+Distributed teams need decision-making frameworks that let engineers act without waiting for approval. Not blanket autonomy — structured autonomy. Clear boundaries within which engineers make decisions, and clear escalation paths for decisions outside those boundaries.
+
+The time zones are a constraint. The discipline they force is actually an advantage.
+
+What is the hardest part of managing across time zones that nobody warned you about?`,
+    tw:"When your team spans four time zones, you cannot manage by being in the room. There is no room. Thread on what global infrastructure leadership actually requires 🧵",
+    medium:"What Managing Infrastructure Across Four Time Zones Taught Me About Asynchronous Decision-Making"
+  }
+];
+
+const CALENDAR_WEEKS = [
+  // Month 1
+  {week:1,month:1,pillar:"K8s & Platform",color:"#06B6D4",pid:"k1",post:K8S_POSTS[0]},
+  {week:2,month:1,pillar:"Regulated Infra",color:"#8B5CF6",pid:"r1",post:REGULATED_POSTS[0]},
+  {week:3,month:1,pillar:"Infra Leadership",color:"#F59E0B",pid:"l1",post:LEADERSHIP_POSTS[0]},
+  {week:4,month:1,pillar:"AI Agents",color:"#3B82F6",pid:"ag1",post:AGENTS_POSTS[0]},
+  // Month 2
+  {week:5,month:2,pillar:"K8s & Platform",color:"#06B6D4",pid:"k2",post:K8S_POSTS[1]},
+  {week:6,month:2,pillar:"AI Basics",color:"#10B981",pid:"ba1",post:BASICS_POSTS[0]},
+  {week:7,month:2,pillar:"Infra Leadership",color:"#F59E0B",pid:"l2",post:LEADERSHIP_POSTS[1]},
+  {week:8,month:2,pillar:"Regulated Infra",color:"#8B5CF6",pid:"r2",post:REGULATED_POSTS[1]},
+  // Month 3
+  {week:9,month:3,pillar:"AI Agents",color:"#3B82F6",pid:"ag2",post:AGENTS_POSTS[1]},
+  {week:10,month:3,pillar:"K8s & Platform",color:"#06B6D4",pid:"k3",post:K8S_POSTS[2]},
+  {week:11,month:3,pillar:"Infra Leadership",color:"#F59E0B",pid:"l3",post:LEADERSHIP_POSTS[2]},
+  {week:12,month:3,pillar:"AI How-To",color:"#F59E0B",pid:"ht1",post:HOWTO_POSTS[0]}
+];
+
+const SAFETY_RULES_DATA = [
+  {rule:"No company names — ever",detail:"Not Nomura, not a bank name, not a client name. 'A global investment bank' or 'a Tier-1 financial institution' is as specific as you go."},
+  {rule:"No team or colleague references",detail:"No 'my team in Tokyo', no 'our CTO said'. Generic: 'a global infrastructure team', 'a senior stakeholder'."},
+  {rule:"No incident details that are traceable",detail:"Production incidents are fine as learning stories only if: no dates, no systems named, no business impact numbers that could appear in news."},
+  {rule:"Technical content is always safe",detail:"Writing about Kubernetes, GitOps, SRE, OPA, FinOps — this is your domain expertise. It belongs to you, not your employer."},
+  {rule:"Leadership lessons need the any-company test",detail:"Before posting a leadership lesson, ask: could this have happened at any large tech company anywhere? If yes — safe. If it can only be traced to one org — don't post."},
+  {rule:"Certifications and conference content are fully yours",detail:"KCSA, KCNA, Kubestronaut journey, SUSECON Prague talk — this is personal achievement. Post freely."},
+  {rule:"Newsletter AI content is fully safe",detail:"AI Agents, AI Basics, AI How-To — none of this content requires employer context. Publish without restriction."}
+];
+
+// ════════════════════════════════════════
+// RENDER FUNCTIONS
+// ════════════════════════════════════════
+
+function renderPost(post, color) {
+  return `
+  <div class="post-card" id="${post.id}">
+    <div class="post-header" onclick="toggle('${post.id}')">
+      <div class="post-num" style="background:${color}22;color:${color}">${post.num}</div>
+      <div class="post-meta">
+        <div class="post-title">${post.title}</div>
+        <div class="post-sub">${post.sub}</div>
+      </div>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="post-body">
+      <div class="platform-row">
+        <span class="pbadge" style="background:rgba(10,102,194,.15);color:#0A66C2">LinkedIn</span>
+        <span class="pbadge" style="background:rgba(29,155,240,.15);color:#1D9BF0">Twitter/X</span>
+        <span class="pbadge" style="background:rgba(5,150,105,.15);color:#059669">Medium</span>
+      </div>
+      <div class="block" style="background:${color}0D">
+        <div class="block-label" style="color:${color}">LinkedIn Post — ready to copy</div>
+        <div class="block-body" style="white-space:pre-wrap">${post.li}</div>
+        <button class="copy-btn" onclick="copyContent(this)">📋 Copy post</button>
+      </div>
+      <div class="block" style="background:rgba(29,155,240,.05)">
+        <div class="block-label" style="color:#1D9BF0">Twitter / X Thread Opener</div>
+        <div class="block-body"><em>${post.tw}</em></div>
+      </div>
+      ${post.medium ? `<div class="block" style="background:rgba(5,150,105,.05)">
+        <div class="block-label" style="color:#059669">Medium / Blog Title</div>
+        <div class="block-body">${post.medium}</div>
+      </div>` : ""}
+      ${post.img ? `<div class="block" style="background:rgba(245,158,11,.05)">
+        <div class="block-label" style="color:#F59E0B">Image Prompt</div>
+        <div class="block-body" style="font-size:11px">${post.img}</div>
+      </div>` : ""}
+    </div>
+  </div>`;
+}
+
+function renderCalendar() {
+  let html = "";
+  [1,2,3].forEach(m => {
+    const labels = ["Month 1 — Establish Your Voice","Month 2 — Build Authority","Month 3 — Compound Growth"];
+    const accent = ["#10B981","#3B82F6","#F59E0B"];
+    html += `<div class="month-header"><span>// ${labels[m-1]}</span><span style="color:${accent[m-1]}">${labels[m-1].split("—")[1].trim()}</span></div>`;
+    CALENDAR_WEEKS.filter(w=>w.month===m).forEach(w=>{
+      html += `
+      <div class="post-card" id="cal-${w.week}">
+        <div class="post-header" onclick="toggle('cal-${w.week}')">
+          <div class="post-num" style="background:${w.color}22;color:${w.color}">W${w.week}</div>
+          <div class="post-meta">
+            <div class="post-title">${w.post.title}</div>
+            <div class="post-sub">Week ${w.week} · ${w.pillar} · ${w.post.sub.split("·").pop().trim()}</div>
+          </div>
+          <span class="chevron">▼</span>
+        </div>
+        <div class="post-body">
+          <div class="block" style="background:${w.color}0D">
+            <div class="block-label" style="color:${w.color}">LinkedIn Hook — Week ${w.week}</div>
+            <div class="block-body"><em>${w.post.li.split("\n")[0]}</em></div>
+          </div>
+          <div class="block" style="background:rgba(29,155,240,.05)">
+            <div class="block-label" style="color:#1D9BF0">Twitter Thread Opener</div>
+            <div class="block-body"><em>${w.post.tw}</em></div>
+          </div>
+          ${w.post.medium ? `<div class="block" style="background:rgba(5,150,105,.05)">
+            <div class="block-label" style="color:#059669">Medium / Blog Title</div>
+            <div class="block-body">${w.post.medium}</div>
+          </div>` : ""}
+          <div style="margin-top:10px;font-size:10px;color:var(--muted)">Full post available in the <strong style="color:${w.color}">${w.pillar}</strong> tab.</div>
+        </div>
+      </div>`;
+    });
+  });
+  return html;
+}
+
+function renderSafetyRules() {
+  return SAFETY_RULES_DATA.map(r=>`
+  <div class="rule-row">
+    <div class="rule-left">✓ ${r.rule}</div>
+    <div class="rule-right">${r.detail}</div>
+  </div>`).join("");
+}
+
+// ════════════════════════════════════════
+// INIT
+// ════════════════════════════════════════
+document.addEventListener("DOMContentLoaded",()=>{
+  document.getElementById("agents-list").innerHTML    = AGENTS_POSTS.map(p=>renderPost(p,"#3B82F6")).join("");
+  document.getElementById("basics-list").innerHTML    = BASICS_POSTS.map(p=>renderPost(p,"#10B981")).join("");
+  document.getElementById("howto-list").innerHTML     = HOWTO_POSTS.map(p=>renderPost(p,"#F59E0B")).join("");
+  document.getElementById("k8s-list").innerHTML       = K8S_POSTS.map(p=>renderPost(p,"#06B6D4")).join("");
+  document.getElementById("regulated-list").innerHTML = REGULATED_POSTS.map(p=>renderPost(p,"#8B5CF6")).join("");
+  document.getElementById("leadership-list").innerHTML= LEADERSHIP_POSTS.map(p=>renderPost(p,"#F59E0B")).join("");
+  document.getElementById("calendar-list").innerHTML  = renderCalendar();
+  document.getElementById("safety-rules").innerHTML   = renderSafetyRules();
+});
+
+// ════════════════════════════════════════
+// INTERACTIONS
+// ════════════════════════════════════════
+document.querySelectorAll(".tab").forEach(btn=>{
+  btn.addEventListener("click",()=>{
+    document.querySelectorAll(".tab").forEach(t=>t.classList.remove("active"));
+    document.querySelectorAll(".section").forEach(s=>s.classList.remove("active"));
+    btn.classList.add("active");
+    document.getElementById(btn.dataset.tab).classList.add("active");
+  });
+});
+
+document.querySelectorAll(".t-tab").forEach(btn=>{
+  btn.addEventListener("click",()=>{
+    document.querySelectorAll(".t-tab").forEach(t=>t.classList.remove("active"));
+    document.querySelectorAll(".template-panel").forEach(p=>p.classList.remove("active"));
+    btn.classList.add("active");
+    document.getElementById("tmpl-"+btn.dataset.tmpl).classList.add("active");
+  });
+});
+
+function toggle(id){
+  const c=document.getElementById(id);
+  if(c) c.classList.toggle("open");
+}
+
+function copyContent(btn){
+  const block=btn.previousElementSibling;
+  navigator.clipboard.writeText(block.innerText).then(()=>{
+    btn.textContent="✅ Copied!";
+    btn.classList.add("copied");
+    setTimeout(()=>{btn.textContent="📋 Copy post";btn.classList.remove("copied");},2000);
+  });
+}
+
+function copyPre(btn){
+  const pre=btn.previousElementSibling;
+  navigator.clipboard.writeText(pre.innerText).then(()=>{
+    btn.textContent="✅ Copied!";
+    btn.classList.add("copied");
+    setTimeout(()=>{btn.textContent="📋 Copy template";btn.classList.remove("copied");},2000);
+  });
+}
+
+function copyById(id,btn){
+  const el=document.getElementById(id);
+  navigator.clipboard.writeText(el.innerText).then(()=>{
+    btn.textContent="✅ Copied!";
+    btn.classList.add("copied");
+    setTimeout(()=>{btn.textContent="📋 Copy full persona prompt";btn.classList.remove("copied");},2000);
+  });
+}
+</script>
+</body>
+</html>
